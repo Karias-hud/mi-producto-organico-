@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos La Semilla - Productos Orgánicos a Domicilio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2c5e3b;
+            --primary-dark: #1b5e20;
+            --accent-color: #388e3c;
+            --accent-hover: #2e7d32;
+            --bg-color: #f7f9f6;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+            --text-muted: #718096;
+            --border-radius: 12px;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 80px;
+        }
+
+        nav.navbar {
+            background-color: var(--primary-color);
+            padding: 12px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: var(--shadow-sm);
+            flex-wrap: wrap;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .nav-btn.admin-mode {
+            background: #d97706;
+        }
+        .nav-btn.admin-mode:hover {
+            background: #b45309;
+        }
+        .nav-btn.danger {
+            background: #dc2626;
+        }
+
+        .view-section {
+            display: none;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        .hero-banner {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://i.ibb.co/Z6VbkGbD/jugo-de-manzana.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: var(--border-radius);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-banner h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .hero-banner p {
+            font-size: 1rem;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .hero-btn {
+            background-color: #d97706;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #edf2f7;
+        }
+
+        .info-card h3 {
+            font-size: 0.95rem;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .info-card p, .info-card li {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .catalog-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .catalog-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sidebar {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            height: fit-content;
+            border: 1px solid #edf2f7;
+        }
+
+        .sidebar h2 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .category-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .category-btn {
+            background: transparent;
+            border: none;
+            text-align: left;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .category-btn:hover {
+            background: #f1f5f9;
+        }
+
+        .category-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .catalog-content h2.cat-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 14px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #edf2f7;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .product-img-container {
+            width: 100%;
+            height: 150px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f8fafc;
+            margin-bottom: 12px;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 6px;
+        }
+
+        .product-price {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .qty-input {
+            width: 50px;
+            padding: 6px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .add-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            flex-grow: 1;
+            font-size: 0.85rem;
+        }
+
+        .add-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 400px;
+            max-width: 90%;
+            height: 100%;
+            background: white;
+            box-shadow: -4px 0 15px rgba(0,0,0,0.15);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .cart-overlay.open {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+
+        .cart-items {
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .cart-quick-btn {
+            background: #e0e7ff;
+            color: #3730a3;
+            border: 1px solid #c7d2fe;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 12px;
+            width: 100%;
+        }
+
+        .cart-footer {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+
+        .form-user-cart {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .form-user-cart input, .form-user-cart select {
+            padding: 6px 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+
+        .modal-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-bg.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            width: 400px;
+            max-width: 90%;
+        }
+
+        .modal-box h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand" onclick="cambiarVista('home')">
+            🌱 Pedidos La Semilla
+        </div>
+        <div class="nav-links" id="nav-menu-container"></div>
+    </nav>
+
+    <section id="view-home" class="view-section active">
+        <div class="hero-banner">
+            <h1>Productos Orgánicos a domicilio</h1>
+            <p>Verduras cultivadas sin agroquímicos, según temporada.<br>Vegetables grown without agrochemicals, seasonally available.</p>
+            <button class="hero-btn" onclick="cambiarVista('catalog')">Ver Catálogo / View Catalog</button>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>¿CÓMO FUNCIONA? / HOW IT WORKS</h3>
+                <ul>
+                    <li>1. Selecciona tus productos <em>(Choose your products)</em></li>
+                    <li>2. Completa tus datos <em>(Fill in your info)</em></li>
+                    <li>3. Paga al recibir con SINPE o efectivo <em>(Pay upon delivery)</em></li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>¿CUÁNDO PEDIR? / WHEN TO ORDER</h3>
+                <p>Pedidos hasta las 11:00 a.m. del día anterior.</p>
+                <p><em>Orders accepted until 11:00 a.m. the previous day.</em></p>
+            </div>
+            <div class="info-card">
+                <h3>ZONAS DE ENTREGA / DELIVERY ZONES</h3>
+                <p>Ciudad Quesada · Florencia · Valle Azul · La Tigra · Chachagua · Sonafluca · El Tanque · Los Ángeles · La Fortuna</p>
+                <div class="highlight-box">
+                    ₡2.000 entrega · Gratis en +₡25.000<br><em>₡2,000 delivery · Free on orders over ₡25,000</em>
+                </div>
+            </div>
+            <div class="info-card">
+                <h3>RETIRO EN TIENDA / STORE PICKUP</h3>
+                <p><strong>Ciudad Quesada</strong> — Martes y Sábado de 9:00 a.m. a 6:00 p.m.</p>
+                <p><em>Ciudad Quesada — Tuesday & Saturday from 9:00 a.m. to 6:00 p.m.</em></p>
+                <div class="highlight-box" style="background: #eef2ff; border-color: #c7d2fe; color: #3730a3;">
+                    ¡Sin costo adicional! / Free of charge!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="view-catalog" class="view-section">
+        <input type="text" class="search-bar" id="search-input" placeholder="🔍 Buscar producto por nombre..." oninput="filtrarPorNombre()">
+        
+        <div class="catalog-layout">
+            <aside class="sidebar">
+                <h2>Categorías / Categories</h2>
+                <ul class="category-list" id="lista-categorias"></ul>
+            </aside>
+            <main class="catalog-content">
+                <h2 class="cat-title" id="titulo-categoria-activa">Todos los Productos</h2>
+                <div class="products-grid" id="grid-productos"></div>
+            </main>
+        </div>
+    </section>
+
+    <div class="cart-overlay" id="cart-drawer">
+        <div class="cart-header">
+            <h3>🛒 Tu Pedido</h3>
+            <button onclick="toggleCarrito()" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">❌</button>
+        </div>
+
+        <button class="cart-quick-btn" onclick="cargarUltimaCompra()">🔄 Cargar Mi Última Compra Frecuente</button>
+
+        <div class="cart-items" id="cart-items-container"></div>
+
+        <div class="cart-footer">
+            <p style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:3px;"><span>Subtotal:</span> <strong id="cart-subtotal">₡0</strong></p>
+            <p style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:3px;"><span>Envío:</span> <strong id="cart-shipping">₡2.000</strong></p>
+            <p style="display:flex; justify-content:space-between; font-size:1rem; color:var(--primary-color);"><span>Total:</span> <strong id="cart-total">₡0</strong></p>
+            
+            <div class="form-user-cart">
+                <input type="text" id="client-name" placeholder="Tu Nombre Completo *">
+                <input type="text" id="client-phone" placeholder="Teléfono de Contacto *">
+                <input type="text" id="client-address" placeholder="Dirección de Entrega *">
+                <select id="client-payment">
+                    <option value="SINPE Movil">Pago: SINPE Móvil</option>
+                    <option value="Efectivo contra entrega">Pago: Efectivo al recibir</option>
+                </select>
+            </div>
+
+            <button class="btn-whatsapp" onclick="enviarWhatsapp()">📲 Enviar Pedido por WhatsApp</button>
+        </div>
+    </div>
+
+    <div class="modal-bg" id="modal-agregar-prod">
+        <div class="modal-box">
+            <h3>➕ Agregar Nuevo Producto</h3>
+            <div class="form-group">
+                <label>Nombre del Producto</label>
+                <input type="text" id="new-prod-name">
+            </div>
+            <div class="form-group">
+                <label>Categoría</label>
+                <select id="new-prod-cat"></select>
+            </div>
+            <div class="form-group">
+                <label>Precio (₡)</label>
+                <input type="number" id="new-prod-price" value="1000">
+            </div>
+            <div class="form-group">
+                <label>URL Imagen (ImgBB)</label>
+                <input type="text" id="new-prod-img" placeholder="https://i.ibb.co/...">
+            </div>
+            <div style="display:flex; gap:10px; margin-top:15px;">
+                <button class="add-btn" onclick="guardarNuevoProducto()">Guardar</button>
+                <button class="add-btn" style="background:#64748b;" onclick="cerrarModalNuevoProducto()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CATALOGO_PRODUCTOS = {
+          "store": "Pedidos La Semilla",
+          "categories": [
+            {
+              "name": "Vegetales",
+              "items": [
+                { "id": "ajo-criollo", "name": "Ajo Criollo", "price": 1200, "image": "https://i.ibb.co/3mrbcVVV/Ajo-Criollo.jpg" },
+                { "id": "apio", "name": "Apio Orgánico", "price": 800, "image": "https://i.ibb.co/ZzP0MRMH/Apio.jpg" },
+                { "id": "ayote", "name": "Ayote Orgánico", "price": 1000, "image": "https://i.ibb.co/mC3kfrgg/Ayote.jpg" },
+                { "id": "brocoli", "name": "Brócoli Orgánico", "price": 1500, "image": "https://i.ibb.co/YByqxycB/Brocoli.jpg" },
+                { "id": "cebolla-blanca", "name": "Cebolla Blanca", "price": 1100, "image": "https://i.ibb.co/3mrbcVVV/Ajo-Criollo.jpg" },
+                { "id": "cebolla-morada", "name": "Cebolla Morada", "price": 1200, "image": "https://i.ibb.co/3mrbcVVV/Ajo-Criollo.jpg" },
+                { "id": "chayote", "name": "Chayote Orgánico", "price": 900, "image": "https://i.ibb.co/mC3kfrgg/Ayote.jpg" },
+                { "id": "chile-dulce", "name": "Chile Dulce", "price": 850, "image": "https://i.ibb.co/M5SHVhQr/chile-aji.jpg" },
+                { "id": "coliflor", "name": "Coliflor Orgánica", "price": 1600, "image": "https://i.ibb.co/YByqxycB/Brocoli.jpg" },
+                { "id": "hinojo", "name": "Hinojo Orgánico", "price": 1300, "image": "https://i.ibb.co/ZzP0MRMH/Apio.jpg" },
+                { "id": "nabo", "name": "Nabo Orgánico", "price": 950, "image": "https://i.ibb.co/vbYrHnB/anpi.jpg" },
+                { "id": "pepino", "name": "Pepino Orgánico", "price": 750, "image": "https://i.ibb.co/ZzP0MRMH/Apio.jpg" },
+                { "id": "puerro", "name": "Puerro Orgánico", "price": 1100, "image": "https://i.ibb.co/ccPcJLfN/cebollino.jpg" },
+                { "id": "rabanitos", "name": "Rabanitos Orgánicos", "price": 800, "image": "https://i.ibb.co/8DGbYLLB/Papa-Rosada.jpg" },
+                { "id": "remolacha", "name": "Remolacha Orgánica", "price": 1000, "image": "https://i.ibb.co/rRhk4xtW/Camote-Morado.jpg" },
+                { "id": "repollo-morado", "name": "Repollo Morado Orgánico", "price": 1300, "image": "https://i.ibb.co/ycfD3zb4/chucrut-morado.jpg" },
+                { "id": "repollo-verde", "name": "Repollo Verde Orgánico", "price": 1200, "image": "https://i.ibb.co/20X8zpC9/Acelga.jpg" },
+                { "id": "tomate", "name": "Tomate Orgánico", "price": 1400, "image": "https://i.ibb.co/HLQhYWx8/salsa-tomate-380g.jpg" },
+                { "id": "tomate-cherry", "name": "Tomate Cherry Orgánico", "price": 1600, "image": "https://i.ibb.co/HLQhYWx8/salsa-tomate-380g.jpg" },
+                { "id": "vainica", "name": "Vainica Orgánica", "price": 1100, "image": "https://i.ibb.co/20X8zpC9/Acelga.jpg" },
+                { "id": "zanahoria", "name": "Zanahoria Orgánica", "price": 950, "image": "https://i.ibb.co/NcgQ9QT/Camote-Zanahoria.jpg" },
+                { "id": "zanahoria-colores", "name": "Zanahoria de Colores", "price": 1200, "image": "https://i.ibb.co/NcgQ9QT/Camote-Zanahoria.jpg" },
+                { "id": "zapallo", "name": "Zapallo Orgánico", "price": 1000, "image": "https://i.ibb.co/mC3kfrgg/Ayote.jpg" }
+              ]
+            },
+            {
+              "name": "Hierbas y Flores",
+              "items": [
+                { "id": "albahaca-canela", "name": "Albahaca Canela", "price": 750, "image": "https://i.ibb.co/Q7tDTpgt/albahaca-canela.jpg" },
+                { "id": "albahaca", "name": "Albahaca", "price": 750, "image": "https://i.ibb.co/5gQRg01W/albahaca.jpg" },
+                { "id": "berenjena", "name": "Berenjena", "price": 900, "image": "https://i.ibb.co/ycBfbVwJ/Berenjena.jpg" },
+                { "id": "cebollino", "name": "Cebollino", "price": 500, "image": "https://i.ibb.co/ccPcJLfN/cebollino.jpg" },
+                { "id": "chile-aji", "name": "Chile Ají", "price": 600, "image": "https://i.ibb.co/M5SHVhQr/chile-aji.jpg" },
+                { "id": "cilantro", "name": "Cilantro", "price": 400, "image": "https://i.ibb.co/21DCPj2G/cilantro.jpg" },
+                { "id": "culantro-coyote", "name": "Culantro Coyote", "price": 400, "image": "https://i.ibb.co/xSzVxjTq/culantro-coyote.jpg" },
+                { "id": "eneldo", "name": "Eneldo", "price": 800, "image": "https://i.ibb.co/C36R3RGk/eneldo.jpg" },
+                { "id": "eucalipto", "name": "Eucalipto", "price": 600, "image": "https://i.ibb.co/1fwh9KNX/eucalipto.jpg" },
+                { "id": "hierba-buena", "name": "Hierba Buena", "price": 600, "image": "https://i.ibb.co/d04xBpfB/hierba-buena.jpg" },
+                { "id": "hierba-maggie", "name": "Hierba Maggie", "price": 600, "image": "https://i.ibb.co/yFdSfPnZ/hierba-maggie.jpg" },
+                { "id": "menta", "name": "Menta", "price": 600, "image": "https://i.ibb.co/fG0D81Hz/menta.jpg" },
+                { "id": "oregano", "name": "Orégano", "price": 700, "image": "https://i.ibb.co/23jqVnfs/oregano.jpg" },
+                { "id": "perejil", "name": "Perejil", "price": 500, "image": "https://i.ibb.co/4wFK7gGt/perejil.jpg" },
+                { "id": "romero", "name": "Romero", "price": 800, "image": "https://i.ibb.co/gZMyGbCG/romero.jpg" },
+                { "id": "tomillo", "name": "Tomillo", "price": 800, "image": "https://i.ibb.co/HT7f39Cy/tomillo.jpg" }
+              ]
+            },
+            {
+              "name": "Hojas Verdes",
+              "items": [
+                { "id": "acelga", "name": "Acelga", "price": 800, "image": "https://i.ibb.co/20X8zpC9/Acelga.jpg" },
+                { "id": "arugula", "name": "Arúgula", "price": 1100, "image": "https://i.ibb.co/Jw6TdhHQ/Arugula.jpg" },
+                { "id": "espinaca-mexicana", "name": "Espinaca Mexicana", "price": 950, "image": "https://i.ibb.co/C5DZvh4g/Espinaca-Mexicana.jpg" },
+                { "id": "espinaca", "name": "Espinaca", "price": 900, "image": "https://i.ibb.co/0VrTHyZ5/Espinaca.jpg" },
+                { "id": "kale-rizado", "name": "Kale Rizado", "price": 1200, "image": "https://i.ibb.co/PsbfXrkY/Kale-Rizado.jpg" },
+                { "id": "kale-toscano", "name": "Kale Toscano", "price": 1200, "image": "https://i.ibb.co/tRcwCPs/Kale-Toscano.jpg" },
+                { "id": "lechuga-americana", "name": "Lechuga Americana", "price": 700, "image": "https://i.ibb.co/4ndnSXbQ/Lechuga-Americana.jpg" },
+                { "id": "lechuga-lolorosa", "name": "Lechuga Lolorosa", "price": 850, "image": "https://i.ibb.co/PG6qLCGS/Lechuga-Lolorosa.jpg" },
+                { "id": "lechuga-roble", "name": "Lechuga Roble", "price": 850, "image": "https://i.ibb.co/0jw3dGYv/Lechuga-Roble.jpg" },
+                { "id": "lechuga-romana", "name": "Lechuga Romana", "price": 750, "image": "https://i.ibb.co/399DPKFt/Lechuga-Romana.jpg" },
+                { "id": "lechuga-boston", "name": "Lechuga Boston", "price": 850, "image": "https://i.ibb.co/2Y8fz7K8/Lechuhga-Boston.jpg" },
+                { "id": "mostaza-china", "name": "Mostaza China", "price": 900, "image": "https://i.ibb.co/pVkXK6d/Mostaza-China.jpg" },
+                { "id": "pok-choi", "name": "Pok Choi", "price": 1000, "image": "https://i.ibb.co/xStMZqKZ/Pok-Choi.jpg" }
+              ]
+            },
+            {
+              "name": "Hongos",
+              "items": [
+                { "id": "hongo-blanco", "name": "Hongo Blanco", "price": 1600, "image": "https://i.ibb.co/zTmpFSnL/Hongo-Blanco.jpg" },
+                { "id": "hongo-crimini", "name": "Hongo Crimini", "price": 1800, "image": "https://i.ibb.co/rKtgJsPx/Hongo-Crimini.jpg" }
+              ]
+            },
+            {
+              "name": "Tubérculos y Raíces",
+              "items": [
+                { "id": "camote-morado", "name": "Camote Morado", "price": 1200, "image": "https://i.ibb.co/rRhk4xtW/Camote-Morado.jpg" },
+                { "id": "camote-zanahoria", "name": "Camote Zanahoria", "price": 1100, "image": "https://i.ibb.co/NcgQ9QT/Camote-Zanahoria.jpg" },
+                { "id": "curcuma", "name": "Cúrcuma Fresca", "price": 1500, "image": "https://i.ibb.co/TDv2xjHN/Curcuma.jpg" },
+                { "id": "jengibre", "name": "Jengibre Fresco", "price": 1400, "image": "https://i.ibb.co/0RgTYrdT/Genjibre.jpg" },
+                { "id": "ampi", "name": "Ñampí", "price": 1300, "image": "https://i.ibb.co/vbYrHnB/anpi.jpg" },
+                { "id": "papa-rosada", "name": "Papa Rosada", "price": 1100, "image": "https://i.ibb.co/8DGbYLLB/Papa-Rosada.jpg" }
+              ]
+            },
+            {
+              "name": "Frutas",
+              "items": [
+                { "id": "aguacate-hass", "name": "Aguacate Hass", "price": 1800, "image": "https://i.ibb.co/7t6nsHZN/aguacate-hass.jpg" },
+                { "id": "banano", "name": "Banano Orgánico", "price": 600, "image": "https://i.ibb.co/yBKZsjTy/banano.jpg" },
+                { "id": "fresas", "name": "Fresas", "price": 2200, "image": "https://i.ibb.co/bgkq2qcH/fresas.jpg" },
+                { "id": "limon-mandarina", "name": "Limón Mandarina", "price": 800, "image": "https://i.ibb.co/LXsR5B1K/limon-mandarina.jpg" },
+                { "id": "limon-mesino", "name": "Limón Mesino", "price": 900, "image": "https://i.ibb.co/bj3Ncjxg/limon-mesino.jpg" },
+                { "id": "mango", "name": "Mango", "price": 1200, "image": "https://i.ibb.co/99RRk3Hd/mango.jpg" },
+                { "id": "manzana", "name": "Manzana", "price": 1500, "image": "https://i.ibb.co/tMD5nrYs/manzana.jpg" },
+                { "id": "maracuya", "name": "Maracuyá", "price": 1100, "image": "https://i.ibb.co/Kp6dvrXc/maracuya.jpg" },
+                { "id": "moras", "name": "Moras", "price": 2000, "image": "https://i.ibb.co/354j0Bkh/moras.jpg" },
+                { "id": "naranja", "name": "Naranja Orgánica", "price": 1000, "image": "https://i.ibb.co/kzYr7db/naranja.jpg" },
+                { "id": "papaya", "name": "Papaya", "price": 1400, "image": "https://i.ibb.co/3yPQ990g/papaya.jpg" },
+                { "id": "pina", "name": "Piña Dulce", "price": 1300, "image": "https://i.ibb.co/ymmYhHBT/pina.jpg" },
+                { "id": "platano", "name": "Plátano Verde/Maduro", "price": 700, "image": "https://i.ibb.co/ZRvfNHCV/Platano.jpg" }
+              ]
+            },
+            {
+              "name": "Lácteos y Huevos",
+              "items": [
+                { "id": "12-huevos-de-codorniz", "name": "12 Huevos de Codorniz", "price": 1500, "image": "https://i.ibb.co/B5yZQkdB/12-huevos-de-codorniz.jpg" },
+                { "id": "15-huevos-pastoreo", "name": "15 Huevos de Pastoreo", "price": 2400, "image": "https://i.ibb.co/B5XT64GF/15-huevos-pastoero.jpg" },
+                { "id": "24-huevos-de-codorniz", "name": "24 Huevos de Codorniz", "price": 2800, "image": "https://i.ibb.co/rGK4fmKC/24-huevos-de-codorniz.jpg" },
+                { "id": "30-huevos-pastoreo", "name": "30 Huevos de Pastoreo", "price": 4500, "image": "https://i.ibb.co/GQqwJt6w/30-huevos-pastereo.jpg" },
+                { "id": "ghee-200g", "name": "Ghee 200g", "price": 4200, "image": "https://i.ibb.co/nNfTyCHR/Ghee-200g.jpg" },
+                { "id": "ghee-380g", "name": "Ghee 380g", "price": 7500, "image": "https://i.ibb.co/RVqRC1z/Ghee-380g.jpg" },
+                { "id": "ghee-650g", "name": "Ghee 650g", "price": 11800, "image": "https://i.ibb.co/d0J5CT5b/Ghee-650g.jpg" },
+                { "id": "kefir-1l-leche-cabra", "name": "Kéfir 1L Leche de Cabra", "price": 3800, "image": "https://i.ibb.co/fzCqY4CD/kefir-1-L-leche-cabra.jpg" },
+                { "id": "kefir-500ml-leche-cabra", "name": "Kéfir 500ml Leche de Cabra", "price": 2200, "image": "https://i.ibb.co/pvLTq0Kt/kefir-500ml-leche-cabra.jpg" },
+                { "id": "leche-cabra-1l", "name": "Leche de Cabra 1L", "price": 3200, "image": "https://i.ibb.co/LhdMkQkw/leche-cabra-1-L.jpg" },
+                { "id": "mantequilla-barra-150g", "name": "Mantequilla Barra 150g", "price": 1900, "image": "https://i.ibb.co/cSbcPXs4/Mantequilla-barra-150g.jpg" },
+                { "id": "mantequilla-sinsal-1kg", "name": "Mantequilla Sin Sal 1 KG", "price": 8900, "image": "https://i.ibb.co/rKjjKKy2/matequilla-sinsal-1-KG.jpg" },
+                { "id": "mantequilla-sinsal-500g", "name": "Mantequilla Sin Sal 500g", "price": 4800, "image": "https://i.ibb.co/TMSH56Q5/matequilla-sinsal-500g.jpg" },
+                { "id": "natilla-300g", "name": "Natilla 300g", "price": 1600, "image": "https://i.ibb.co/FkgzfQYn/natilla-300g.jpg" },
+                { "id": "queso-brie-125g", "name": "Queso Brie 125g", "price": 3400, "image": "https://i.ibb.co/Y46cqN9J/queso-brie-125g.jpg" },
+                { "id": "queso-camembert-125g", "name": "Queso Camembert 125g", "price": 3400, "image": "https://i.ibb.co/k2cgfHf7/queso-camember-t-125g.jpg" },
+                { "id": "queso-madurado-de-cabra", "name": "Queso Madurado de Cabra", "price": 4200, "image": "https://i.ibb.co/39fFhKNB/queso-madurado-de-cabra.jpg" },
+                { "id": "queso-mozzarella", "name": "Queso Mozzarella", "price": 2900, "image": "https://i.ibb.co/ZpLSgTrG/queso-mozzarella.jpg" },
+                { "id": "queso-natural-cabra", "name": "Queso Natural de Cabra", "price": 3800, "image": "https://i.ibb.co/7JTc674x/queso-natural-de-vabra.jpg" },
+                { "id": "queso-palmito-400g", "name": "Queso Palmito 400g", "price": 3100, "image": "https://i.ibb.co/PzQ7XWqQ/queso-palmito-400g.jpg" },
+                { "id": "queso-parmesano-200g", "name": "Queso Parmesano 200g", "price": 3600, "image": "https://i.ibb.co/JWjfMvMH/queso-parmiginado-200g.jpg" },
+                { "id": "queso-semiduro", "name": "Queso Semiduro Artesanal", "price": 2800, "image": "https://i.ibb.co/RTBdsXV8/queso-semiduro.jpg" },
+                { "id": "queso-tierno", "name": "Queso Tierno Artesanal", "price": 2500, "image": "https://i.ibb.co/HpMdnpPm/queso-tierno.jpg" },
+                { "id": "yogurt-500ml", "name": "Yogurt Natural 500ml", "price": 2200, "image": "https://i.ibb.co/jZZDSXFx/Yogurt-500ml.jpg" }
+              ]
+            },
+            {
+              "name": "Cortes de Carne",
+              "items": [
+                { "id": "bistec", "name": "Bistec de Res", "price": 4800, "image": "https://i.ibb.co/jK8DPVd/bistec.jpg" },
+                { "id": "carne-molida-30-grasa", "name": "Carne Molida 30% Grasa", "price": 3500, "image": "https://i.ibb.co/FkbYRyrW/carne-molida-30-grasa.jpg" },
+                { "id": "carne-molida-especial", "name": "Carne Molida Especial", "price": 4200, "image": "https://i.ibb.co/RTsjDP46/carne-molida-especial.jpg" },
+                { "id": "churrasco", "name": "Churrasco", "price": 5800, "image": "https://i.ibb.co/wFfYgHyP/churrasco.jpg" },
+                { "id": "costilla", "name": "Costilla de Res", "price": 3900, "image": "https://i.ibb.co/cch4kk9x/costilla.jpg" },
+                { "id": "giba", "name": "Giba", "price": 3800, "image": "https://i.ibb.co/HLwg3FHh/giba.jpg" },
+                { "id": "hueso-de-consome", "name": "Hueso de Consomé", "price": 1500, "image": "https://i.ibb.co/DPyWZ0SJ/hueso-de-consome.jpg" },
+                { "id": "jarrete", "name": "Jarrete", "price": 3600, "image": "https://i.ibb.co/LDFJqJSz/jarrete.jpg" },
+                { "id": "lomito-de-entrana", "name": "Lomito de Entraña", "price": 6500, "image": "https://i.ibb.co/XfBC3BGY/lomito-de-entrana.jpg" },
+                { "id": "lomo-paleta", "name": "Lomo Paleta", "price": 4600, "image": "https://i.ibb.co/XfrfMSPg/lomo-paleta.jpg" },
+                { "id": "mano-de-piedra", "name": "Mano de Piedra", "price": 4400, "image": "https://i.ibb.co/qLMHnt5c/mano-de-piedra.jpg" },
+                { "id": "osobuco-de-res", "name": "Osobuco de Res", "price": 3800, "image": "https://i.ibb.co/qY6w6yVc/osobuco-de-res.jpg" },
+                { "id": "pecho", "name": "Pecho de Res", "price": 3700, "image": "https://i.ibb.co/hFwkxxPd/pecho.jpg" },
+                { "id": "punta-solomo", "name": "Punta Solomo", "price": 5900, "image": "https://i.ibb.co/fG90cRwy/punta-solomo.jpg" },
+                { "id": "quititena", "name": "Quititeña", "price": 4200, "image": "https://i.ibb.co/MDjs8cxx/quititena.jpg" },
+                { "id": "ribeye", "name": "Ribeye Premium", "price": 7800, "image": "https://i.ibb.co/SXh5LxD6/ribeye.jpg" }
+              ]
+            },
+            {
+              "name": "Panadería y Tortillas",
+              "items": [
+                { "id": "pan-multigrano-400g", "name": "Pan Masa Madre Multigrano 400g", "price": 2800, "image": "https://i.ibb.co/zV5dpyPn/pan-masa-madre-400g-multigrano.jpg" },
+                { "id": "pan-masa-madre-400g", "name": "Pan Masa Madre Tradicional 400g", "price": 2500, "image": "https://i.ibb.co/bj7007N9/pan-masa-madre-400g.jpg" },
+                { "id": "pan-multigrano-800g", "name": "Pan Masa Madre Multigrano 800g", "price": 4500, "image": "https://i.ibb.co/YTDHSnkf/pan-masa-madre-800g-multigrano.jpg" },
+                { "id": "pan-masa-madre-800g", "name": "Pan Masa Madre Tradicional 800g", "price": 4200, "image": "https://i.ibb.co/7JyqQDyX/pan-masa-madre-800g.jpg" },
+                { "id": "pan-ajo-romero-400g", "name": "Pan Masa Madre Ajo Romero 400g", "price": 2900, "image": "https://i.ibb.co/bZL4Trj/pan-masa-madre-ajo-romero-400g.jpg" },
+                { "id": "pan-ajo-romero-800g", "name": "Pan Masa Madre Ajo Romero 800g", "price": 4800, "image": "https://i.ibb.co/PGgWXPK9/pan-masa-madre-ajo-romero-800g.jpg" },
+                { "id": "pan-baguette", "name": "Pan Masa Madre Baguette", "price": 1800, "image": "https://i.ibb.co/ymYBJ4mn/pan-masa-madre-baquette.jpg" },
+                { "id": "pan-ciabatta", "name": "Pan Masa Madre Ciabatta Grande", "price": 2200, "image": "https://i.ibb.co/j9wJNxfN/pan-masa-madre-ciabatta-grande.jpg" },
+                { "id": "pan-pita", "name": "Pan Pita 50/50 Harina Blanca", "price": 1900, "image": "https://i.ibb.co/jPGjffwQ/pan-pita-50-50-harina-blanca.jpg" },
+                { "id": "tortillas-pequenas", "name": "Tortillas Maíz Pequeñas", "price": 1000, "image": "https://i.ibb.co/LDW2DB79/tortilas-maiz-pequenas.jpg" },
+                { "id": "tortillas-medianas", "name": "Tortilla Maíz Medianas", "price": 1200, "image": "https://i.ibb.co/4ZMSh0wW/tortilla-maiz-medianas.jpg" }
+              ]
+            },
+            {
+              "name": "Pastas",
+              "items": [
+                { "id": "fettucine-500g", "name": "Fettuccine 500g Pasta", "price": 1800, "image": "https://i.ibb.co/ZRh7FsK9/fettucine-500g-pasta.jpg" },
+                { "id": "pasta-arroz-integral-mini-fusilli", "name": "Pasta Arroz Integral Mini Fusilli", "price": 2400, "image": "https://i.ibb.co/b5Ryqx24/pasta-arroz-integral-mini-fusilli.jpg" },
+                { "id": "pasta-gnocchi-con-quinoa", "name": "Pasta Gnocchi con Quinoa", "price": 2900, "image": "https://i.ibb.co/8gfvBzTR/pasta-gnocchi-con-quinoa.jpg" },
+                { "id": "pasta-penne", "name": "Pasta Penne Integral", "price": 1800, "image": "https://i.ibb.co/snGGsc7/pasta-penne.jpg" },
+                { "id": "pasta-quinoa-blanca", "name": "Pasta Quinoa Blanca", "price": 2600, "image": "https://i.ibb.co/1GGbxRBn/pasta-quinoa-blanca.jpg" },
+                { "id": "pasta-quinoa-negra", "name": "Pasta Quinoa Negra", "price": 2800, "image": "https://i.ibb.co/pvfVwSDL/pasta-quinoa-negra.jpg" },
+                { "id": "pasta-quinoa-roja", "name": "Pasta Quinoa Roja", "price": 2800, "image": "https://i.ibb.co/prfRYTNy/pasta-quinoa-roja.jpg" },
+                { "id": "pasta-spaghetti-500g", "name": "Pasta Spaghetti 500g", "price": 1800, "image": "https://i.ibb.co/RT6XM3nS/pasta-spaguetti-500g.jpg" },
+                { "id": "spaghetti-arroz-integral-250g", "name": "Spaghetti Arroz Integral 250g", "price": 2100, "image": "https://i.ibb.co/kVmdPHBM/spaghetti-arroz-integral-250g.jpg" }
+              ]
+            },
+            {
+              "name": "Productos Asiáticos",
+              "items": [
+                { "id": "coco", "name": "Coco Seco / Leche", "price": 1200, "image": "https://i.ibb.co/Kpzfn83b/coco.jpg" },
+                { "id": "fideos-de-arroz", "name": "Fideos de Arroz", "price": 1900, "image": "https://i.ibb.co/hxXFKTmz/fideos-de-arroz.jpg" },
+                { "id": "leche-de-coco", "name": "Leche de Coco Lata", "price": 1800, "image": "https://i.ibb.co/wFmmYxgg/leche-de.jpg" },
+                { "id": "miso-blanco-500g", "name": "Pasta de Miso Blanco 500g", "price": 4500, "image": "https://i.ibb.co/TD2Zcyrx/pasta-de-miso-blanco-500g.jpg" },
+                { "id": "miso-rojo-500g", "name": "Pasta de Miso Rojo 500g", "price": 4500, "image": "https://i.ibb.co/xqZjmVmk/pasta-de-miso-rojo-500g.jpg" },
+                { "id": "salsa-de-soya", "name": "Salsa de Soya Artesanal", "price": 2200, "image": "https://i.ibb.co/zWw2RQ6D/salsa-de.jpg" },
+                { "id": "soya-gluten", "name": "Soya Gluten Free", "price": 2500, "image": "https://i.ibb.co/XxK3kg7P/soya-gluten.jpg" }
+              ]
+            },
+            {
+              "name": "Fermentados y Vinagres",
+              "items": [
+                { "id": "aminos-473ml", "name": "Aminos Liquid 473ml", "price": 5200, "image": "https://i.ibb.co/Wp7TLsPR/aminos-473mi-liquid.jpg" },
+                { "id": "chucrut-apio-maggie", "name": "Chucrut Apio Maggie", "price": 3200, "image": "https://i.ibb.co/xq5T8L73/chucrut-apio-maggie.jpg" },
+                { "id": "chucrut-morado", "name": "Chucrut Morado", "price": 3200, "image": "https://i.ibb.co/ycfD3zb4/chucrut-morado.jpg" },
+                { "id": "coconut-296ml", "name": "Coconut Liquid 296ml", "price": 4200, "image": "https://i.ibb.co/qMc2YQmR/coconut-296mil-liquid.jpg" },
+                { "id": "crema-balsamica-150ml", "name": "Crema Balsámica 150ml", "price": 3800, "image": "https://i.ibb.co/v4XH3Cwk/crema-balsamica-150ml.jpg" },
+                { "id": "sano-fermentos", "name": "Sano Fermentos Frasco", "price": 3500, "image": "https://i.ibb.co/1YK6jMnX/sano-fermentos.jpg" },
+                { "id": "vinagre-de-banano-65ml", "name": "Vinagre de Banano 65ml", "price": 1200, "image": "https://i.ibb.co/1t2MWH8W/vinagre-de-banano-65ml.jpg" },
+                { "id": "vinagre-de-banano-700ml", "name": "Vinagre de Banano 700ml", "price": 4500, "image": "https://i.ibb.co/Xx8xF5jR/vinagre-de-banano-700ml.jpg" },
+                { "id": "vinagre-de-banano-tipo-balsamico", "name": "Vinagre Banano Tipo Balsámico", "price": 3900, "image": "https://i.ibb.co/xqzvXk4t/vinagre-de-banano-tipo-balsamico.jpg" },
+                { "id": "vinagre-de-manzana-473ml", "name": "Vinagre de Manzana 473ml", "price": 4200, "image": "https://i.ibb.co/CKpKvWn1/vinagre-de-manzana-473ml.jpg" },
+                { "id": "vinagre-manzana-citrus-473ml", "name": "Vinagre Manzana Citrus 473ml", "price": 4500, "image": "https://i.ibb.co/R43XtD32/vinagre-manzana-citrus-473ml.jpg" },
+                { "id": "vinagre-manzana-con-miel-473ml", "name": "Vinagre Manzana Miel 473ml", "price": 4800, "image": "https://i.ibb.co/S46SdxqW/vinagre-manzana-con-miel-473ml.jpg" }
+              ]
+            },
+            {
+              "name": "Aceites",
+              "items": [
+                { "id": "aceite-coco-200ml", "name": "Aceite Coco 200ml", "price": 3500, "image": "https://i.ibb.co/3YdzV4tD/aceite-coco-200ml.jpg" },
+                { "id": "aceite-coco-418ml", "name": "Aceite Coco 418ml", "price": 6200, "image": "https://i.ibb.co/ymycH8Kh/aceite-coco-418ml.jpg" },
+                { "id": "aceite-coco-940ml", "name": "Aceite Coco 940ml", "price": 11500, "image": "https://i.ibb.co/23T0XLzS/aceite-coco-940ml.jpg" },
+                { "id": "aceite-de-aguacate", "name": "Aceite de Aguacate", "price": 7800, "image": "https://i.ibb.co/B5s8PYXN/aceite-de-aguacate.jpg" },
+                { "id": "aceite-de-oliva-extra-virgen", "name": "Aceite de Oliva Extra Virgen", "price": 8500, "image": "https://i.ibb.co/8g2VBXTL/aceite-de-oliva-extra-virgen.jpg" }
+              ]
+            },
+            {
+              "name": "Bebidas",
+              "items": [
+                { "id": "jugo-de-manzana", "name": "Jugo de Manzana Natural", "price": 2200, "image": "https://i.ibb.co/Z6VbkGbD/jugo-de-manzana.jpg" },
+                { "id": "limonada-menta", "name": "Limonada Menta", "price": 1800, "image": "https://i.ibb.co/G3Q0rrxt/limonada-menta.jpg" },
+                { "id": "manzana-jenjibre", "name": "Manzana Jengibre", "price": 2200, "image": "https://i.ibb.co/Mkwsr6Vb/manzana-jenjibre.jpg" },
+                { "id": "rosa-de-jamaica", "name": "Rosa de Jamaica Infusión", "price": 1800, "image": "https://i.ibb.co/JWrzT4yy/rosa-de-jamaica.jpg" },
+                { "id": "te-maracuya", "name": "Té Maracuyá Frío", "price": 1800, "image": "https://i.ibb.co/yFkB32Qz/te-maracuya.jpg" },
+                { "id": "yerba-mate", "name": "Yerba Mate Paquete", "price": 3200, "image": "https://i.ibb.co/MkGtJNqk/yerba-mate.jpg" }
+              ]
+            },
+            {
+              "name": "Harinas y Maíces",
+              "items": [
+                { "id": "harina-azul", "name": "Harina de Maíz Azul", "price": 2200, "image": "https://i.ibb.co/7tC0bfR7/harina-azul.jpg" },
+                { "id": "harina-blanca", "name": "Harina de Maíz Blanca", "price": 1800, "image": "https://i.ibb.co/Zz9Z4KXQ/harina-blanca.jpg" },
+                { "id": "harina-de-yuca-250g", "name": "Harina de Yuca 250g", "price": 1900, "image": "https://i.ibb.co/Z5nxFq9/harina-de-yuca-250g.jpg" },
+                { "id": "harina-multiproposito-libre", "name": "Harina Multipropósito Gluten Free", "price": 2800, "image": "https://i.ibb.co/SD4nw3ZN/harina-multipropo-sito-libre.jpg" },
+                { "id": "maiz-azul", "name": "Maíz Azul en Grano", "price": 1800, "image": "https://i.ibb.co/zW6VfhNf/maiz-azul.jpg" },
+                { "id": "maiz-blanco", "name": "Maíz Blanco en Grano", "price": 1500, "image": "https://i.ibb.co/dSvTQJL/maiz-blanca.jpg" }
+              ]
+            },
+            {
+              "name": "Granos, Semillas, Cafés y Granolas",
+              "items": [
+                { "id": "arroz-blanco-500g", "name": "Arroz Blanco Orgánico 500g", "price": 1200, "image": "https://i.ibb.co/QvqkVjy4/arroz-blanco-500g.jpg" },
+                { "id": "cafe-en-grano", "name": "Café en Grano Artesanal", "price": 4500, "image": "https://i.ibb.co/Fb0w9pb1/cafe-en-grano.jpg" },
+                { "id": "cafe-molido-250g", "name": "Café Molido 250g", "price": 2800, "image": "https://i.ibb.co/NdrrMRHD/cafe-molido-250g.jpg" },
+                { "id": "cafe-molido-454g", "name": "Café Molido 454g", "price": 4800, "image": "https://i.ibb.co/5X5T0Tjw/cafe-molido-454g.jpg" },
+                { "id": "cafe-molido-tueste", "name": "Café Molido Tueste Oscuro", "price": 3000, "image": "https://i.ibb.co/Y7GxJZpz/cafe-molido-tueste.jpg" },
+                { "id": "crema-de-almendras-250g", "name": "Crema de Almendras 250g", "price": 5200, "image": "https://i.ibb.co/VccbBrD2/crema-de-almendras-250g.jpg" },
+                { "id": "garbanzo-250g", "name": "Garbanzo Orgánico 250g", "price": 1100, "image": "https://i.ibb.co/93dtSY9h/garbanzo-250g.jpg" },
+                { "id": "granola-almendras-coco-200g", "name": "Granola Almendras Coco 200g", "price": 2200, "image": "https://i.ibb.co/dsnFLwCn/granola-almendras-coco-200g.jpg" },
+                { "id": "granola-almendras-coco-500g", "name": "Granola Almendras Coco 500g", "price": 4500, "image": "https://i.ibb.co/xSzRsj6g/granola-almendras-coco-500g.jpg" },
+                { "id": "granola-avellanas-chocolate-200g", "name": "Granola Avellanas Chocolate 200g", "price": 2400, "image": "https://i.ibb.co/XfsLRsvT/granola-avellanas-chocolate-200g.jpg" },
+                { "id": "granola-avellanas-chocolate-500g", "name": "Granola Avellanas Chocolate 500g", "price": 4800, "image": "https://i.ibb.co/5X5npDxH/granola-avellanas-chocolate-500g.jpg" },
+                { "id": "granola-mixed-200g", "name": "Granola Mixed 200g", "price": 2100, "image": "https://i.ibb.co/fz3HNb2B/granola-mixed-200g.jpg" },
+                { "id": "granola-mixed-500g", "name": "Granola Mixed 500g", "price": 4200, "image": "https://i.ibb.co/SjJYm5Q/granola-mixed-500g.jpg" },
+                { "id": "hojuelas-de-avena-400g", "name": "Hojuelas de Avena Integral 400g", "price": 1500, "image": "https://i.ibb.co/MynxXSyD/hojuelas-de-avena-400g.jpg" },
+                { "id": "ketchup-cultura-fungi-220g", "name": "Ketchup Cultura Fungi 220g", "price": 2800, "image": "https://i.ibb.co/LzwK8Cjy/ketchup-cultura-fungi-220g.jpg" },
+                { "id": "lentejas-francesas-250g", "name": "Lentejas Francesas 250g", "price": 1300, "image": "https://i.ibb.co/cXgGLbqB/lentejas-francesas-250g.jpg" },
+                { "id": "lentejas-rojas-250g", "name": "Lentejas Rojas 250g", "price": 1400, "image": "https://i.ibb.co/q3QtpLtT/lentejas-rojas-250g.jpg" },
+                { "id": "mantequilla-de-mani-220g", "name": "Mantequilla de Maní 220g", "price": 2500, "image": "https://i.ibb.co/Cs9059YP/mantequilla-de-mani-220g.jpg" },
+                { "id": "mantequilla-de-mani-450g", "name": "Mantequilla de Maní 450g", "price": 4200, "image": "https://i.ibb.co/bMJdf2GS/mantequilla-de-mani-450g.jpg" },
+                { "id": "mantequilla-de-maranon", "name": "Mantequilla de Marañón", "price": 5500, "image": "https://i.ibb.co/Kpyx3nhk/mantequilla-de-mara-on.jpg" },
+                { "id": "quinoa-blanca-500g", "name": "Quinoa Blanca 500g", "price": 2900, "image": "https://i.ibb.co/pBNJvtVb/quinoa-blanca-500g.jpg" },
+                { "id": "salsa-tomate-380g", "name": "Salsa de Tomate Orgánica 380g", "price": 1800, "image": "https://i.ibb.co/HLQhYWx8/salsa-tomate-380g.jpg" },
+                { "id": "tahini", "name": "Tahini Ajonjolí 250g", "price": 3500, "image": "https://i.ibb.co/whj0srjx/tahini.jpg" }
+              ]
+            },
+            {
+              "name": "Especias, Condimentos y Sales",
+              "items": [
+                { "id": "braggs-levadura", "name": "Braggs Levadura Nutricional", "price": 4800, "image": "https://i.ibb.co/gLgsgv4m/braggs-levadura.jpg" },
+                { "id": "chutney-salsa-brava", "name": "Chutney Salsa Brava", "price": 2900, "image": "https://i.ibb.co/G4cgbwMr/chutney-salsa-brava.jpg" },
+                { "id": "curcuma-35g", "name": "Cúrcuma Polvo 35g", "price": 1200, "image": "https://i.ibb.co/bR2sn3k0/curcuma-35g.jpg" },
+                { "id": "curcuma-en-polvo", "name": "Cúrcuma Polvo Bolsa", "price": 2100, "image": "https://i.ibb.co/4wFgvYSv/curcuma-en-plovo.jpg" },
+                { "id": "jengibre-en-polvo", "name": "Jengibre en Polvo", "price": 1800, "image": "https://i.ibb.co/pBLYY5GK/jengibre-en-polvo.jpg" },
+                { "id": "mezcla-dorada", "name": "Mezcla Dorada Gold", "price": 2500, "image": "https://i.ibb.co/spxwwFTk/mezcla-dorada.jpg" },
+                { "id": "pimienta-negra", "name": "Pimienta Negra Molida", "price": 1400, "image": "https://i.ibb.co/Q7JNYp9T/pimienta-negra.jpg" },
+                { "id": "sal-marina-dorada", "name": "Sal Marina Dorada", "price": 1500, "image": "https://i.ibb.co/z1GSjQm/sal-amrina-dorada.jpg" },
+                { "id": "sal-marina-parrillera", "name": "Sal Marina Parrillera", "price": 1600, "image": "https://i.ibb.co/zWhk6dhS/sal-amrina-parrillera.jpg" },
+                { "id": "sal-gourmet", "name": "Sal Gourmet Especial", "price": 2200, "image": "https://i.ibb.co/1fFhRWC1/sal-gourment.jpg" },
+                { "id": "sal-himalaya-fina", "name": "Sal Himalaya Fina 500g", "price": 1800, "image": "https://i.ibb.co/p6W9C2jt/sal-himalaya-fina.jpg" },
+                { "id": "sal-himalaya-gruesa", "name": "Sal Himalaya Gruesa 500g", "price": 1800, "image": "https://i.ibb.co/mVQGLGm9/sal-himalaya-gruesa.jpg" },
+                { "id": "sal-marina-a-las-hierbas", "name": "Sal Marina a las Hierbas", "price": 1900, "image": "https://i.ibb.co/VW0CXrBp/sal-marina-a-las-hierbas.jpg" },
+                { "id": "sal-marina-chile", "name": "Sal Marina con Chile", "price": 1900, "image": "https://i.ibb.co/Y7XgTgwY/sal-marina-chile.jpg" },
+                { "id": "sal-marina-sazon", "name": "Sal Marina Sazón", "price": 1900, "image": "https://i.ibb.co/PZ27Hy7r/sal-marina-zason.jpg" },
+                { "id": "sal-negra-gruesa", "name": "Sal Negra Gruesa", "price": 2100, "image": "https://i.ibb.co/cSzj383T/sal-negra-gruesa.jpg" },
+                { "id": "salsa-volcan", "name": "Salsa Picante Volcán", "price": 2500, "image": "https://i.ibb.co/Vd7cCd1/salsa-volcan.jpg" },
+                { "id": "sazon-completo", "name": "Sazón Completo Natural", "price": 1500, "image": "https://i.ibb.co/RksDYtRQ/sazon-completo.jpg" },
+                { "id": "zacate-limon", "name": "Zacate Limón Seco", "price": 1000, "image": "https://i.ibb.co/Ps2wdcP5/zacate-limon.jpg" }
+              ]
+            },
+            {
+              "name": "Infusiones y Tés",
+              "items": [
+                { "id": "barriguita-feliz", "name": "Té Barriguita Feliz", "price": 2200, "image": "https://i.ibb.co/3ncXKYN/Barriguita-Feliz.jpg" },
+                { "id": "barriguita", "name": "Té Barriguita Digestivo", "price": 2000, "image": "https://i.ibb.co/93crTBC8/Barriguita.jpg" },
+                { "id": "detox", "name": "Té Detox Limpiador", "price": 2400, "image": "https://i.ibb.co/BVkkJ7y0/Detox.jpg" },
+                { "id": "golden", "name": "Té Golden Milk Mix", "price": 2800, "image": "https://i.ibb.co/BVJR09ch/Golden.jpg" },
+                { "id": "tranquilidad", "name": "Té Tranquilidad Relajante", "price": 2200, "image": "https://i.ibb.co/Z6742KbP/tranuilidad.jpg" }
+              ]
+            },
+            {
+              "name": "Frutos Secos y Semillas",
+              "items": [
+                { "id": "arandanos", "name": "Arándanos Deshidratados 150g", "price": 1800, "image": "https://i.ibb.co/dw8M4wyc/arandanos.jpg" },
+                { "id": "ciruelas-150g", "name": "Ciruelas Secas 150g", "price": 1600, "image": "https://i.ibb.co/rG5MYWLp/ciruelas-150g.jpg" },
+                { "id": "datiles-1kg", "name": "Dátiles Premium 1kg", "price": 8500, "image": "https://i.ibb.co/n8QYBsfR/datiles-1kg.jpg" },
+                { "id": "datiles-250g", "name": "Dátiles Premium 250g", "price": 2400, "image": "https://i.ibb.co/LdqGGkqJ/datiles-250g.jpg" },
+                { "id": "higos-secos", "name": "Higos Secos 200g", "price": 2200, "image": "https://i.ibb.co/Fq8hLrh8/higos-secos.jpg" },
+                { "id": "mani-organico", "name": "Maní Orgánico Tostado", "price": 1200, "image": "https://i.ibb.co/nMY7VHH7/mani-organico.jpg" },
+                { "id": "nuez-nogal-250g", "name": "Nuez de Nogal 250g", "price": 3200, "image": "https://i.ibb.co/3m0MBFgC/nuez-nogal-250g.jpg" },
+                { "id": "pasas-150g", "name": "Pasas Dulces 150g", "price": 900, "image": "https://i.ibb.co/mCncxS95/pasas-150g.jpg" },
+                { "id": "semilla-girasol", "name": "Semilla de Girasol 200g", "price": 1100, "image": "https://i.ibb.co/GZ8JRh7/semilla-girasol.jpg" },
+                { "id": "semillas-calabaza", "name": "Semillas de Calabaza 200g", "price": 1500, "image": "https://i.ibb.co/nxPS3Th/semillas-calabaza.jpg" },
+                { "id": "semillas-chia", "name": "Semillas de Chía 250g", "price": 1600, "image": "https://i.ibb.co/My37mTGG/semillas-chia.jpg" },
+                { "id": "trail-mix-150g", "name": "Trail Mix Frutos Secos 150g", "price": 1900, "image": "https://i.ibb.co/hFZFzyqq/trail-mix-150g.jpg" }
+              ]
+            },
+            {
+              "name": "Galletas Artesanales",
+              "items": [
+                { "id": "ajo-romero", "name": "Galletas Ajo Romero", "price": 1800, "image": "https://i.ibb.co/XZqPJQmb/Ajo-Romero.jpg" },
+                { "id": "clasico", "name": "Galletas Clásicas Mantequilla", "price": 1600, "image": "https://i.ibb.co/qYWvjDdc/Clasico.jpg" },
+                { "id": "doble-chocolate", "name": "Galletas Doble Chocolate", "price": 1900, "image": "https://i.ibb.co/qLLn1ynG/doble-chocolate.jpg" },
+                { "id": "jengibre-limon", "name": "Galletas Jengibre Limón", "price": 1800, "image": "https://i.ibb.co/Q7hkfq3f/jenjibre-Limon.jpg" }
+              ]
+            },
+            {
+              "name": "Cacao y Chocolates",
+              "items": [
+                { "id": "1kg-cacao-ceremonial", "name": "1KG Cacao Ceremonial Puro", "price": 14500, "image": "https://i.ibb.co/HTLdsjW9/1-KG-cacao-ceremonial.jpg" },
+                { "id": "almendra-cubierta-con-chocolate", "name": "Almendra Cubierta Chocolate", "price": 2800, "image": "https://i.ibb.co/5XCH13FL/almendra-cubierta-con-chocolate.jpg" },
+                { "id": "cacao-en-polvo-500g", "name": "Cacao en Polvo 500g", "price": 4200, "image": "https://i.ibb.co/s9p0kksT/cacao-en-polvo-500g.jpg" },
+                { "id": "cacao-en-polvo", "name": "Cacao en Polvo 250g", "price": 2300, "image": "https://i.ibb.co/67ZwF4Pm/cacao-en-polvo.jpg" },
+                { "id": "cacao-nibs", "name": "Cacao Nibs Orgánicos 200g", "price": 2500, "image": "https://i.ibb.co/C3zwLXMq/cacao-nibs.jpg" },
+                { "id": "cacao-tostado", "name": "Cacao Tostado en Grano", "price": 2200, "image": "https://i.ibb.co/S7ZCVqFz/cacao-tostado.jpg" },
+                { "id": "chocolate-70-original", "name": "Chocolate 70% Original Barra", "price": 2100, "image": "https://i.ibb.co/KpJxTsMY/chocolate-70-original.jpg" },
+                { "id": "chocolate-72-de-45g", "name": "Chocolate 72% Snacking 45g", "price": 1400, "image": "https://i.ibb.co/cKFqjGvk/chocolate-72-de-45g.jpg" },
+                { "id": "chocolate-almendra", "name": "Chocolate con Almendra", "price": 2200, "image": "https://i.ibb.co/CcXTCpg/chocolate-almendra.jpg" },
+                { "id": "chocolate-curcuma", "name": "Chocolate Cúrcuma & Pimienta", "price": 2200, "image": "https://i.ibb.co/rfytXMMD/chocolate-curcuma.jpg" },
+                { "id": "chocolate-flor-de-jamaica", "name": "Chocolate Flor de Jamaica", "price": 2200, "image": "https://i.ibb.co/qFJ7jHyr/chocolate-flor-de-jamaica.jpg" },
+                { "id": "chocolate-melena", "name": "Chocolate Melena de León", "price": 2600, "image": "https://i.ibb.co/X1CX7TF/chocolate-melena.jpg" },
+                { "id": "chocolate-naranja", "name": "Chocolate Naranja Silvestre", "price": 2200, "image": "https://i.ibb.co/q3dQ1rSs/chocolate-naranja.jpg" },
+                { "id": "chocolate-oscuro", "name": "Chocolate Oscuro 85%", "price": 2300, "image": "https://i.ibb.co/fztsHWv0/chocolate-oscuro.jpg" },
+                { "id": "chocolate-reishi", "name": "Chocolate Reishi Medicinal", "price": 2600, "image": "https://i.ibb.co/spgr0bLX/chocolate-reishi.jpg" },
+                { "id": "chocolate-rosada", "name": "Chocolate Sal Rosada", "price": 2200, "image": "https://i.ibb.co/kVncBHw5/chocolate-rosada.jpg" },
+                { "id": "chocolate-shiitake", "name": "Chocolate Shiitake Adaptógeno", "price": 2600, "image": "https://i.ibb.co/TMwW1hsL/chocolate-shiitake.jpg" },
+                { "id": "granos-de-cafe-choc", "name": "Granos de Café cubiertos Choc", "price": 2500, "image": "https://i.ibb.co/pBMjqDv4/granos-de-cafe.jpg" }
+              ]
+            },
+            {
+              "name": "Cuidado Personal y Cosmética",
+              "items": [
+                { "id": "acondicionador", "name": "Acondicionador Natural Sólido", "price": 3800, "image": "https://i.ibb.co/MyRLwb8w/acondicionador.jpg" },
+                { "id": "champu-limoncillo", "name": "Champú Limoncillo & Romero", "price": 3800, "image": "https://i.ibb.co/DPWsWQc0/champu-limoncillo.jpg" },
+                { "id": "champu", "name": "Champú Orgánico Sólido", "price": 3600, "image": "https://i.ibb.co/21DM4YWv/champu.jpg" },
+                { "id": "desodorante-natural", "name": "Desodorante Natural Barra", "price": 3200, "image": "https://i.ibb.co/1Jzbpq2w/desodoran-te-natural.jpg" },
+                { "id": "jabon-artesanal-carbon", "name": "Jabón Carbón Activado", "price": 2200, "image": "https://i.ibb.co/1YRYRpCP/jabon-artesanal-carbon.jpg" },
+                { "id": "jabon-artesanal-lavanda", "name": "Jabón Artesanal Lavanda", "price": 2200, "image": "https://i.ibb.co/j9fC8JLg/jabon-artesanal-lavanda.jpg" },
+                { "id": "jabon-artesanal-menta", "name": "Jabón Artesanal Menta", "price": 2200, "image": "https://i.ibb.co/Zs4G7wm/jabon-artesanal-menta.jpg" },
+                { "id": "jabon-artesanal-rosa", "name": "Jabón Artesanal Rosa", "price": 2200, "image": "https://i.ibb.co/4gRSymtV/jabon-artesanal-rosa.jpg" },
+                { "id": "jabon-menta", "name": "Jabón Herbal Menta", "price": 2000, "image": "https://i.ibb.co/B5gwSVg8/jabon-menta.jpg" },
+                { "id": "jabon-toronja", "name": "Jabón Exfoliante Toronja", "price": 2200, "image": "https://i.ibb.co/nMg3kntt/jabon-toronja.jpg" },
+                { "id": "jabon-liquido", "name": "Jabón Líquido Manos/Cuerpo", "price": 2800, "image": "https://i.ibb.co/Hp19y8zb/jsbon-liquido.jpg" },
+                { "id": "limpiador-intimo", "name": "Limpiador Íntimo Suave", "price": 4200, "image": "https://i.ibb.co/WpY1pHww/limpiador-intimo.jpg" },
+                { "id": "limpiador-facial", "name": "Limpiador Facial Botánico", "price": 4500, "image": "https://i.ibb.co/Ld0PS44X/limpiardor-facial.jpg" },
+                { "id": "serum-facial", "name": "Sérum Facial Hidratante", "price": 6800, "image": "https://i.ibb.co/PZkFvmjj/serum-facial.jpg" }
+              ]
+            }
+          ]
+        };
+
+        let isAdmin = false;
+        let categoriaSeleccionada = 'todos';
+        let carrito = [];
+
+        function cambiarVista(vista) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            if (vista === 'home') {
+                document.getElementById('view-home').classList.add('active');
+            } else if (vista === 'catalog') {
+                document.getElementById('view-catalog').classList.add('active');
+                renderizarCatalogoInterno();
+            }
+        }
+
+        function toggleAdmin() {
+            if (!isAdmin) {
+                const pass = prompt("🔑 Ingrese la contraseña de Administrador:");
+                if (pass === "1234") {
+                    isAdmin = true;
+                    alert("¡Acceso concedido como Administrador!");
+                } else if (pass !== null) {
+                    alert("❌ Contraseña incorrecta.");
+                    return;
+                }
+            } else {
+                isAdmin = false;
+            }
+            actualizarNavbar();
+        }
+
+        function actualizarNavbar() {
+            const navMenu = document.getElementById('nav-menu-container');
+            const totalCant = carrito.reduce((sum, item) => sum + item.qty, 0);
+
+            if (!isAdmin) {
+                navMenu.innerHTML = `
+                    <button class="nav-btn" onclick="cambiarVista('home')">🏠 Inicio / Home</button>
+                    <button class="nav-btn" onclick="cambiarVista('catalog')">📦 Catálogo / Catalog</button>
+                    <button class="nav-btn admin-mode" onclick="toggleAdmin()">🔒 Admin</button>
+                    <button class="nav-btn" onclick="toggleCarrito()">🛒 Carrito (${totalCant})</button>
+                `;
+            } else {
+                navMenu.innerHTML = `
+                    <button class="nav-btn" onclick="cambiarVista('home')">🏠 Inicio / Home</button>
+                    <button class="nav-btn" onclick="cambiarVista('catalog')">📦 Catálogo / Catalog</button>
+                    <button class="nav-btn" onclick="modalNuevoProducto()">➕ Agregar Producto</button>
+                    <button class="nav-btn" onclick="alert('Exportando respaldo...')">📥 Respaldo</button>
+                    <button class="nav-btn danger" onclick="toggleAdmin()">🚪 Salir Admin</button>
+                    <button class="nav-btn" onclick="toggleCarrito()">🛒 Carrito (${totalCant})</button>
+                `;
+            }
+        }
+
+        function renderizarCatalogoInterno() {
+            const listaCat = document.getElementById('lista-categorias');
+            listaCat.innerHTML = `
+                <li><button class="category-btn ${categoriaSeleccionada === 'todos' ? 'active' : ''}" onclick="filtrarCategoria('todos')">Todos los Productos<br><small style="font-weight:300; opacity:0.8;">All Products</small></button></li>
+            `;
+
+            CATALOGO_PRODUCTOS.categories.forEach((cat, index) => {
+                const isActive = categoriaSeleccionada === index ? 'active' : '';
+                listaCat.innerHTML += `
+                    <li><button class="category-btn ${isActive}" onclick="filtrarCategoria(${index})">${cat.name}</button></li>
+                `;
+            });
+
+            renderizarProductosGrid();
+        }
+
+        function filtrarCategoria(catIndex) {
+            categoriaSeleccionada = catIndex;
+            renderizarCatalogoInterno();
+        }
+
+        function renderizarProductosGrid(itemsFiltrados = null) {
+            const grid = document.getElementById('grid-productos');
+            const tituloCat = document.getElementById('titulo-categoria-activa');
+            grid.innerHTML = '';
+
+            let listaItems = itemsFiltrados;
+
+            if (!listaItems) {
+                listaItems = [];
+                if (categoriaSeleccionada === 'todos') {
+                    tituloCat.innerText = "Todos los Productos / All Products";
+                    CATALOGO_PRODUCTOS.categories.forEach(cat => {
+                        listaItems = listaItems.concat(cat.items);
+                    });
+                } else {
+                    const catActual = CATALOGO_PRODUCTOS.categories[categoriaSeleccionada];
+                    tituloCat.innerText = catActual.name;
+                    listaItems = catActual.items;
+                }
+            }
+
+            listaItems.forEach(item => {
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <div class="product-img-container">
+                            <img src="${item.image}" alt="${item.name}" loading="lazy" class="product-img">
+                        </div>
+                        <h3 class="product-name">${item.name}</h3>
+                        <div class="product-price">₡${item.price.toLocaleString()}</div>
+                        <div class="product-actions">
+                            <input type="number" class="qty-input" value="1" min="1" id="qty-${item.id}">
+                            <button class="add-btn" onclick="agregarAlCarrito('${item.id}', '${item.name}', ${item.price})">Agregar</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filtrarPorNombre() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            let coincidencia = [];
+            CATALOGO_PRODUCTOS.categories.forEach(cat => {
+                cat.items.forEach(item => {
+                    if (item.name.toLowerCase().includes(query)) {
+                        coincidencia.push(item);
+                    }
+                });
+            });
+            document.getElementById('titulo-categoria-activa').innerText = `Resultados de Búsqueda (${coincidencia.length})`;
+            renderizarProductosGrid(coincidencia);
+        }
+
+        function toggleCarrito() {
+            document.getElementById('cart-drawer').classList.toggle('open');
+        }
+
+        function agregarAlCarrito(id, name, price) {
+            const qty = parseInt(document.getElementById(`qty-${id}`).value) || 1;
+            const itemExistente = carrito.find(item => item.id === id);
+
+            if (itemExistente) {
+                itemExistente.qty += qty;
+            } else {
+                carrito.push({ id, name, price, qty });
+            }
+
+            actualizarCarritoUI();
+            actualizarNavbar();
+        }
+
+        function cambiarCantidadCarrito(id, delta) {
+            const item = carrito.find(i => i.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    carrito = carrito.filter(i => i.id !== id);
+                }
+            }
+            actualizarCarritoUI();
+            actualizarNavbar();
+        }
+
+        function actualizarCarritoUI() {
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+
+            let subtotal = 0;
+
+            carrito.forEach(item => {
+                const totalItem = item.price * item.qty;
+                subtotal += totalItem;
+
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <small>₡${item.price.toLocaleString()} c/u</small>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:5px;">
+                            <button style="padding:2px 6px; cursor:pointer;" onclick="cambiarCantidadCarrito('${item.id}', -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button style="padding:2px 6px; cursor:pointer;" onclick="cambiarCantidadCarrito('${item.id}', 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            const envio = subtotal >= 25000 || subtotal === 0 ? 0 : 2000;
+            const total = subtotal + envio;
+
+            document.getElementById('cart-subtotal').innerText = `₡${subtotal.toLocaleString()}`;
+            document.getElementById('cart-shipping').innerText = envio === 0 ? "¡GRATIS!" : `₡${envio.toLocaleString()}`;
+            document.getElementById('cart-total').innerText = `₡${total.toLocaleString()}`;
+        }
+
+        function cargarUltimaCompra() {
+            const ultima = localStorage.getItem('ultima_compra_la_semilla');
+            if (!ultima) {
+                alert("Aún no tienes un pedido anterior guardado en este dispositivo.");
+                return;
+            }
+            carrito = JSON.parse(ultima);
+            actualizarCarritoUI();
+            actualizarNavbar();
+            alert("¡Se ha cargado tu última lista de compra frecuente en el carrito!");
+        }
+
+        function enviarWhatsapp() {
+            if (carrito.length === 0) {
+                alert("El carrito está vacío");
+                return;
+            }
+
+            const nombre = document.getElementById('client-name').value;
+            const telefono = document.getElementById('client-phone').value;
+            const direccion = document.getElementById('client-address').value;
+            const pago = document.getElementById('client-payment').value;
+
+            if (!nombre || !telefono || !direccion) {
+                alert("Por favor completa tus datos (Nombre, Teléfono y Dirección) para procesar el pedido.");
+                return;
+            }
+
+            localStorage.setItem('ultima_compra_la_semilla', JSON.stringify(carrito));
+
+            let mensaje = "🌱 *NUEVO PEDIDO - LA SEMILLA*\n\n";
+            mensaje += `👤 *Cliente:* ${nombre}\n`;
+            mensaje += `📞 *Teléfono:* ${telefono}\n`;
+            mensaje += `📍 *Dirección:* ${direccion}\n`;
+            mensaje += `💳 *Método de Pago:* ${pago}\n\n`;
+            mensaje += "*DETALLE DE PRODUCTOS:*\n";
+
+            carrito.forEach(item => {
+                mensaje += `• ${item.qty}x ${item.name} (₡${(item.price * item.qty).toLocaleString()})\n`;
+            });
+
+            const subtotal = carrito.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            const envio = subtotal >= 25000 ? 0 : 2000;
+            
+            mensaje += `\n*Subtotal:* ₡${subtotal.toLocaleString()}`;
+            mensaje += `\n*Envío:* ${envio === 0 ? 'Gratis' : '₡' + envio.toLocaleString()}`;
+            mensaje += `\n*Total a pagar:* ₡${(subtotal + envio).toLocaleString()}\n\n¡Muchas gracias!`;
+
+            const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+        }
+
+        function modalNuevoProducto() {
+            const select = document.getElementById('new-prod-cat');
+            select.innerHTML = '';
+            CATALOGO_PRODUCTOS.categories.forEach((cat, i) => {
+                select.innerHTML += `<option value="${i}">${cat.name}</option>`;
+            });
+            document.getElementById('modal-agregar-prod').classList.add('active');
+        }
+
+        function cerrarModalNuevoProducto() {
+            document.getElementById('modal-agregar-prod').classList.remove('active');
+        }
+
+        function guardarNuevoProducto() {
+            const name = document.getElementById('new-prod-name').value;
+            const catIndex = document.getElementById('new-prod-cat').value;
+            const price = parseInt(document.getElementById('new-prod-price').value);
+            const image = document.getElementById('new-prod-img').value || 'https://i.ibb.co/3mrbcVVV/Ajo-Criollo.jpg';
+
+            if (!name || isNaN(price)) {
+                alert("Por favor ingrese un nombre y precio válido");
+                return;
+            }
+
+            const newId = name.toLowerCase().replace(/ /g, '-');
+            CATALOGO_PRODUCTOS.categories[catIndex].items.push({ id: newId, name, price, image });
+
+            alert("¡Producto agregado exitosamente!");
+            cerrarModalNuevoProducto();
+            renderizarCatalogoInterno();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            actualizarNavbar();
+        });
+    </script>
+</body>
+</html>
