@@ -481,6 +481,74 @@
             border: 1px solid #cbd5e1;
             border-radius: 6px;
         }
+
+        /* ========================================== */
+        /* PEGA LOS ESTILOS NUEVOS DE LA TABLA AQUÍ:  */
+        /* ========================================== */
+        .admin-table-container {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            overflow-x: auto;
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+        .admin-table th, .admin-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .admin-table th {
+            background-color: #f8fafc;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        .btn-status-disp {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        .btn-status-agot {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        .btn-action-edit {
+            background: #d97706;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+        .btn-action-del {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
     </style>
 </head>
 <body>
@@ -536,7 +604,7 @@
         
         <div class="catalog-layout">
             <aside class="sidebar">
-                <h2>Categorías / Categories</h2>
+                <h2>Categorías / Category</h2>
                 <ul class="category-list" id="lista-categorias"></ul>
             </aside>
             <main class="catalog-content">
@@ -546,9 +614,30 @@
         </div>
     </section>
 
+    <section id="view-admin-table" class="view-section">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2 style="color:var(--primary-color);">📊 Tabla de Gestión de Productos</h2>
+            <button class="add-btn" style="max-width:200px;" onclick="abrirModalCrear()">➕ Nuevo Producto</button>
+        </div>
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-admin-cuerpo"></tbody>
+            </table>
+        </div>
+    </section>
+
     <div class="cart-overlay" id="cart-drawer">
         <div class="cart-header">
-            <h3>🛒 Tu Pedido</h3>
+            <h3>🛒 Tu Pedido / your order</h3>
             <button onclick="toggleCarrito()" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">❌</button>
         </div>
 
@@ -606,377 +695,396 @@
           "store": "Pedidos La Semilla",
           "categories": [
             {
-              "name": "Vegetales",
+              "name": "Vegetales (Vegetables)",
               "items": [
-                { "id": "ajo-criollo", "name": "Ajo Criollo", "price": 1200, "image": "https://i.ibb.co/3mrbcVVV/Ajo-Criollo.jpg" },
-                { "id": "apio", "name": "Apio Orgánico", "price": 800, "image": "https://i.ibb.co/ZzP0MRMH/Apio.jpg" },
-                { "id": "ayote", "name": "Ayote Orgánico", "price": 1000, "image": "https://i.ibb.co/mC3kfrgg/Ayote.jpg" },
-                { "id": "brocoli", "name": "Brócoli Orgánico", "price": 1500, "image": "https://i.ibb.co/YByqxycB/Brocoli.jpg" },
-                { "id": "cebolla-blanca", "name": "Cebolla Blanca", "price": 1100, "image": "https://i.ibb.co/3mrbcVVV/Ajo-Criollo.jpg" },
-                { "id": "cebolla-morada", "name": "Cebolla Morada", "price": 1200, "image": "https://i.ibb.co/3mrbcVVV/Ajo-Criollo.jpg" },
-                { "id": "chayote", "name": "Chayote Orgánico", "price": 900, "image": "https://i.ibb.co/mC3kfrgg/Ayote.jpg" },
-                { "id": "chile-dulce", "name": "Chile Dulce", "price": 850, "image": "https://i.ibb.co/M5SHVhQr/chile-aji.jpg" },
-                { "id": "coliflor", "name": "Coliflor Orgánica", "price": 1600, "image": "https://i.ibb.co/YByqxycB/Brocoli.jpg" },
-                { "id": "hinojo", "name": "Hinojo Orgánico", "price": 1300, "image": "https://i.ibb.co/ZzP0MRMH/Apio.jpg" },
-                { "id": "nabo", "name": "Nabo Orgánico", "price": 950, "image": "https://i.ibb.co/vbYrHnB/anpi.jpg" },
-                { "id": "pepino", "name": "Pepino Orgánico", "price": 750, "image": "https://i.ibb.co/ZzP0MRMH/Apio.jpg" },
-                { "id": "puerro", "name": "Puerro Orgánico", "price": 1100, "image": "https://i.ibb.co/ccPcJLfN/cebollino.jpg" },
-                { "id": "rabanitos", "name": "Rabanitos Orgánicos", "price": 800, "image": "https://i.ibb.co/8DGbYLLB/Papa-Rosada.jpg" },
-                { "id": "remolacha", "name": "Remolacha Orgánica", "price": 1000, "image": "https://i.ibb.co/rRhk4xtW/Camote-Morado.jpg" },
-                { "id": "repollo-morado", "name": "Repollo Morado Orgánico", "price": 1300, "image": "https://i.ibb.co/ycfD3zb4/chucrut-morado.jpg" },
-                { "id": "repollo-verde", "name": "Repollo Verde Orgánico", "price": 1200, "image": "https://i.ibb.co/20X8zpC9/Acelga.jpg" },
-                { "id": "tomate", "name": "Tomate Orgánico", "price": 1400, "image": "https://i.ibb.co/HLQhYWx8/salsa-tomate-380g.jpg" },
-                { "id": "tomate-cherry", "name": "Tomate Cherry Orgánico", "price": 1600, "image": "https://i.ibb.co/HLQhYWx8/salsa-tomate-380g.jpg" },
-                { "id": "vainica", "name": "Vainica Orgánica", "price": 1100, "image": "https://i.ibb.co/20X8zpC9/Acelga.jpg" },
-                { "id": "zanahoria", "name": "Zanahoria Orgánica", "price": 950, "image": "https://i.ibb.co/NcgQ9QT/Camote-Zanahoria.jpg" },
-                { "id": "zanahoria-colores", "name": "Zanahoria de Colores", "price": 1200, "image": "https://i.ibb.co/NcgQ9QT/Camote-Zanahoria.jpg" },
-                { "id": "zapallo", "name": "Zapallo Orgánico", "price": 1000, "image": "https://i.ibb.co/mC3kfrgg/Ayote.jpg" }
+                { "id": "ajo-criollo", "name": "Ajo Criollo Orgánico Rollo 100g (Native Garlic Bundle)", "price": 1800, "image": "https://i.ibb.co/3mrbcVVV/Ajo-Criollo.jpg" },
+                { "id": "apio", "name": "Apio Orgánico (Celery)", "price": 2300, "image": "https://i.ibb.co/ZzP0MRMH/Apio.jpg" },
+                { "id": "ayote", "name": "Ayote Sazón Orgánico (Pumpkin)", "price": 1000, "image": "https://i.ibb.co/mC3kfrgg/Ayote.jpg" },
+                { "id": "brocoli", "name": "Brócoli Orgánico", "price": 2750, "image": "https://i.ibb.co/YByqxycB/Brocoli.jpg" },
+                { "id": "cebolla-blanca", "name": "Cebolla Blanca Orgánica (White Onion)", "price": 2000, "image": "https://i.ibb.co/j9BkZjKZ/Cebolla-Blanca.jpg" },
+                { "id": "cebolla-morada", "name": "Cebolla Morada Orgánica (Organic Red Onion)", "price": 3200, "image": "https://i.ibb.co/WWj73qM0/Cebolla-Morada.jpg" },
+                { "id": "chayote", "name": "Chayote Orgánico", "price": 450, "image": "https://i.ibb.co/WvvSsMRL/Chayote.jpg" },
+                { "id": "chile-dulce", "name": "Chile Dulce Orgánico (Bell Pepper)", "price": 650, "image": "https://i.ibb.co/tTNgs2xp/Chile-Dulce.jpg" },
+                { "id": "coliflor", "name": "Coliflor Orgánica (Cauliflower)", "price": 1750, "image": "https://i.ibb.co/8DF3m6tG/Coliflor.jpg" },
+                { "id": "hinojo", "name": "Hinojo Orgánico (Fennel)", "price": 600, "image": "https://i.ibb.co/qLhKMDkh/Hinojo.jpg" },
+                { "id": "nabo", "name": "Nabo Orgánico (Turnip)", "price": 700, "image": "https://i.ibb.co/W46trb7G/Nabo.jpg" },
+                { "id": "pepino", "name": "Pepino Orgánico (Cucumber)", "price": 1450, "image": "https://i.ibb.co/WWjkNHjm/Pepino.jpg" },
+                { "id": "puerro", "name": "Puerro Orgánico (Leek)", "price": 600, "image": "https://i.ibb.co/TqBk1Txw/Puerro.jpg" },
+                { "id": "rabanitos", "name": "Rabanitos Rollo Orgánicos (Radish Bundle)", "price": 600, "image": "https://i.ibb.co/QjmccpV3/Rabanitos-Rollo.jpg" },
+                { "id": "remolacha", "name": "Remolacha Orgánica (Beetroot)", "price": 580, "image": "https://i.ibb.co/3ywBHWpY/Remolacha.jpg" },
+                { "id": "repollo-morado", "name": "Repollo Morado Orgánico (Purple Cabbage)", "price": 1650, "image": "https://i.ibb.co/6ccQv2Kq/Repollo-Morado.jpg" },
+                { "id": "repollo-verde", "name": "Repollo Verde Orgánico (Green Cabbage)", "price": 1200, "image": "https://i.ibb.co/bg60KYNc/Repollo-Verde.jpg" },
+                { "id": "tomate", "name": "Tomate Orgánico (Tomato)", "price": 2200, "image": "https://i.ibb.co/3mFHN8GD/Tomate.jpg" },
+                { "id": "tomate-cherry", "name": "Tomate Cherry Orgánico Bandeja (Cherry Tomato)", "price": 2000, "image": "https://i.ibb.co/nNDCdfqc/Tomate-Cherry.jpg" },
+                { "id": "vainica", "name": "Vainica Orgánica 500g (Green Bean)", "price": 1100, "image": "https://i.ibb.co/Bhbz3Q4/Vainica.jpg" },
+                { "id": "berenjena", "name": "Berenjena Convensional (Eggplant)", "price": 900, "image": "https://i.ibb.co/ycBfbVwJ/Berenjena.jpg" },
+                { "id": "zanahoria", "name": "Zanahoria Orgánica (Carrot)", "price": 1200, "image": "https://i.ibb.co/j9Ws8K7W/Zanahoria.jpg" },
+                { "id": "zanahoria-colores", "name": "Zanahoria Colores Orgánica (Rainbow Carrot)", "price": 1700, "image": "https://i.ibb.co/RTW1XxJZ/Zanahoria-Colores.jpg" },
+                { "id": "zapallo", "name": "Zapallo Orgánico (Zucchini)", "price": 980, "image": "https://i.ibb.co/zWVMKb4k/Zapallo.jpg" }
               ]
             },
             {
-              "name": "Hierbas y Flores",
+              "name": "Hierbas, Especies y Flores (Herbs, Spices and Flowers)",
               "items": [
-                { "id": "albahaca-canela", "name": "Albahaca Canela", "price": 750, "image": "https://i.ibb.co/Q7tDTpgt/albahaca-canela.jpg" },
-                { "id": "albahaca", "name": "Albahaca", "price": 750, "image": "https://i.ibb.co/5gQRg01W/albahaca.jpg" },
-                { "id": "berenjena", "name": "Berenjena", "price": 900, "image": "https://i.ibb.co/ycBfbVwJ/Berenjena.jpg" },
-                { "id": "cebollino", "name": "Cebollino", "price": 500, "image": "https://i.ibb.co/ccPcJLfN/cebollino.jpg" },
-                { "id": "chile-aji", "name": "Chile Ají", "price": 600, "image": "https://i.ibb.co/M5SHVhQr/chile-aji.jpg" },
-                { "id": "cilantro", "name": "Cilantro", "price": 400, "image": "https://i.ibb.co/21DCPj2G/cilantro.jpg" },
-                { "id": "culantro-coyote", "name": "Culantro Coyote", "price": 400, "image": "https://i.ibb.co/xSzVxjTq/culantro-coyote.jpg" },
-                { "id": "eneldo", "name": "Eneldo", "price": 800, "image": "https://i.ibb.co/C36R3RGk/eneldo.jpg" },
-                { "id": "eucalipto", "name": "Eucalipto", "price": 600, "image": "https://i.ibb.co/1fwh9KNX/eucalipto.jpg" },
-                { "id": "hierba-buena", "name": "Hierba Buena", "price": 600, "image": "https://i.ibb.co/d04xBpfB/hierba-buena.jpg" },
-                { "id": "hierba-maggie", "name": "Hierba Maggie", "price": 600, "image": "https://i.ibb.co/yFdSfPnZ/hierba-maggie.jpg" },
-                { "id": "menta", "name": "Menta", "price": 600, "image": "https://i.ibb.co/fG0D81Hz/menta.jpg" },
-                { "id": "oregano", "name": "Orégano", "price": 700, "image": "https://i.ibb.co/23jqVnfs/oregano.jpg" },
-                { "id": "perejil", "name": "Perejil", "price": 500, "image": "https://i.ibb.co/4wFK7gGt/perejil.jpg" },
-                { "id": "romero", "name": "Romero", "price": 800, "image": "https://i.ibb.co/gZMyGbCG/romero.jpg" },
-                { "id": "tomillo", "name": "Tomillo", "price": 800, "image": "https://i.ibb.co/HT7f39Cy/tomillo.jpg" }
+                { "id": "albahaca-canela", "name": "Albahaca Canela Orgánica (Cinnamon Basil Bundle)", "price": 700, "image": "https://i.ibb.co/Q7tDTpgt/albahaca-canela.jpg" },
+                { "id": "albahaca", "name": "Albahaca Orgánica (Basil Bundle)", "price": 700, "image": "https://i.ibb.co/5gQRg01W/albahaca.jpg" },
+                { "id": "cebollino", "name": "Cebollino Criollo Orgánico (Green Onions)", "price": 550, "image": "https://i.ibb.co/ccPcJLfN/cebollino.jpg" },
+                { "id": "chile-aji", "name": "Chile Ají Orgánico Bandeja 200g (Hot Chili Pepper)", "price": 1950, "image": "https://i.ibb.co/M5SHVhQr/chile-aji.jpg" },
+                { "id": "cilantro", "name": "Cilantro Orgánico (Coriander)", "price": 600, "image": "https://i.ibb.co/21DCPj2G/cilantro.jpg" },
+                { "id": "culantro-coyote", "name": "Culantro Coyote Orgánico (Wild Coriander)", "price": 500, "image": "https://i.ibb.co/xSzVxjTq/culantro-coyote.jpg" },
+                { "id": "eneldo", "name": "Eneldo Orgánico (Dill)", "price": 750, "image": "https://i.ibb.co/C36R3RGk/eneldo.jpg" },
+                { "id": "eucalipto", "name": "Rollo de Eucalipto (Eucaliptus Bundle) ", "price": 1200, "image": "https://i.ibb.co/1fwh9KNX/eucalipto.jpg" },
+                { "id": "hierba-buena", "name": "Hierba Buena Orgánica (Spearmint)", "price": 600, "image": "https://i.ibb.co/d04xBpfB/hierba-buena.jpg" },
+                { "id": "hierba-maggie", "name": "Hierba Maggie Orgánica (Maggie Herb Bundle) Levisticum Officinale", "price": 600, "image": "https://i.ibb.co/yFdSfPnZ/hierba-maggie.jpg" },
+                { "id": "menta", "name": "Menta Orgánica (Peppermint)", "price": 600, "image": "https://i.ibb.co/fG0D81Hz/menta.jpg" },
+                { "id": "oregano", "name": "Orégano Orgánico", "price": 600, "image": "https://i.ibb.co/23jqVnfs/oregano.jpg" },
+                { "id": "perejil", "name": "Perejil Orgánico (Parsley)", "price": 600, "image": "https://i.ibb.co/4wFK7gGt/perejil.jpg" },
+                { "id": "romero", "name": "Romero Orgánico (Rosemary)", "price": 600, "image": "https://i.ibb.co/gZMyGbCG/romero.jpg" },
+                { "id": "tomillo", "name": "Tomillo Orgánico (Thyme)", "price": 600, "image": "https://i.ibb.co/HT7f39Cy/tomillo.jpg" }
               ]
             },
             {
-              "name": "Hojas Verdes",
+              "name": "Hojas Verdes (Leafy Greens)",
               "items": [
-                { "id": "acelga", "name": "Acelga", "price": 800, "image": "https://i.ibb.co/20X8zpC9/Acelga.jpg" },
-                { "id": "arugula", "name": "Arúgula", "price": 1100, "image": "https://i.ibb.co/Jw6TdhHQ/Arugula.jpg" },
-                { "id": "espinaca-mexicana", "name": "Espinaca Mexicana", "price": 950, "image": "https://i.ibb.co/C5DZvh4g/Espinaca-Mexicana.jpg" },
-                { "id": "espinaca", "name": "Espinaca", "price": 900, "image": "https://i.ibb.co/0VrTHyZ5/Espinaca.jpg" },
-                { "id": "kale-rizado", "name": "Kale Rizado", "price": 1200, "image": "https://i.ibb.co/PsbfXrkY/Kale-Rizado.jpg" },
-                { "id": "kale-toscano", "name": "Kale Toscano", "price": 1200, "image": "https://i.ibb.co/tRcwCPs/Kale-Toscano.jpg" },
-                { "id": "lechuga-americana", "name": "Lechuga Americana", "price": 700, "image": "https://i.ibb.co/4ndnSXbQ/Lechuga-Americana.jpg" },
-                { "id": "lechuga-lolorosa", "name": "Lechuga Lolorosa", "price": 850, "image": "https://i.ibb.co/PG6qLCGS/Lechuga-Lolorosa.jpg" },
-                { "id": "lechuga-roble", "name": "Lechuga Roble", "price": 850, "image": "https://i.ibb.co/0jw3dGYv/Lechuga-Roble.jpg" },
-                { "id": "lechuga-romana", "name": "Lechuga Romana", "price": 750, "image": "https://i.ibb.co/399DPKFt/Lechuga-Romana.jpg" },
-                { "id": "lechuga-boston", "name": "Lechuga Boston", "price": 850, "image": "https://i.ibb.co/2Y8fz7K8/Lechuhga-Boston.jpg" },
-                { "id": "mostaza-china", "name": "Mostaza China", "price": 900, "image": "https://i.ibb.co/pVkXK6d/Mostaza-China.jpg" },
-                { "id": "pok-choi", "name": "Pok Choi", "price": 1000, "image": "https://i.ibb.co/xStMZqKZ/Pok-Choi.jpg" }
+                { "id": "acelga", "name": "Acelga Verde Orgánica (Green Chard)", "price": 600, "image": "https://i.ibb.co/20X8zpC9/Acelga.jpg" },
+                { "id": "arugula", "name": "Arúgula Orgánica Rollo", "price": 700, "image": "https://i.ibb.co/Jw6TdhHQ/Arugula.jpg" },
+                { "id": "espinaca-mexicana", "name": "Espinaca Mexicana Rollo (Chaya mansa Mexican Spinach)", "price": 600, "image": "https://i.ibb.co/C5DZvh4g/Espinaca-Mexicana.jpg" },
+                { "id": "espinaca", "name": "Espinaca Criolla Orgánica (Native Spinach)", "price": 650, "image": "https://i.ibb.co/0VrTHyZ5/Espinaca.jpg" },
+                { "id": "kale-rizado", "name": "Kale Rizado Orgánico (Curly Kale)", "price": 700, "image": "https://i.ibb.co/PsbfXrkY/Kale-Rizado.jpg" },
+                { "id": "kale-toscano", "name": "Kale Toscano Orgánico (Donosaur kale)", "price": 700, "image": "https://i.ibb.co/tRcwCPs/Kale-Toscano.jpg" },
+                { "id": "lechuga-americana", "name": "Lechuga Americana Orgánica (Iceberg Lettuce)", "price": 550, "image": "https://i.ibb.co/4ndnSXbQ/Lechuga-Americana.jpg" },
+                { "id": "lechuga-lolorosa", "name": "Lechuga Lolorosa Orgánica", "price": 550, "image": "https://i.ibb.co/PG6qLCGS/Lechuga-Lolorosa.jpg" },
+                { "id": "lechuga-roble", "name": "Lechuga Roble Roja Orgánica (Red Oak Lettuce)", "price": 550, "image": "https://i.ibb.co/0jw3dGYv/Lechuga-Roble.jpg" },
+                { "id": "lechuga-romana", "name": "Lechuga Romana Orgánica (Romaine Lettuce)", "price": 550, "image": "https://i.ibb.co/399DPKFt/Lechuga-Romana.jpg" },
+                { "id": "lechuga-boston", "name": "Lechuga Boston Orgánica (Butter Lettuce)", "price": 550, "image": "https://i.ibb.co/2Y8fz7K8/Lechuhga-Boston.jpg" },
+                { "id": "mostaza-china", "name": "Mostaza China Orgánica (Chinese Mustard)", "price": 600, "image": "https://i.ibb.co/pVkXK6d/Mostaza-China.jpg" },
+                { "id": "pok-choi", "name": "Pok Choi Orgánico ", "price": 700, "image": "https://i.ibb.co/xStMZqKZ/Pok-Choi.jpg" }
               ]
             },
             {
-              "name": "Hongos",
+              "name": "Hongos (Mushrooms)",
               "items": [
-                { "id": "hongo-blanco", "name": "Hongo Blanco", "price": 1600, "image": "https://i.ibb.co/zTmpFSnL/Hongo-Blanco.jpg" },
-                { "id": "hongo-crimini", "name": "Hongo Crimini", "price": 1800, "image": "https://i.ibb.co/rKtgJsPx/Hongo-Crimini.jpg" }
+                { "id": "hongo-blanco", "name": "Hongo Blanco Champiñon Orgánico (White Mushrooms)", "price": 2600, "image": "https://i.ibb.co/zTmpFSnL/Hongo-Blanco.jpg" },
+                { "id": "hongo-crimini", "name": "Hongo Crimini Orgánico (Crimini Mushrooms)", "price": 3100, "image": "https://i.ibb.co/rKtgJsPx/Hongo-Crimini.jpg" }
               ]
             },
             {
-              "name": "Tubérculos y Raíces",
+              "name": "Tubérculos y Raíces (Roots & Tubers)",
               "items": [
-                { "id": "camote-morado", "name": "Camote Morado", "price": 1200, "image": "https://i.ibb.co/rRhk4xtW/Camote-Morado.jpg" },
-                { "id": "camote-zanahoria", "name": "Camote Zanahoria", "price": 1100, "image": "https://i.ibb.co/NcgQ9QT/Camote-Zanahoria.jpg" },
-                { "id": "curcuma", "name": "Cúrcuma Fresca", "price": 1500, "image": "https://i.ibb.co/TDv2xjHN/Curcuma.jpg" },
-                { "id": "jengibre", "name": "Jengibre Fresco", "price": 1400, "image": "https://i.ibb.co/0RgTYrdT/Genjibre.jpg" },
-                { "id": "ampi", "name": "Ñampí", "price": 1300, "image": "https://i.ibb.co/vbYrHnB/anpi.jpg" },
-                { "id": "papa-rosada", "name": "Papa Rosada", "price": 1100, "image": "https://i.ibb.co/8DGbYLLB/Papa-Rosada.jpg" }
+                { "id": "camote-morado", "name": "Camote (Sweet Potato)", "price": 1700, "image": "https://i.ibb.co/rRhk4xtW/Camote-Morado.jpg" },
+                { "id": "camote-zanahoria", "name": "Camote Zanahoria (Orange Sweet Potato)", "price": 1750, "image": "https://i.ibb.co/NcgQ9QT/Camote-Zanahoria.jpg" },
+                { "id": "curcuma", "name": "Cúrcuma Orgánica (Turmeric)", "price": 3300, "image": "https://i.ibb.co/TDv2xjHN/Curcuma.jpg" },
+                { "id": "jengibre", "name": "Jengibre Orgánico (Ginger)", "price": 2500, "image": "https://i.ibb.co/0RgTYrdT/Genjibre.jpg" },
+                { "id": "ampi", "name": "Ñampí Orgánico", "price": 1500, "image": "https://i.ibb.co/vbYrHnB/anpi.jpg" },
+                {"id": "tiquisque", "name": "Tiquisque" , "price" : 2000, "image" : "https://i.postimg.cc/kXpBJFTV/Tiquisque.jpg"  },
+                { "id": "papa-rosada", "name": "Papa Rosada Orgánica (Red Potato)", "price": 1800, "image": "https://i.ibb.co/8DGbYLLB/Papa-Rosada.jpg" }
               ]
             },
             {
-              "name": "Frutas",
+              "name": "Frutas (Fruits)",
               "items": [
-                { "id": "aguacate-hass", "name": "Aguacate Hass", "price": 1800, "image": "https://i.ibb.co/7t6nsHZN/aguacate-hass.jpg" },
-                { "id": "banano", "name": "Banano Orgánico", "price": 600, "image": "https://i.ibb.co/yBKZsjTy/banano.jpg" },
-                { "id": "fresas", "name": "Fresas", "price": 2200, "image": "https://i.ibb.co/bgkq2qcH/fresas.jpg" },
-                { "id": "limon-mandarina", "name": "Limón Mandarina", "price": 800, "image": "https://i.ibb.co/LXsR5B1K/limon-mandarina.jpg" },
-                { "id": "limon-mesino", "name": "Limón Mesino", "price": 900, "image": "https://i.ibb.co/bj3Ncjxg/limon-mesino.jpg" },
-                { "id": "mango", "name": "Mango", "price": 1200, "image": "https://i.ibb.co/99RRk3Hd/mango.jpg" },
-                { "id": "manzana", "name": "Manzana", "price": 1500, "image": "https://i.ibb.co/tMD5nrYs/manzana.jpg" },
-                { "id": "maracuya", "name": "Maracuyá", "price": 1100, "image": "https://i.ibb.co/Kp6dvrXc/maracuya.jpg" },
-                { "id": "moras", "name": "Moras", "price": 2000, "image": "https://i.ibb.co/354j0Bkh/moras.jpg" },
-                { "id": "naranja", "name": "Naranja Orgánica", "price": 1000, "image": "https://i.ibb.co/kzYr7db/naranja.jpg" },
-                { "id": "papaya", "name": "Papaya", "price": 1400, "image": "https://i.ibb.co/3yPQ990g/papaya.jpg" },
-                { "id": "pina", "name": "Piña Dulce", "price": 1300, "image": "https://i.ibb.co/ymmYhHBT/pina.jpg" },
-                { "id": "platano", "name": "Plátano Verde/Maduro", "price": 700, "image": "https://i.ibb.co/ZRvfNHCV/Platano.jpg" }
+                { "id": "aguacate-hass", "name": "Aguacate Hass Orgánico (Hass Avocado Per kg)", "price": 3700, "image": "https://i.ibb.co/7t6nsHZN/aguacate-hass.jpg" },
+                { "id": "banano", "name": "Banano Orgánico (Banana)", "price": 100, "image": "https://i.ibb.co/yBKZsjTy/banano.jpg" },
+                { "id": "fresas", "name": "Fresas Orgánicas Bandeja 500g (Organic Strawberries)", "price": 2700, "image": "https://i.ibb.co/bgkq2qcH/fresas.jpg" },
+                { "id": "limon-mandarina", "name": "Limón Mandarina Orgánico (Lemon Mandarina)", "price": 300, "image": "https://i.ibb.co/LXsR5B1K/limon-mandarina.jpg" },
+                { "id": "limon-mesino", "name": "Limón Mesino Orgánico (Lime)", "price": 450, "image": "https://i.ibb.co/bj3Ncjxg/limon-mesino.jpg" },
+                { "id": "mango", "name": "Mango", "price": 1800, "image": "https://i.ibb.co/99RRk3Hd/mango.jpg" },
+                { "id": "manzana", "name": "Manzana Ana Orgánica (Local Anne Apple)", "price": 2750, "image": "https://i.ibb.co/tMD5nrYs/manzana.jpg" },
+                { "id": "maracuya", "name": "Maracuyá (Passion Fruit)", "price": 3250, "image": "https://i.ibb.co/Kp6dvrXc/maracuya.jpg" },
+                { "id": "moras", "name": "Moras Orgánicas 500g (Blackberries)", "price": 2100, "image": "https://i.ibb.co/354j0Bkh/moras.jpg" },
+                { "id": "naranja", "name": "Naranja (Orange)", "price": 270, "image": "https://i.ibb.co/kzYr7db/naranja.jpg" },
+                { "id": "papaya", "name": "Papaya Orgánica ", "price": 1250, "image": "https://i.ibb.co/3yPQ990g/papaya.jpg" },
+                { "id": "pina", "name": "Piña Orgánica (Pineapple)", "price": 950, "image": "https://i.ibb.co/ymmYhHBT/pina.jpg" },
+                { "id": "uvas verdes", "name": "Uvas verdes", "price": 5500, "image": "https://i.postimg.cc/zfq8wyBq/Uvas-verdes.jpg" },
+                { "id": "platano", "name": "Plátano Orgánico (Plantain)", "price": 400, "image": "https://i.ibb.co/ZRvfNHCV/Platano.jpg" }
               ]
             },
             {
-              "name": "Lácteos y Huevos",
+              "name": "Lácteos y Huevos ( Dairy & Eggs)",
               "items": [
-                { "id": "12-huevos-de-codorniz", "name": "12 Huevos de Codorniz", "price": 1500, "image": "https://i.ibb.co/B5yZQkdB/12-huevos-de-codorniz.jpg" },
-                { "id": "15-huevos-pastoreo", "name": "15 Huevos de Pastoreo", "price": 2400, "image": "https://i.ibb.co/B5XT64GF/15-huevos-pastoero.jpg" },
-                { "id": "24-huevos-de-codorniz", "name": "24 Huevos de Codorniz", "price": 2800, "image": "https://i.ibb.co/rGK4fmKC/24-huevos-de-codorniz.jpg" },
-                { "id": "30-huevos-pastoreo", "name": "30 Huevos de Pastoreo", "price": 4500, "image": "https://i.ibb.co/GQqwJt6w/30-huevos-pastereo.jpg" },
-                { "id": "ghee-200g", "name": "Ghee 200g", "price": 4200, "image": "https://i.ibb.co/nNfTyCHR/Ghee-200g.jpg" },
-                { "id": "ghee-380g", "name": "Ghee 380g", "price": 7500, "image": "https://i.ibb.co/RVqRC1z/Ghee-380g.jpg" },
-                { "id": "ghee-650g", "name": "Ghee 650g", "price": 11800, "image": "https://i.ibb.co/d0J5CT5b/Ghee-650g.jpg" },
-                { "id": "kefir-1l-leche-cabra", "name": "Kéfir 1L Leche de Cabra", "price": 3800, "image": "https://i.ibb.co/fzCqY4CD/kefir-1-L-leche-cabra.jpg" },
-                { "id": "kefir-500ml-leche-cabra", "name": "Kéfir 500ml Leche de Cabra", "price": 2200, "image": "https://i.ibb.co/pvLTq0Kt/kefir-500ml-leche-cabra.jpg" },
-                { "id": "leche-cabra-1l", "name": "Leche de Cabra 1L", "price": 3200, "image": "https://i.ibb.co/LhdMkQkw/leche-cabra-1-L.jpg" },
-                { "id": "mantequilla-barra-150g", "name": "Mantequilla Barra 150g", "price": 1900, "image": "https://i.ibb.co/cSbcPXs4/Mantequilla-barra-150g.jpg" },
-                { "id": "mantequilla-sinsal-1kg", "name": "Mantequilla Sin Sal 1 KG", "price": 8900, "image": "https://i.ibb.co/rKjjKKy2/matequilla-sinsal-1-KG.jpg" },
-                { "id": "mantequilla-sinsal-500g", "name": "Mantequilla Sin Sal 500g", "price": 4800, "image": "https://i.ibb.co/TMSH56Q5/matequilla-sinsal-500g.jpg" },
-                { "id": "natilla-300g", "name": "Natilla 300g", "price": 1600, "image": "https://i.ibb.co/FkgzfQYn/natilla-300g.jpg" },
-                { "id": "queso-brie-125g", "name": "Queso Brie 125g", "price": 3400, "image": "https://i.ibb.co/Y46cqN9J/queso-brie-125g.jpg" },
-                { "id": "queso-camembert-125g", "name": "Queso Camembert 125g", "price": 3400, "image": "https://i.ibb.co/k2cgfHf7/queso-camember-t-125g.jpg" },
-                { "id": "queso-madurado-de-cabra", "name": "Queso Madurado de Cabra", "price": 4200, "image": "https://i.ibb.co/39fFhKNB/queso-madurado-de-cabra.jpg" },
-                { "id": "queso-mozzarella", "name": "Queso Mozzarella", "price": 2900, "image": "https://i.ibb.co/ZpLSgTrG/queso-mozzarella.jpg" },
-                { "id": "queso-natural-cabra", "name": "Queso Natural de Cabra", "price": 3800, "image": "https://i.ibb.co/7JTc674x/queso-natural-de-vabra.jpg" },
-                { "id": "queso-palmito-400g", "name": "Queso Palmito 400g", "price": 3100, "image": "https://i.ibb.co/PzQ7XWqQ/queso-palmito-400g.jpg" },
-                { "id": "queso-parmesano-200g", "name": "Queso Parmesano 200g", "price": 3600, "image": "https://i.ibb.co/JWjfMvMH/queso-parmiginado-200g.jpg" },
-                { "id": "queso-semiduro", "name": "Queso Semiduro Artesanal", "price": 2800, "image": "https://i.ibb.co/RTBdsXV8/queso-semiduro.jpg" },
-                { "id": "queso-tierno", "name": "Queso Tierno Artesanal", "price": 2500, "image": "https://i.ibb.co/HpMdnpPm/queso-tierno.jpg" },
-                { "id": "yogurt-500ml", "name": "Yogurt Natural 500ml", "price": 2200, "image": "https://i.ibb.co/jZZDSXFx/Yogurt-500ml.jpg" }
+                { "id": "12-huevos-de-codorniz", "name": "12 Huevos de Codorniz (Quail Eggs)", "price": 1500, "image": "https://i.ibb.co/B5yZQkdB/12-huevos-de-codorniz.jpg" },
+                { "id": "15-huevos-pastoreo", "name": "15 Huevos de Pastoreo (15 Pasture- Raised Eggs)", "price": 2400, "image": "https://i.ibb.co/B5XT64GF/15-huevos-pastoero.jpg" },
+                { "id": "24-huevos-de-codorniz", "name": "24 Huevos de Codorniz (Quail Eggs)", "price": 2800, "image": "https://i.ibb.co/rGK4fmKC/24-huevos-de-codorniz.jpg" },
+                { "id": "30-huevos-pastoreo", "name": "30 Huevos de Pastoreo (30 Pasture- Raised Eggs)", "price": 4700, "image": "https://i.ibb.co/GQqwJt6w/30-huevos-pastereo.jpg" },
+                { "id": "ghee-200g", "name": "Ghee Mantequilla 200g", "price": 5300, "image": "https://i.ibb.co/nNfTyCHR/Ghee-200g.jpg" },
+                { "id": "ghee-380g", "name": "Ghee Mantequilla 380g", "price": 8300, "image": "https://i.ibb.co/RVqRC1z/Ghee-380g.jpg" },
+                { "id": "ghee-650g", "name": "Ghee Mantequilla 650g", "price": 13500, "image": "https://i.ibb.co/d0J5CT5b/Ghee-650g.jpg" },
+                { "id": "kefir-1l-leche-cabra", "name": "Kéfir 1L Leche de Cabra (Goat Milk Kefir 1L)", "price": 4500, "image": "https://i.ibb.co/fzCqY4CD/kefir-1-L-leche-cabra.jpg" },
+                { "id": "kefir-500ml-leche-cabra", "name": "Kéfir 500ml Leche de Cabra (Goat Milk Kefir 500ml)", "price": 2600, "image": "https://i.ibb.co/pvLTq0Kt/kefir-500ml-leche-cabra.jpg" },
+                { "id": "leche-cabra-1l", "name": "Leche de Cabra 1L (Goat Milk 1L)", "price": 3200, "image": "https://i.ibb.co/LhdMkQkw/leche-cabra-1-L.jpg" },
+                { "id": "mantequilla-barra-150g", "name": "Mantequilla Artesanal Barra 150g (Artesanal Butter)", "price": 1950, "image": "https://i.ibb.co/cSbcPXs4/Mantequilla-barra-150g.jpg" },
+                { "id": "mantequilla-sinsal-1kg", "name": "Mantequilla Artesanal Sin Sal 1 KG (Artesanal Unsalted Butter)", "price": 10000, "image": "https://i.ibb.co/rKjjKKy2/matequilla-sinsal-1-KG.jpg" },
+                { "id": "mantequilla-sinsal-500g", "name": "Mantequilla Artesanal Sin Sal 500g (Artesanal Unsalted Butter)", "price": 5500, "image": "https://i.ibb.co/TMSH56Q5/matequilla-sinsal-500g.jpg" },
+                { "id": "natilla-300g", "name": "Natilla 300g (Sour Cream)", "price": 1800, "image": "https://i.ibb.co/FkgzfQYn/natilla-300g.jpg" },
+                { "id": "queso-brie-125g", "name": "Queso Brie 125g", "price": 2600, "image": "https://i.ibb.co/Y46cqN9J/queso-brie-125g.jpg" },
+                { "id": "queso-camembert-125g", "name": "Queso Camembert 125g", "price": 2600, "image": "https://i.ibb.co/k2cgfHf7/queso-camember-t-125g.jpg" },
+                { "id": "queso-madurado-de-cabra", "name": "Queso Madurado de Cabra (Matured Goat Cheese)", "price": 18000, "image": "https://i.ibb.co/39fFhKNB/queso-madurado-de-cabra.jpg" },
+                { "id": "queso-mozzarella", "name": "Queso Mozzarella", "price": 8000, "image": "https://i.ibb.co/ZpLSgTrG/queso-mozzarella.jpg" },
+                { "id": "queso-natural-cabra", "name": "Queso de Cabra Natural (Goat Cheese)", "price": 13500, "image": "https://i.ibb.co/7JTc674x/queso-natural-de-vabra.jpg" },
+                { "id": "queso-palmito-400g", "name": "Queso Palmito 400g (Palmito Cheese)", "price": 3800, "image": "https://i.ibb.co/PzQ7XWqQ/queso-palmito-400g.jpg" },
+                { "id": "queso-parmigiano-200g", "name": "Queso Parmigiano 200g (Parmesan Cheese)", "price": 7300, "image": "https://i.ibb.co/JWjfMvMH/queso-parmiginado-200g.jpg" },
+                { "id": "queso-semiduro", "name": "Queso Semiduro Organico (Semi-Hard Cheese)", "price": 4800, "image": "https://i.ibb.co/RTBdsXV8/queso-semiduro.jpg" },
+                { "id": "queso-tierno", "name": "Queso Tierno Organico (Tender Cheese)", "price": 5000, "image": "https://i.ibb.co/HpMdnpPm/queso-tierno.jpg" },
+                { "id": "yogurt-500ml", "name": "Yogurt Natural de cabra 500ml (Goat Yogurt Plain 500ml)", "price": 2900, "image": "https://i.ibb.co/jZZDSXFx/Yogurt-500ml.jpg" }
               ]
             },
             {
-              "name": "Cortes de Carne",
+              "name": "Cortes de Carne ( Beef Cuts)",
               "items": [
-                { "id": "bistec", "name": "Bistec de Res", "price": 4800, "image": "https://i.ibb.co/jK8DPVd/bistec.jpg" },
-                { "id": "carne-molida-30-grasa", "name": "Carne Molida 30% Grasa", "price": 3500, "image": "https://i.ibb.co/FkbYRyrW/carne-molida-30-grasa.jpg" },
-                { "id": "carne-molida-especial", "name": "Carne Molida Especial", "price": 4200, "image": "https://i.ibb.co/RTsjDP46/carne-molida-especial.jpg" },
-                { "id": "churrasco", "name": "Churrasco", "price": 5800, "image": "https://i.ibb.co/wFfYgHyP/churrasco.jpg" },
-                { "id": "costilla", "name": "Costilla de Res", "price": 3900, "image": "https://i.ibb.co/cch4kk9x/costilla.jpg" },
-                { "id": "giba", "name": "Giba", "price": 3800, "image": "https://i.ibb.co/HLwg3FHh/giba.jpg" },
-                { "id": "hueso-de-consome", "name": "Hueso de Consomé", "price": 1500, "image": "https://i.ibb.co/DPyWZ0SJ/hueso-de-consome.jpg" },
-                { "id": "jarrete", "name": "Jarrete", "price": 3600, "image": "https://i.ibb.co/LDFJqJSz/jarrete.jpg" },
-                { "id": "lomito-de-entrana", "name": "Lomito de Entraña", "price": 6500, "image": "https://i.ibb.co/XfBC3BGY/lomito-de-entrana.jpg" },
-                { "id": "lomo-paleta", "name": "Lomo Paleta", "price": 4600, "image": "https://i.ibb.co/XfrfMSPg/lomo-paleta.jpg" },
-                { "id": "mano-de-piedra", "name": "Mano de Piedra", "price": 4400, "image": "https://i.ibb.co/qLMHnt5c/mano-de-piedra.jpg" },
-                { "id": "osobuco-de-res", "name": "Osobuco de Res", "price": 3800, "image": "https://i.ibb.co/qY6w6yVc/osobuco-de-res.jpg" },
-                { "id": "pecho", "name": "Pecho de Res", "price": 3700, "image": "https://i.ibb.co/hFwkxxPd/pecho.jpg" },
-                { "id": "punta-solomo", "name": "Punta Solomo", "price": 5900, "image": "https://i.ibb.co/fG90cRwy/punta-solomo.jpg" },
-                { "id": "quititena", "name": "Quititeña", "price": 4200, "image": "https://i.ibb.co/MDjs8cxx/quititena.jpg" },
-                { "id": "ribeye", "name": "Ribeye Premium", "price": 7800, "image": "https://i.ibb.co/SXh5LxD6/ribeye.jpg" }
+                { "id": "bistec", "name": "Bistec (Beef Steack)", "price": 9000, "image": "https://i.ibb.co/jK8DPVd/bistec.jpg" },
+                { "id": "carne-molida-30-grasa", "name": "Carne Molida 30% Grasa 1kg (Ground Beef 30% Fat)", "price": 7200, "image": "https://i.ibb.co/FkbYRyrW/carne-molida-30-grasa.jpg" },
+                { "id": "carne-molida-especial", "name": "Carne Molida Especial 10% Grasa 1kg (Ground Beef 10% Fat)", "price": 9000, "image": "https://i.ibb.co/RTsjDP46/carne-molida-especial.jpg" },
+                { "id": "churrasco", "name": "Churrasco (Grill Beef)", "price": 14400, "image": "https://i.ibb.co/wFfYgHyP/churrasco.jpg" },
+                { "id": "costilla", "name": "Costilla (Ribs) ","price": 7200, "image": "https://i.ibb.co/cch4kk9x/costilla.jpg" },
+                { "id": "giba", "name": "Giba (Bull Hump)", "price": 11500, "image": "https://i.ibb.co/HLwg3FHh/giba.jpg" },
+                { "id": "hueso-de-consome", "name": "Hueso de Consomé (Bones for Stew)", "price": 5000, "image": "https://i.ibb.co/DPyWZ0SJ/hueso-de-consome.jpg" },
+                { "id": "jarrete", "name": "Jarrete (Beef Shank)", "price": 4500, "image": "https://i.ibb.co/LDFJqJSz/jarrete.jpg" },
+                { "id": "lomito-de-entrana", "name": "Lomito de Entraña (Hanger Steak)", "price": 12500, "image": "https://i.ibb.co/XfBC3BGY/lomito-de-entrana.jpg" },
+                { "id": "lomo-paleta", "name": "Lomo Paleta (Chuck Steak)", "price": 14000, "image": "https://i.ibb.co/XfrfMSPg/lomo-paleta.jpg" },
+                { "id": "mano-de-piedra", "name": "Mano de Piedra (Chuck Shoulder)", "price": 9600, "image": "https://i.ibb.co/qLMHnt5c/mano-de-piedra.jpg" },
+                { "id": "osobuco-de-res", "name": "Osobuco de Res (Ossobucco)", "price": 18000, "image": "https://i.ibb.co/qY6w6yVc/osobuco-de-res.jpg" },
+                { "id": "pecho", "name": "Pecho (Beef Brisket)", "price": 9600, "image": "https://i.ibb.co/hFwkxxPd/pecho.jpg" },
+                { "id": "punta-solomo", "name": "Punta Solomo (Sirloin Tip Steak)", "price": 18500, "image": "https://i.ibb.co/fG90cRwy/punta-solomo.jpg" },
+                { "id": "quititena", "name": "Quititeña (Beef Shoulder)", "price": 14500, "image": "https://i.ibb.co/MDjs8cxx/quititena.jpg" },
+                { "id": "ribeye", "name": "Ribeye", "price": 19200, "image": "https://i.ibb.co/SXh5LxD6/ribeye.jpg" }
               ]
             },
             {
-              "name": "Panadería y Tortillas",
+              "name": "Pan de Masa Madre y Tortillas de Maíz (Sourdough Bread and Corn Tortillas)",
               "items": [
-                { "id": "pan-multigrano-400g", "name": "Pan Masa Madre Multigrano 400g", "price": 2800, "image": "https://i.ibb.co/zV5dpyPn/pan-masa-madre-400g-multigrano.jpg" },
-                { "id": "pan-masa-madre-400g", "name": "Pan Masa Madre Tradicional 400g", "price": 2500, "image": "https://i.ibb.co/bj7007N9/pan-masa-madre-400g.jpg" },
-                { "id": "pan-multigrano-800g", "name": "Pan Masa Madre Multigrano 800g", "price": 4500, "image": "https://i.ibb.co/YTDHSnkf/pan-masa-madre-800g-multigrano.jpg" },
-                { "id": "pan-masa-madre-800g", "name": "Pan Masa Madre Tradicional 800g", "price": 4200, "image": "https://i.ibb.co/7JyqQDyX/pan-masa-madre-800g.jpg" },
-                { "id": "pan-ajo-romero-400g", "name": "Pan Masa Madre Ajo Romero 400g", "price": 2900, "image": "https://i.ibb.co/bZL4Trj/pan-masa-madre-ajo-romero-400g.jpg" },
-                { "id": "pan-ajo-romero-800g", "name": "Pan Masa Madre Ajo Romero 800g", "price": 4800, "image": "https://i.ibb.co/PGgWXPK9/pan-masa-madre-ajo-romero-800g.jpg" },
-                { "id": "pan-baguette", "name": "Pan Masa Madre Baguette", "price": 1800, "image": "https://i.ibb.co/ymYBJ4mn/pan-masa-madre-baquette.jpg" },
-                { "id": "pan-ciabatta", "name": "Pan Masa Madre Ciabatta Grande", "price": 2200, "image": "https://i.ibb.co/j9wJNxfN/pan-masa-madre-ciabatta-grande.jpg" },
-                { "id": "pan-pita", "name": "Pan Pita 50/50 Harina Blanca", "price": 1900, "image": "https://i.ibb.co/jPGjffwQ/pan-pita-50-50-harina-blanca.jpg" },
-                { "id": "tortillas-pequenas", "name": "Tortillas Maíz Pequeñas", "price": 1000, "image": "https://i.ibb.co/LDW2DB79/tortilas-maiz-pequenas.jpg" },
-                { "id": "tortillas-medianas", "name": "Tortilla Maíz Medianas", "price": 1200, "image": "https://i.ibb.co/4ZMSh0wW/tortilla-maiz-medianas.jpg" }
+                { "id": "pan-multigrano-400g", "name": "Pan Masa Madre Multigrano 400g (Sourdough Bread Multigrain)", "price": 3800, "image": "https://i.ibb.co/zV5dpyPn/pan-masa-madre-400g-multigrano.jpg" },
+                { "id": "pan-masa-madre-400g", "name": "Pan Masa Madre Clasico 400g (Sourdough Bread Classic)", "price": 3300, "image": "https://i.ibb.co/bj7007N9/pan-masa-madre-400g.jpg" },
+                { "id": "pan-multigrano-800g", "name": "Pan Masa Madre Multigrano 800g (Sourdough Bread Multigrain)", "price": 6700, "image": "https://i.ibb.co/YTDHSnkf/pan-masa-madre-800g-multigrano.jpg" },
+                { "id": "pan-masa-madre-800g", "name": "Pan Masa Madre Clasico 800g (Sourdough Bread Classic)", "price": 6400, "image": "https://i.ibb.co/7JyqQDyX/pan-masa-madre-800g.jpg" },
+                { "id": "pan-ajo-romero-400g", "name": "Pan Masa Madre Ajo Romero 400g (Sourdough Bread Garlic Rosemary)", "price": 3600, "image": "https://i.ibb.co/bZL4Trj/pan-masa-madre-ajo-romero-400g.jpg" },
+                { "id": "pan-ajo-romero-800g", "name": "Pan Masa Madre Ajo Romero 800g (Sourdough Bread Garlic Rosemary)", "price": 6400, "image": "https://i.ibb.co/PGgWXPK9/pan-masa-madre-ajo-romero-800g.jpg" },
+                { "id": "pan-baguette", "name": "Pan Masa Madre Baguette (Sourdough Bread Baguette)", "price": 2300, "image": "https://i.ibb.co/ymYBJ4mn/pan-masa-madre-baquette.jpg" },
+                { "id": "pan-ciabatta", "name": "Pan Masa Madre Ciabatta Grande (Sourdough Bread Ciabatta)", "price": 3350, "image": "https://i.ibb.co/j9wJNxfN/pan-masa-madre-ciabatta-grande.jpg" },
+                { "id": "pan-pita", "name": "Pan Pita 50/50 Harina Blanca convensional y Kamut (Pita Bread 50/50 Conventional White Flower and Kamut Wole Flour)", "price": 3300, "image": "https://i.ibb.co/jPGjffwQ/pan-pita-50-50-harina-blanca.jpg" },
+                { "id": "pan-masa-madre", "name": "Pan Masa Madre Clásico 700g (Classic Sourdough Bread)", "price": 4500, "image": "https://i.postimg.cc/mkng8Bnm/pan-clasico-700g.jpg." },
+                { "id": "pan-masa-madre", "name": "Pan Masa Madre Multigrano 700g (Multigrain Sourdough Bread)", "price": 5000, "image": "https://i.postimg.cc/BvCZRxy5/pan-multigrano-700g.jpg" },
+                { "id": "pan-integral", "name": "Pan Integral Libre de Gluten 1kg (Gluten-Free Bread)", "price": 5500, "image": "https://i.ibb.co/..." },
+                { "id": "tortillas-pequenas", "name": "Tortillas Maíz Pequeñas 10 unidades por paquete (Small Corn Tortillas)", "price": 950, "image": "https://i.ibb.co/LDW2DB79/tortilas-maiz-pequenas.jpg" },
+                { "id": "tortillas-medianas", "name": "Tortilla Maíz Medianas 10 unidades por paquete (Medium Corn Tortillas 10 units Per Bag)", "price": 1100, "image": "https://i.ibb.co/4ZMSh0wW/tortilla-maiz-medianas.jpg" }
               ]
             },
             {
               "name": "Pastas",
               "items": [
-                { "id": "fettucine-500g", "name": "Fettuccine 500g Pasta", "price": 1800, "image": "https://i.ibb.co/ZRh7FsK9/fettucine-500g-pasta.jpg" },
-                { "id": "pasta-arroz-integral-mini-fusilli", "name": "Pasta Arroz Integral Mini Fusilli", "price": 2400, "image": "https://i.ibb.co/b5Ryqx24/pasta-arroz-integral-mini-fusilli.jpg" },
-                { "id": "pasta-gnocchi-con-quinoa", "name": "Pasta Gnocchi con Quinoa", "price": 2900, "image": "https://i.ibb.co/8gfvBzTR/pasta-gnocchi-con-quinoa.jpg" },
-                { "id": "pasta-penne", "name": "Pasta Penne Integral", "price": 1800, "image": "https://i.ibb.co/snGGsc7/pasta-penne.jpg" },
-                { "id": "pasta-quinoa-blanca", "name": "Pasta Quinoa Blanca", "price": 2600, "image": "https://i.ibb.co/1GGbxRBn/pasta-quinoa-blanca.jpg" },
-                { "id": "pasta-quinoa-negra", "name": "Pasta Quinoa Negra", "price": 2800, "image": "https://i.ibb.co/pvfVwSDL/pasta-quinoa-negra.jpg" },
-                { "id": "pasta-quinoa-roja", "name": "Pasta Quinoa Roja", "price": 2800, "image": "https://i.ibb.co/prfRYTNy/pasta-quinoa-roja.jpg" },
-                { "id": "pasta-spaghetti-500g", "name": "Pasta Spaghetti 500g", "price": 1800, "image": "https://i.ibb.co/RT6XM3nS/pasta-spaguetti-500g.jpg" },
-                { "id": "spaghetti-arroz-integral-250g", "name": "Spaghetti Arroz Integral 250g", "price": 2100, "image": "https://i.ibb.co/kVmdPHBM/spaghetti-arroz-integral-250g.jpg" }
+                { "id": "fettucine-500g", "name": "Pasta Fettuccine Orgánica 500g ", "price": 1950, "image": "https://i.ibb.co/ZRh7FsK9/fettucine-500g-pasta.jpg" },
+                { "id": "pasta-arroz-integral-mini-fusilli", "name": "Pasta Arroz Integral Mini Fusilli 250g (Gluten Free Brown Rice Pasta)", "price": 1850, "image": "https://i.ibb.co/b5Ryqx24/pasta-arroz-integral-mini-fusilli.jpg" },
+                { "id": "pasta-gnocchi-con-quinoa", "name": "Pasta Gnocchi con Quinoa Orgánica 250g", "price": 2350, "image": "https://i.ibb.co/8gfvBzTR/pasta-gnocchi-con-quinoa.jpg" },
+                { "id": "pasta-penne", "name": "Pasta Penne Orgánico 500g", "price": 1950, "image": "https://i.ibb.co/snGGsc7/pasta-penne.jpg" },
+                { "id": "pasta-quinoa-blanca", "name": "Pasta Orgánica de Quinoa Blanca 227g (Organic White Quinoa Pasta)", "price": 2800, "image": "https://i.ibb.co/1GGbxRBn/pasta-quinoa-blanca.jpg" },
+                { "id": "pasta-quinoa-negra", "name": "Pasta Orgánica de Quinoa Negra 227g (Organic Black Quinoa Pasta)", "price": 2800, "image": "https://i.ibb.co/pvfVwSDL/pasta-quinoa-negra.jpg" },
+                { "id": "pasta-quinoa-roja", "name": "Pasta Orgánica de Quinoa Roja 227g (Organic Red Quinoa Pasta)", "price": 2800, "image": "https://i.ibb.co/prfRYTNy/pasta-quinoa-roja.jpg" },
+                { "id": "pasta-spaghetti-500g", "name": "Pasta Spaghetti Orgánico 500g", "price": 1950, "image": "https://i.ibb.co/RT6XM3nS/pasta-spaguetti-500g.jpg" },
+                { "id": "fideos", "name": "Fideos de Arroz Pad-Thai 454g (Rice Noodles)", "price": 2500, "image": "https://i.ibb.co/hxXFKTmz/fideos-de-arroz.jpg" },
+                { "id": "spaghetti-arroz-integral-250g", "name": "Spaghetti Arroz Integral 250g (Gluten Free Brown Rice Spaghetti)", "price": 2200, "image": "https://i.ibb.co/kVmdPHBM/spaghetti-arroz-integral-250g.jpg" }
               ]
             },
             {
-              "name": "Productos Asiáticos",
+              "name": "Productos Asiáticos (Asian Products)",
               "items": [
-                { "id": "coco", "name": "Coco Seco / Leche", "price": 1200, "image": "https://i.ibb.co/Kpzfn83b/coco.jpg" },
-                { "id": "fideos-de-arroz", "name": "Fideos de Arroz", "price": 1900, "image": "https://i.ibb.co/hxXFKTmz/fideos-de-arroz.jpg" },
-                { "id": "leche-de-coco", "name": "Leche de Coco Lata", "price": 1800, "image": "https://i.ibb.co/wFmmYxgg/leche-de.jpg" },
-                { "id": "miso-blanco-500g", "name": "Pasta de Miso Blanco 500g", "price": 4500, "image": "https://i.ibb.co/TD2Zcyrx/pasta-de-miso-blanco-500g.jpg" },
-                { "id": "miso-rojo-500g", "name": "Pasta de Miso Rojo 500g", "price": 4500, "image": "https://i.ibb.co/xqZjmVmk/pasta-de-miso-rojo-500g.jpg" },
-                { "id": "salsa-de-soya", "name": "Salsa de Soya Artesanal", "price": 2200, "image": "https://i.ibb.co/zWw2RQ6D/salsa-de.jpg" },
-                { "id": "soya-gluten", "name": "Soya Gluten Free", "price": 2500, "image": "https://i.ibb.co/XxK3kg7P/soya-gluten.jpg" }
+                { "id": "coco", "name": "Coco Seco / Leche", "price": 0, "image": "https://i.ibb.co/Kpzfn83b/coco.jpg" },
+                { "id": "fideos-de-arroz", "name": "Fideos de Arroz-Pad Thai 454g (Rice Noodles)", "price": 2500, "image": "https://i.ibb.co/hxXFKTmz/fideos-de-arroz.jpg" },
+                { "id": "leche-de-coco", "name": "Leche de Coco Orgánica 450ml (Organic Coconut Milk)", "price": 2500, "image": "https://i.ibb.co/wFmmYxgg/leche-de.jpg" },
+                { "id": "miso-blanco-500g", "name": "Pasta de Miso Blanco 500g (White Miso Shiro Paste)", "price": 4000, "image": "https://i.ibb.co/TD2Zcyrx/pasta-de-miso-blanco-500g.jpg" },
+                { "id": "miso-rojo-500g", "name": "Pasta de Miso Rojo 500g (Red Miso Paste)", "price": 4000, "image": "https://i.ibb.co/xqZjmVmk/pasta-de-miso-rojo-500g.jpg" },
+                { "id": "salsa-de-soya", "name": "Salsa de Soya (Gluten Free 500ml)", "price": 4900, "image": "https://i.ibb.co/zWw2RQ6D/salsa-de.jpg" },
+                { "id": "soya-gluten", "name": "Soya Gluten Free", "price": 0, "image": "https://i.ibb.co/XxK3kg7P/soya-gluten.jpg" }
               ]
             },
             {
-              "name": "Fermentados y Vinagres",
+              "name": "Alimentos Fermentados y Probióticos (Fermented & ProbioticFoods)",
               "items": [
-                { "id": "aminos-473ml", "name": "Aminos Liquid 473ml", "price": 5200, "image": "https://i.ibb.co/Wp7TLsPR/aminos-473mi-liquid.jpg" },
-                { "id": "chucrut-apio-maggie", "name": "Chucrut Apio Maggie", "price": 3200, "image": "https://i.ibb.co/xq5T8L73/chucrut-apio-maggie.jpg" },
-                { "id": "chucrut-morado", "name": "Chucrut Morado", "price": 3200, "image": "https://i.ibb.co/ycfD3zb4/chucrut-morado.jpg" },
-                { "id": "coconut-296ml", "name": "Coconut Liquid 296ml", "price": 4200, "image": "https://i.ibb.co/qMc2YQmR/coconut-296mil-liquid.jpg" },
-                { "id": "crema-balsamica-150ml", "name": "Crema Balsámica 150ml", "price": 3800, "image": "https://i.ibb.co/v4XH3Cwk/crema-balsamica-150ml.jpg" },
-                { "id": "sano-fermentos", "name": "Sano Fermentos Frasco", "price": 3500, "image": "https://i.ibb.co/1YK6jMnX/sano-fermentos.jpg" },
-                { "id": "vinagre-de-banano-65ml", "name": "Vinagre de Banano 65ml", "price": 1200, "image": "https://i.ibb.co/1t2MWH8W/vinagre-de-banano-65ml.jpg" },
-                { "id": "vinagre-de-banano-700ml", "name": "Vinagre de Banano 700ml", "price": 4500, "image": "https://i.ibb.co/Xx8xF5jR/vinagre-de-banano-700ml.jpg" },
-                { "id": "vinagre-de-banano-tipo-balsamico", "name": "Vinagre Banano Tipo Balsámico", "price": 3900, "image": "https://i.ibb.co/xqzvXk4t/vinagre-de-banano-tipo-balsamico.jpg" },
-                { "id": "vinagre-de-manzana-473ml", "name": "Vinagre de Manzana 473ml", "price": 4200, "image": "https://i.ibb.co/CKpKvWn1/vinagre-de-manzana-473ml.jpg" },
-                { "id": "vinagre-manzana-citrus-473ml", "name": "Vinagre Manzana Citrus 473ml", "price": 4500, "image": "https://i.ibb.co/R43XtD32/vinagre-manzana-citrus-473ml.jpg" },
-                { "id": "vinagre-manzana-con-miel-473ml", "name": "Vinagre Manzana Miel 473ml", "price": 4800, "image": "https://i.ibb.co/S46SdxqW/vinagre-manzana-con-miel-473ml.jpg" }
+                { "id": "aminos-473ml", "name": "Bragg Liquid Aminos 473ml", "price": 3800, "image": "https://i.ibb.co/Wp7TLsPR/aminos-473mi-liquid.jpg" },
+                { "id": "chucrut-apio-maggie", "name": "300g Chucrut Orgánico con Perejil & Apio Maggie", "price": 3800, "image": "https://i.ibb.co/xq5T8L73/chucrut-apio-maggie.jpg" },
+                { "id": "chucrut-morado", "name": "300g Chucrut Orgánico con Eneldo & Sal Rosada", "price": 4500, "image": "https://i.ibb.co/ycfD3zb4/chucrut-morado.jpg" },
+                { "id": "coconut-296ml", "name": "Bragg Coconut Liquid Aminos 296ml", "price": 6850, "image": "https://i.ibb.co/qMc2YQmR/coconut-296mil-liquid.jpg" },
+                { "id": "crema-balsamica-150ml", "name": "Crema Balsámica Orgánica (Balsamic Vinegar Glaze) 150ml" , "price": 5250, "image": "https://i.ibb.co/v4XH3Cwk/crema-balsamica-150ml.jpg" },
+                { "id": "sano-fermentos", "name": "Arte Sano Fermentos GardenKraut 300g", "price": 5000, "image": "https://i.ibb.co/1YK6jMnX/sano-fermentos.jpg" },
+                { "id": "vinagre-de-banano-65ml", "name": "Vinagre de Banano 365ml", "price": 2300, "image": "https://i.ibb.co/1t2MWH8W/vinagre-de-banano-65ml.jpg" },
+                { "id": "vinagre-de-banano-700ml", "name": "Vinagre de Banano 700ml", "price": 3200, "image": "https://i.ibb.co/Xx8xF5jR/vinagre-de-banano-700ml.jpg" },
+                { "id": "vinagre-de-banano-tipo-balsamico", "name": "Vinagre Banano Tipo Balsámico(Balsamic vinegar)", "price": 3900, "image": "https://i.ibb.co/xqzvXk4t/vinagre-de-banano-tipo-balsamico.jpg" },
+                { "id": "vinagre-de-manzana-473ml", "name": "Vinagre Manzana Citrus Jenjibre Orgánico 473ml (Organic Apple Cider Vinegar Citrus Ginger 16oz)","price": 6500,"image":"https://i.ibb.co/CKpKvWn1/vinagre-de-manzana-473ml.jpg" },
+                { "id": "vinagre-manzana-citrus-473ml", "name": "Vinagre Manzana Orgánico 473ml (organic Apple Cider Vinegar 16oz)", "price": 4500, "image": "https://i.ibb.co/R43XtD32/vinagre-manzana-citrus-473ml.jpg" },
+                { "id": "vinagre-manzana-con-miel-473ml", "name": "Vinagre Manzana Con Miel Orgánico 473ml (Organic Apple Cider Vinegar with Honey 16oz)", "price": 6500, "image": "https://i.ibb.co/S46SdxqW/vinagre-manzana-con-miel-473ml.jpg" }
               ]
             },
             {
-              "name": "Aceites",
+              "name": "Aceites (Oils)",
               "items": [
-                { "id": "aceite-coco-200ml", "name": "Aceite Coco 200ml", "price": 3500, "image": "https://i.ibb.co/3YdzV4tD/aceite-coco-200ml.jpg" },
-                { "id": "aceite-coco-418ml", "name": "Aceite Coco 418ml", "price": 6200, "image": "https://i.ibb.co/ymycH8Kh/aceite-coco-418ml.jpg" },
-                { "id": "aceite-coco-940ml", "name": "Aceite Coco 940ml", "price": 11500, "image": "https://i.ibb.co/23T0XLzS/aceite-coco-940ml.jpg" },
-                { "id": "aceite-de-aguacate", "name": "Aceite de Aguacate", "price": 7800, "image": "https://i.ibb.co/B5s8PYXN/aceite-de-aguacate.jpg" },
-                { "id": "aceite-de-oliva-extra-virgen", "name": "Aceite de Oliva Extra Virgen", "price": 8500, "image": "https://i.ibb.co/8g2VBXTL/aceite-de-oliva-extra-virgen.jpg" }
+                { "id": "aceite-coco-200ml", "name": "Aceite Coco Orgánico 200ml (Coconut Oil)", "price": 4200, "image": "https://i.ibb.co/3YdzV4tD/aceite-coco-200ml.jpg" },
+                { "id": "aceite-coco-418ml", "name": "Aceite Coco Orgánico 418ml (Coconut Oil)", "price": 6500, "image": "https://i.ibb.co/ymycH8Kh/aceite-coco-418ml.jpg" },
+                { "id": "aceite-coco-940ml", "name": "Aceite Coco Orgánico 940ml (Coconut Oil)", "price": 12500, "image": "https://i.ibb.co/23T0XLzS/aceite-coco-940ml.jpg" },
+                { "id": "aceite-de-aguacate", "name": "250ml Aceite de Aguacate Extra Virgen Orgánico (Extra Virgin Avocado Oil)", "price": 6400, "image": "https://i.ibb.co/B5s8PYXN/aceite-de-aguacate.jpg" },
+                { "id": "aceite-de-oliva-extra-virgen", "name": "500ml Aceite de Oliva Extra Virgen Orgánico (Extra Virgin Organic Olive Oil)", "price": 6700, "image": "https://i.ibb.co/8g2VBXTL/aceite-de-oliva-extra-virgen.jpg" }
               ]
             },
             {
-              "name": "Bebidas",
+              "name": "Bebidas (Drinks)",
               "items": [
-                { "id": "jugo-de-manzana", "name": "Jugo de Manzana Natural", "price": 2200, "image": "https://i.ibb.co/Z6VbkGbD/jugo-de-manzana.jpg" },
-                { "id": "limonada-menta", "name": "Limonada Menta", "price": 1800, "image": "https://i.ibb.co/G3Q0rrxt/limonada-menta.jpg" },
-                { "id": "manzana-jenjibre", "name": "Manzana Jengibre", "price": 2200, "image": "https://i.ibb.co/Mkwsr6Vb/manzana-jenjibre.jpg" },
-                { "id": "rosa-de-jamaica", "name": "Rosa de Jamaica Infusión", "price": 1800, "image": "https://i.ibb.co/JWrzT4yy/rosa-de-jamaica.jpg" },
-                { "id": "te-maracuya", "name": "Té Maracuyá Frío", "price": 1800, "image": "https://i.ibb.co/yFkB32Qz/te-maracuya.jpg" },
-                { "id": "yerba-mate", "name": "Yerba Mate Paquete", "price": 3200, "image": "https://i.ibb.co/MkGtJNqk/yerba-mate.jpg" }
+                { "id": "jugo-de-manzana", "name": "Jugo de Manzana 350ml (Apple Juice)", "price": 2800, "image": "https://i.ibb.co/Z6VbkGbD/jugo-de-manzana.jpg" },
+                { "id": "limonada-menta", "name": "Limonada Menta Clitoria 355ml (Butterfly Pea Mint Lemonade) " , "price": 2800 , "image": "https://i.ibb.co/G3Q0rrxt/limonada-menta.jpg" },
+                { "id": "manzana-jenjibre", "name": "Kombucha Manzana Jengibre 355ml (Apple Ginger )", "price": 2400, "image": "https://i.ibb.co/Mkwsr6Vb/manzana-jenjibre.jpg" },
+                { "id": "rosa-de-jamaica", "name": "Kombucha Rosa de Jamaica Anís 355ml (Hibiscus & Star Anise)", "price": 2400, "image": "https://i.ibb.co/JWrzT4yy/rosa-de-jamaica.jpg" },
+                { "id": "te-maracuya", "name": "Té Guayusa Maracuyá 355ml (Guayusa Passion Fruit Tea)", "price": 2800, "image": "https://i.ibb.co/yFkB32Qz/te-maracuya.jpg" },
+                { "id": "yerba-mate", "name": "Kombucha Yerba Mate 355ml ", "price": 2400, "image": "https://i.ibb.co/MkGtJNqk/yerba-mate.jpg" }
               ]
             },
             {
-              "name": "Harinas y Maíces",
+              "name": "Endulzantes (Sweeteners) ",
               "items": [
-                { "id": "harina-azul", "name": "Harina de Maíz Azul", "price": 2200, "image": "https://i.ibb.co/7tC0bfR7/harina-azul.jpg" },
-                { "id": "harina-blanca", "name": "Harina de Maíz Blanca", "price": 1800, "image": "https://i.ibb.co/Zz9Z4KXQ/harina-blanca.jpg" },
-                { "id": "harina-de-yuca-250g", "name": "Harina de Yuca 250g", "price": 1900, "image": "https://i.ibb.co/Z5nxFq9/harina-de-yuca-250g.jpg" },
-                { "id": "harina-multiproposito-libre", "name": "Harina Multipropósito Gluten Free", "price": 2800, "image": "https://i.ibb.co/SD4nw3ZN/harina-multipropo-sito-libre.jpg" },
-                { "id": "maiz-azul", "name": "Maíz Azul en Grano", "price": 1800, "image": "https://i.ibb.co/zW6VfhNf/maiz-azul.jpg" },
-                { "id": "maiz-blanco", "name": "Maíz Blanco en Grano", "price": 1500, "image": "https://i.ibb.co/dSvTQJL/maiz-blanca.jpg" }
+                { "id": "Sirope", "name": "Sirope de Acaí Orgánico 500ml (Organic Acaí Syrup)", "price": 5800, "image": "https://i.ibb.co/fG81xFy9/sirope-de-acai.jpg" },
+                { "id": "160g miel", "name": "160g Miel de Abeja Cruda (Wild Multifloral Raw Honey) " , "price": 3900 , "image": "https://i.ibb.co/LdmMXXn4/160g-miel-de-abeja-cruda.jpg" },
+                { "id": "560g miel", "name": "560g Miel de Abeja Cruda (Raw Honey)", "price": 5200, "image": "https://i.ibb.co/pv0zmqYb/miel-de-abeja-cruda.jpg" },
+                { "id": "270g miel", "name": "270g Miel Cremada (Creamed Raw Honey)", "price": 3600, "image": "https://i.ibb.co/219B7R0q/miel-cremada.jpg" },
+                { "id": "miel picante", "name": "270g Miel Picante (Spicy Honey)", "price": 3750, "image": "https://i.ibb.co/7d8YcHr4/miel-picante.jpg" },
+                { "id": "miel ahumada", "name": "270g Miel Picante Ahumada (Spicy Smoked Honey) ", "price": 3750, "image": "https://i.ibb.co/jkRzCh1H/miel-picante-ahumada.jpg" }
               ]
             },
             {
-              "name": "Granos, Semillas, Cafés y Granolas",
+              "name": "Harinas (Flours)",
               "items": [
-                { "id": "arroz-blanco-500g", "name": "Arroz Blanco Orgánico 500g", "price": 1200, "image": "https://i.ibb.co/QvqkVjy4/arroz-blanco-500g.jpg" },
-                { "id": "cafe-en-grano", "name": "Café en Grano Artesanal", "price": 4500, "image": "https://i.ibb.co/Fb0w9pb1/cafe-en-grano.jpg" },
-                { "id": "cafe-molido-250g", "name": "Café Molido 250g", "price": 2800, "image": "https://i.ibb.co/NdrrMRHD/cafe-molido-250g.jpg" },
-                { "id": "cafe-molido-454g", "name": "Café Molido 454g", "price": 4800, "image": "https://i.ibb.co/5X5T0Tjw/cafe-molido-454g.jpg" },
-                { "id": "cafe-molido-tueste", "name": "Café Molido Tueste Oscuro", "price": 3000, "image": "https://i.ibb.co/Y7GxJZpz/cafe-molido-tueste.jpg" },
-                { "id": "crema-de-almendras-250g", "name": "Crema de Almendras 250g", "price": 5200, "image": "https://i.ibb.co/VccbBrD2/crema-de-almendras-250g.jpg" },
-                { "id": "garbanzo-250g", "name": "Garbanzo Orgánico 250g", "price": 1100, "image": "https://i.ibb.co/93dtSY9h/garbanzo-250g.jpg" },
-                { "id": "granola-almendras-coco-200g", "name": "Granola Almendras Coco 200g", "price": 2200, "image": "https://i.ibb.co/dsnFLwCn/granola-almendras-coco-200g.jpg" },
-                { "id": "granola-almendras-coco-500g", "name": "Granola Almendras Coco 500g", "price": 4500, "image": "https://i.ibb.co/xSzRsj6g/granola-almendras-coco-500g.jpg" },
-                { "id": "granola-avellanas-chocolate-200g", "name": "Granola Avellanas Chocolate 200g", "price": 2400, "image": "https://i.ibb.co/XfsLRsvT/granola-avellanas-chocolate-200g.jpg" },
-                { "id": "granola-avellanas-chocolate-500g", "name": "Granola Avellanas Chocolate 500g", "price": 4800, "image": "https://i.ibb.co/5X5npDxH/granola-avellanas-chocolate-500g.jpg" },
-                { "id": "granola-mixed-200g", "name": "Granola Mixed 200g", "price": 2100, "image": "https://i.ibb.co/fz3HNb2B/granola-mixed-200g.jpg" },
-                { "id": "granola-mixed-500g", "name": "Granola Mixed 500g", "price": 4200, "image": "https://i.ibb.co/SjJYm5Q/granola-mixed-500g.jpg" },
-                { "id": "hojuelas-de-avena-400g", "name": "Hojuelas de Avena Integral 400g", "price": 1500, "image": "https://i.ibb.co/MynxXSyD/hojuelas-de-avena-400g.jpg" },
-                { "id": "ketchup-cultura-fungi-220g", "name": "Ketchup Cultura Fungi 220g", "price": 2800, "image": "https://i.ibb.co/LzwK8Cjy/ketchup-cultura-fungi-220g.jpg" },
-                { "id": "lentejas-francesas-250g", "name": "Lentejas Francesas 250g", "price": 1300, "image": "https://i.ibb.co/cXgGLbqB/lentejas-francesas-250g.jpg" },
-                { "id": "lentejas-rojas-250g", "name": "Lentejas Rojas 250g", "price": 1400, "image": "https://i.ibb.co/q3QtpLtT/lentejas-rojas-250g.jpg" },
-                { "id": "mantequilla-de-mani-220g", "name": "Mantequilla de Maní 220g", "price": 2500, "image": "https://i.ibb.co/Cs9059YP/mantequilla-de-mani-220g.jpg" },
-                { "id": "mantequilla-de-mani-450g", "name": "Mantequilla de Maní 450g", "price": 4200, "image": "https://i.ibb.co/bMJdf2GS/mantequilla-de-mani-450g.jpg" },
-                { "id": "mantequilla-de-maranon", "name": "Mantequilla de Marañón", "price": 5500, "image": "https://i.ibb.co/Kpyx3nhk/mantequilla-de-mara-on.jpg" },
-                { "id": "quinoa-blanca-500g", "name": "Quinoa Blanca 500g", "price": 2900, "image": "https://i.ibb.co/pBNJvtVb/quinoa-blanca-500g.jpg" },
-                { "id": "salsa-tomate-380g", "name": "Salsa de Tomate Orgánica 380g", "price": 1800, "image": "https://i.ibb.co/HLQhYWx8/salsa-tomate-380g.jpg" },
-                { "id": "tahini", "name": "Tahini Ajonjolí 250g", "price": 3500, "image": "https://i.ibb.co/whj0srjx/tahini.jpg" }
+                { "id": "harina-azul", "name": "Harina de Maíz Azul Nixtamalizada 1kg (Blue Corn Flour)",  "price": 4800, "image": "https://i.ibb.co/7tC0bfR7/harina-azul.jpg" },
+                { "id": "harina-blanca", "name": "Harina de Maíz Blanca Nixtamalizada 1kg (White Corn Flour)", "price": 2800, "image": "https://i.ibb.co/Zz9Z4KXQ/harina-blanca.jpg" },
+                { "id": "harina-de-yuca-250g", "name": "Harina de Yuca 250g (Yuca Flour)", "price": 2000, "image": "https://i.ibb.co/Z5nxFq9/harina-de-yuca-250g.jpg" },
+                { "id": "harina-multiproposito-libre", "name": "Harina Multipropósito libre de Gluten 250g (Multipurpose Gluten Free Flour)", "price": 2600, "image": "https://i.ibb.co/SD4nw3ZN/harina-multipropo-sito-libre.jpg" },
+                { "id": "maiz-azul", "name": "Maíz Azul en Grano", "price": 0, "image": "https://i.ibb.co/zW6VfhNf/maiz-azul.jpg" },
+                { "id": "harina-multiproposito", "name": "Harina Multipropósito Libre de Gluten 500g (Multipurpose Gluten Free Flour)", "price": 5000, "image": "https://i.postimg.cc/sDSrtYGS/harina-mulproposito-500g.jpg" },
+                {"id": "harina-para-panqueques", "name": "Harina Para Panqueques Libre de Gluten 250g (Pancake Mix Gluten Free Flour) " ,"price":2600, "image": "https://i.postimg.cc/zBjLSm8z/harina-panqueques.jpg" },
+                { "id": "maiz-blanco", "name": "Maíz Blanco en Grano", "price": 0, "image": "https://i.ibb.co/dSvTQJL/maiz-blanca.jpg" }
               ]
             },
             {
-              "name": "Especias, Condimentos y Sales",
+              "name": "Despensa Orgánica (Organic Pantry Staples)",
               "items": [
-                { "id": "braggs-levadura", "name": "Braggs Levadura Nutricional", "price": 4800, "image": "https://i.ibb.co/gLgsgv4m/braggs-levadura.jpg" },
-                { "id": "chutney-salsa-brava", "name": "Chutney Salsa Brava", "price": 2900, "image": "https://i.ibb.co/G4cgbwMr/chutney-salsa-brava.jpg" },
-                { "id": "curcuma-35g", "name": "Cúrcuma Polvo 35g", "price": 1200, "image": "https://i.ibb.co/bR2sn3k0/curcuma-35g.jpg" },
-                { "id": "curcuma-en-polvo", "name": "Cúrcuma Polvo Bolsa", "price": 2100, "image": "https://i.ibb.co/4wFgvYSv/curcuma-en-plovo.jpg" },
-                { "id": "jengibre-en-polvo", "name": "Jengibre en Polvo", "price": 1800, "image": "https://i.ibb.co/pBLYY5GK/jengibre-en-polvo.jpg" },
-                { "id": "mezcla-dorada", "name": "Mezcla Dorada Gold", "price": 2500, "image": "https://i.ibb.co/spxwwFTk/mezcla-dorada.jpg" },
-                { "id": "pimienta-negra", "name": "Pimienta Negra Molida", "price": 1400, "image": "https://i.ibb.co/Q7JNYp9T/pimienta-negra.jpg" },
-                { "id": "sal-marina-dorada", "name": "Sal Marina Dorada", "price": 1500, "image": "https://i.ibb.co/z1GSjQm/sal-amrina-dorada.jpg" },
-                { "id": "sal-marina-parrillera", "name": "Sal Marina Parrillera", "price": 1600, "image": "https://i.ibb.co/zWhk6dhS/sal-amrina-parrillera.jpg" },
-                { "id": "sal-gourmet", "name": "Sal Gourmet Especial", "price": 2200, "image": "https://i.ibb.co/1fFhRWC1/sal-gourment.jpg" },
-                { "id": "sal-himalaya-fina", "name": "Sal Himalaya Fina 500g", "price": 1800, "image": "https://i.ibb.co/p6W9C2jt/sal-himalaya-fina.jpg" },
-                { "id": "sal-himalaya-gruesa", "name": "Sal Himalaya Gruesa 500g", "price": 1800, "image": "https://i.ibb.co/mVQGLGm9/sal-himalaya-gruesa.jpg" },
-                { "id": "sal-marina-a-las-hierbas", "name": "Sal Marina a las Hierbas", "price": 1900, "image": "https://i.ibb.co/VW0CXrBp/sal-marina-a-las-hierbas.jpg" },
-                { "id": "sal-marina-chile", "name": "Sal Marina con Chile", "price": 1900, "image": "https://i.ibb.co/Y7XgTgwY/sal-marina-chile.jpg" },
-                { "id": "sal-marina-sazon", "name": "Sal Marina Sazón", "price": 1900, "image": "https://i.ibb.co/PZ27Hy7r/sal-marina-zason.jpg" },
-                { "id": "sal-negra-gruesa", "name": "Sal Negra Gruesa", "price": 2100, "image": "https://i.ibb.co/cSzj383T/sal-negra-gruesa.jpg" },
-                { "id": "salsa-volcan", "name": "Salsa Picante Volcán", "price": 2500, "image": "https://i.ibb.co/Vd7cCd1/salsa-volcan.jpg" },
-                { "id": "sazon-completo", "name": "Sazón Completo Natural", "price": 1500, "image": "https://i.ibb.co/RksDYtRQ/sazon-completo.jpg" },
-                { "id": "zacate-limon", "name": "Zacate Limón Seco", "price": 1000, "image": "https://i.ibb.co/Ps2wdcP5/zacate-limon.jpg" }
+                { "id": "arroz-blanco-500g", "name": "Arroz Blanco Orgánico 500g (Organic White Rice)", "price": 2500, "image": "https://i.ibb.co/QvqkVjy4/arroz-blanco-500g.jpg" },
+                { "id": "cafe-en-grano", "name": "Café en Grano Orgánico 454g (Organic Whole Bean Coffee)", "price": 5000, "image": "https://i.ibb.co/Fb0w9pb1/cafe-en-grano.jpg" },
+                { "id": "cafe-molido-250g", "name": "Café Molido Orgánico 250g (Organic Ground Coffee)", "price": 3900, "image": "https://i.ibb.co/NdrrMRHD/cafe-molido-250g.jpg" },
+                { "id": "cafe-molido-454g", "name": "Café Molido Orgánico 454g (Organic Ground Coffee)", "price": 5000, "image": "https://i.ibb.co/5X5T0Tjw/cafe-molido-454g.jpg" },
+                { "id": "cafe-molido-tueste", "name": "Café Molido Orgánico 250g Tueste Oscuro (Organic Ground Coffee Dark Roast)", "price": 3900, "image": "https://i.ibb.co/Y7GxJZpz/cafe-molido-tueste.jpg" },
+                { "id": "crema-de-almendras-250g", "name": "Crema de Almendras 250g (Almond Butter)", "price": 6500, "image": "https://i.ibb.co/VccbBrD2/crema-de-almendras-250g.jpg" },
+                { "id": "garbanzo-250g", "name": "Garbanzo Orgánico 250g (Organic Chickpeas)", "price": 2800, "image": "https://i.ibb.co/93dtSY9h/garbanzo-250g.jpg" },
+                { "id": "granola-almendras-coco-200g", "name": "Granola Almendras Coco 200g (Almound Coconut Granola)", "price": 2080, "image": "https://i.ibb.co/dsnFLwCn/granola-almendras-coco-200g.jpg" },
+                { "id": "granola-almendras-coco-500g", "name": "Granola Almendras Coco 500g (Almound Coconut Granola)", "price": 4760, "image": "https://i.ibb.co/xSzRsj6g/granola-almendras-coco-500g.jpg" },
+                { "id": "granola-avellanas-chocolate-200g", "name": "Granola Avellanas Chocolate 200g (Chocolate Hazelnut Granola)", "price": 3120, "image": "https://i.ibb.co/XfsLRsvT/granola-avellanas-chocolate-200g.jpg" },
+                { "id": "granola-avellanas-chocolate-500g", "name": "Granola Avellanas Chocolate 500g (Chocolate Hazelnut Granola)", "price": 6375, "image": "https://i.ibb.co/5X5npDxH/granola-avellanas-chocolate-500g.jpg" },
+                { "id": "granola-mixed-200g", "name": "Granola Mixed 200g", "price": 2640, "image": "https://i.ibb.co/fz3HNb2B/granola-mixed-200g.jpg" },
+                { "id": "granola-mixed-500g", "name": "Granola Mixed 500g", "price": 6120, "image": "https://i.ibb.co/SjJYm5Q/granola-mixed-500g.jpg" },
+                { "id": "hojuelas-de-avena-400g", "name": "Hojuelas de Avena Orgánica 400g (Organic Rolled Oats)", "price": 2900, "image": "https://i.ibb.co/MynxXSyD/hojuelas-de-avena-400g.jpg" },
+                { "id": "ketchup-cultura-fungi-220g", "name": "Ketchup Cultura Fungi 220g", "price": 4500, "image": "https://i.ibb.co/LzwK8Cjy/ketchup-cultura-fungi-220g.jpg" },
+                { "id": "lentejas-francesas-250g", "name": "Lentejas Francesas Orgánicas 250g (French Lentils)", "price": 3100, "image": "https://i.ibb.co/cXgGLbqB/lentejas-francesas-250g.jpg" },
+                { "id": "lentejas-rojas-250g", "name": "Lentejas Rojas Orgánicas 250g (Red Lentils)", "price": 2400, "image": "https://i.ibb.co/q3QtpLtT/lentejas-rojas-250g.jpg" },
+                { "id": "mantequilla-de-mani-220g", "name": "Mantequilla de Maní Orgánica 220g (Organic Peanut Butter)", "price": 4800, "image": "https://i.ibb.co/Cs9059YP/mantequilla-de-mani-220g.jpg" },
+                { "id": "mantequilla-de-mani-450g", "name": "Mantequilla de Maní Orgánica 450g (Organic Peanut Butter)", "price": 8600, "image": "https://i.ibb.co/bMJdf2GS/mantequilla-de-mani-450g.jpg" },
+                { "id": "mantequilla-de-maranon", "name": "Mantequilla de Marañón 250g (Cashew Butter)", "price": 6900, "image": "https://i.ibb.co/Kpyx3nhk/mantequilla-de-mara-on.jpg" },
+                { "id": "quinoa-blanca-500g", "name": "Quinoa Orgánica Blanca 500g (Organic White Quinoa)", "price": 4400, "image": "https://i.ibb.co/pBNJvtVb/quinoa-blanca-500g.jpg" },
+                { "id": "salsa-tomate-380g", "name": "Salsa de Tomate 380g (Tomato Sauce)", "price": 5200, "image": "https://i.ibb.co/HLQhYWx8/salsa-tomate-380g.jpg" },
+                { "id": "tahini", "name": "Tahini Ajonjolí 250g", "price": 4200, "image": "https://i.ibb.co/whj0srjx/tahini.jpg" }
               ]
             },
             {
-              "name": "Infusiones y Tés",
+              "name": "Especias y Sales (Spices & Salsas)",
               "items": [
-                { "id": "barriguita-feliz", "name": "Té Barriguita Feliz", "price": 2200, "image": "https://i.ibb.co/3ncXKYN/Barriguita-Feliz.jpg" },
-                { "id": "barriguita", "name": "Té Barriguita Digestivo", "price": 2000, "image": "https://i.ibb.co/93crTBC8/Barriguita.jpg" },
-                { "id": "detox", "name": "Té Detox Limpiador", "price": 2400, "image": "https://i.ibb.co/BVkkJ7y0/Detox.jpg" },
-                { "id": "golden", "name": "Té Golden Milk Mix", "price": 2800, "image": "https://i.ibb.co/BVJR09ch/Golden.jpg" },
-                { "id": "tranquilidad", "name": "Té Tranquilidad Relajante", "price": 2200, "image": "https://i.ibb.co/Z6742KbP/tranuilidad.jpg" }
+                { "id": "braggs-levadura", "name": "Braggs Levadura Nutricional 127g (Nutritional Yeast)", "price": 5800, "image": "https://i.ibb.co/gLgsgv4m/braggs-levadura.jpg" },
+                { "id": "chutney-salsa-brava", "name": "Chutney Salsa Brava (Medium Hot)", "price": 2900, "image": "https://i.ibb.co/G4cgbwMr/chutney-salsa-brava.jpg" },
+                { "id": "curcuma-35g", "name": "Cúrcuma Polvo 35g (Ground Turmeric)", "price": 2000, "image": "https://i.ibb.co/bR2sn3k0/curcuma-35g.jpg" },
+                { "id": "curcuma-en-polvo", "name": "Cúrcuma Polvo 50g (Turmeric Powder)", "price": 3500, "image": "https://i.ibb.co/4wFgvYSv/curcuma-en-plovo.jpg" },
+                { "id": "jengibre-en-polvo", "name": "Jengibre en Polvo 40g (Organic Ginger Powder)", "price": 2000, "image": "https://i.ibb.co/pBLYY5GK/jengibre-en-polvo.jpg" },
+                { "id": "mezcla-dorada", "name": "Mezcla Dorada 50g (Golden Mix)", "price": 4500, "image": "https://i.ibb.co/spxwwFTk/mezcla-dorada.jpg" },
+                { "id": "pimienta-negra", "name": "Pimienta Negra en Polvo 60g (Ground Black Pepper)", "price": 2400, "image": "https://i.ibb.co/Q7JNYp9T/pimienta-negra.jpg" },
+                { "id": "sal-marina-dorada", "name": "Sal Marina Dorada (Golden Sea Salt)", "price": 3700, "image": "https://i.ibb.co/z1GSjQm/sal-amrina-dorada.jpg" },
+                { "id": "sal-marina-parrillera", "name": "Sal Marina Parrillera (Grill Mix)", "price": 3000, "image": "https://i.ibb.co/zWhk6dhS/sal-amrina-parrillera.jpg" },
+                { "id": "sal-gourmet", "name": "Sal Gourmet Vino Tinto y Finas Hierbas (Red Wine and Fine Herbs Salt)", "price": 3700, "image": "https://i.ibb.co/1fFhRWC1/sal-gourment.jpg" },
+                { "id": "sal-himalaya-fina", "name": "Sal Himalaya Fina 460g (Pink Salt)", "price": 2800, "image": "https://i.ibb.co/p6W9C2jt/sal-himalaya-fina.jpg" },
+                { "id": "sal-himalaya-gruesa", "name": "Sal Himalaya Gruesa 460g (Pink Salt)", "price": 2800, "image": "https://i.ibb.co/mVQGLGm9/sal-himalaya-gruesa.jpg" },
+                { "id": "sal-marina-a-las-hierbas", "name": "Sal Marina a las Hierbas (Italian Style Sea Salt)", "price": 3000, "image": "https://i.ibb.co/VW0CXrBp/sal-marina-a-las-hierbas.jpg" },
+                { "id": "sal-marina-chile", "name": "Sal Marina Chile Panameño y Limón (Panamanian Pepper and Lemon Sea Salt)", "price": 3000, "image": "https://i.ibb.co/Y7XgTgwY/sal-marina-chile.jpg" },
+                { "id": "sal-marina-sazon", "name": "Sal Marina Sazón Todo en 1 (All in 1 Seasoning)", "price": 3800, "image": "https://i.ibb.co/PZ27Hy7r/sal-marina-zason.jpg" },
+                { "id": "sal-negra-gruesa", "name": "Sal Negra Gruesa 250g (Black Salt)", "price": 2800, "image": "https://i.ibb.co/cSzj383T/sal-negra-gruesa.jpg" },
+                { "id": "salsa-volcan", "name": "Salsa Volcán (Carolina Reaper - Extra Hot)", "price": 2900, "image": "https://i.ibb.co/Vd7cCd1/salsa-volcan.jpg" },
+                { "id": "sazon-completo", "name": "Sazón Completo de Hierbas (Complete Herb Seasoning)", "price": 2600, "image": "https://i.ibb.co/RksDYtRQ/sazon-completo.jpg" },
+                { "id": "zacate-limon", "name": "Zacate de Limón en Polvo 30g (Ground LemonGrass)", "price": 2000, "image": "https://i.ibb.co/Ps2wdcP5/zacate-limon.jpg" }
               ]
             },
             {
-              "name": "Frutos Secos y Semillas",
+              "name": "Té Artesanal (Handcrafted Teas)",
               "items": [
-                { "id": "arandanos", "name": "Arándanos Deshidratados 150g", "price": 1800, "image": "https://i.ibb.co/dw8M4wyc/arandanos.jpg" },
-                { "id": "ciruelas-150g", "name": "Ciruelas Secas 150g", "price": 1600, "image": "https://i.ibb.co/rG5MYWLp/ciruelas-150g.jpg" },
-                { "id": "datiles-1kg", "name": "Dátiles Premium 1kg", "price": 8500, "image": "https://i.ibb.co/n8QYBsfR/datiles-1kg.jpg" },
-                { "id": "datiles-250g", "name": "Dátiles Premium 250g", "price": 2400, "image": "https://i.ibb.co/LdqGGkqJ/datiles-250g.jpg" },
-                { "id": "higos-secos", "name": "Higos Secos 200g", "price": 2200, "image": "https://i.ibb.co/Fq8hLrh8/higos-secos.jpg" },
-                { "id": "mani-organico", "name": "Maní Orgánico Tostado", "price": 1200, "image": "https://i.ibb.co/nMY7VHH7/mani-organico.jpg" },
-                { "id": "nuez-nogal-250g", "name": "Nuez de Nogal 250g", "price": 3200, "image": "https://i.ibb.co/3m0MBFgC/nuez-nogal-250g.jpg" },
-                { "id": "pasas-150g", "name": "Pasas Dulces 150g", "price": 900, "image": "https://i.ibb.co/mCncxS95/pasas-150g.jpg" },
-                { "id": "semilla-girasol", "name": "Semilla de Girasol 200g", "price": 1100, "image": "https://i.ibb.co/GZ8JRh7/semilla-girasol.jpg" },
-                { "id": "semillas-calabaza", "name": "Semillas de Calabaza 200g", "price": 1500, "image": "https://i.ibb.co/nxPS3Th/semillas-calabaza.jpg" },
-                { "id": "semillas-chia", "name": "Semillas de Chía 250g", "price": 1600, "image": "https://i.ibb.co/My37mTGG/semillas-chia.jpg" },
-                { "id": "trail-mix-150g", "name": "Trail Mix Frutos Secos 150g", "price": 1900, "image": "https://i.ibb.co/hFZFzyqq/trail-mix-150g.jpg" }
+                { "id": "barriguita-feliz", "name": "40g Té Barriguita Feliz (Happy Belly)", "price": 4500, "image": "https://i.ibb.co/3ncXKYN/Barriguita-Feliz.jpg" },
+                { "id": "barriguita", "name": "Té Barriguita Digestivo", "price": 0, "image": "https://i.ibb.co/93crTBC8/Barriguita.jpg" },
+                { "id": "detox", "name": "40g Golden Detox", "price": 4500, "image": "https://i.ibb.co/BVkkJ7y0/Detox.jpg" },
+                { "id": "golden", "name": "Té Golden Milk Mix", "price": 0, "image": "https://i.ibb.co/BVJR09ch/Golden.jpg" },
+                { "id": "tranquilidad", "name": "40g Té Tranquilidad Nocturna (Evening Tranquility)", "price": 4500, "image": "https://i.ibb.co/Z6742KbP/tranuilidad.jpg" }
               ]
             },
             {
-              "name": "Galletas Artesanales",
+              "name": "Nueces y Frutos Secos Orgánicos Certificados (Organic Certified dry Fruits and Nuts) ",
               "items": [
-                { "id": "ajo-romero", "name": "Galletas Ajo Romero", "price": 1800, "image": "https://i.ibb.co/XZqPJQmb/Ajo-Romero.jpg" },
-                { "id": "clasico", "name": "Galletas Clásicas Mantequilla", "price": 1600, "image": "https://i.ibb.co/qYWvjDdc/Clasico.jpg" },
-                { "id": "doble-chocolate", "name": "Galletas Doble Chocolate", "price": 1900, "image": "https://i.ibb.co/qLLn1ynG/doble-chocolate.jpg" },
-                { "id": "jengibre-limon", "name": "Galletas Jengibre Limón", "price": 1800, "image": "https://i.ibb.co/Q7hkfq3f/jenjibre-Limon.jpg" }
+                { "id": "arandanos", "name": "Arándanos Orgánicos 100g (Cranberries)", "price": 2200, "image": "https://i.ibb.co/dw8M4wyc/arandanos.jpg" },
+                { "id": "ciruelas-150g", "name": "Ciruelas Orgánicas 150g (Prunes)", "price": 5250, "image": "https://i.ibb.co/rG5MYWLp/ciruelas-150g.jpg" },
+                { "id": "datiles-1kg", "name": "Dátiles Orgánicos 1kg (Sun Dried Dates)", "price": 12000, "image": "https://i.ibb.co/n8QYBsfR/datiles-1kg.jpg" },
+                { "id": "datiles-250g", "name": "Dátiles Orgánicos 250g (Sun Dried Dates)", "price": 4000, "image": "https://i.ibb.co/LdqGGkqJ/datiles-250g.jpg" },
+                { "id": "higos-secos", "name": "Higos Secos Orgánicos 150g (Sun Dried Figs)", "price": 3950, "image": "https://i.ibb.co/Fq8hLrh8/higos-secos.jpg" },
+                { "id": "mani-organico", "name": "Maní Orgánico 150g (Organic Peanuts)", "price": 2800, "image": "https://i.ibb.co/nMY7VHH7/mani-organico.jpg" },
+                { "id": "nuez-nogal-250g", "name": "Nuez Nogal Orgánico 250g (Organic Walnuts)", "price": 5400, "image": "https://i.ibb.co/3m0MBFgC/nuez-nogal-250g.jpg" },
+                { "id": "pasas-150g", "name": "Pasas Orgánicas 150g (Raisins)", "price": 2500, "image": "https://i.ibb.co/mCncxS95/pasas-150g.jpg" },
+                { "id": "semilla-girasol", "name": "Semilla de Girasol Orgánicas 100g (Sunflower Seeds)", "price": 1480, "image": "https://i.ibb.co/GZ8JRh7/semilla-girasol.jpg" },
+                { "id": "semillas-calabaza", "name": "Semillas de Calabaza 150g (Pumpkin Seeds)", "price": 3350, "image": "https://i.ibb.co/nxPS3Th/semillas-calabaza.jpg" },
+                { "id": "semillas-chia", "name": "Semillas de Chía Orgánicas 150g (Organic Chia Seeds)", "price": 3100, "image": "https://i.ibb.co/My37mTGG/semillas-chia.jpg" },
+                { "id": "trail-mix-150g", "name": "Trail Mix Orgánico 150g", "price": 3500, "image": "https://i.ibb.co/hFZFzyqq/trail-mix-150g.jpg" }
               ]
             },
             {
-              "name": "Cacao y Chocolates",
+              "name": "Snack Saludables",
               "items": [
-                { "id": "1kg-cacao-ceremonial", "name": "1KG Cacao Ceremonial Puro", "price": 14500, "image": "https://i.ibb.co/HTLdsjW9/1-KG-cacao-ceremonial.jpg" },
-                { "id": "almendra-cubierta-con-chocolate", "name": "Almendra Cubierta Chocolate", "price": 2800, "image": "https://i.ibb.co/5XCH13FL/almendra-cubierta-con-chocolate.jpg" },
-                { "id": "cacao-en-polvo-500g", "name": "Cacao en Polvo 500g", "price": 4200, "image": "https://i.ibb.co/s9p0kksT/cacao-en-polvo-500g.jpg" },
-                { "id": "cacao-en-polvo", "name": "Cacao en Polvo 250g", "price": 2300, "image": "https://i.ibb.co/67ZwF4Pm/cacao-en-polvo.jpg" },
-                { "id": "cacao-nibs", "name": "Cacao Nibs Orgánicos 200g", "price": 2500, "image": "https://i.ibb.co/C3zwLXMq/cacao-nibs.jpg" },
-                { "id": "cacao-tostado", "name": "Cacao Tostado en Grano", "price": 2200, "image": "https://i.ibb.co/S7ZCVqFz/cacao-tostado.jpg" },
-                { "id": "chocolate-70-original", "name": "Chocolate 70% Original Barra", "price": 2100, "image": "https://i.ibb.co/KpJxTsMY/chocolate-70-original.jpg" },
-                { "id": "chocolate-72-de-45g", "name": "Chocolate 72% Snacking 45g", "price": 1400, "image": "https://i.ibb.co/cKFqjGvk/chocolate-72-de-45g.jpg" },
-                { "id": "chocolate-almendra", "name": "Chocolate con Almendra", "price": 2200, "image": "https://i.ibb.co/CcXTCpg/chocolate-almendra.jpg" },
-                { "id": "chocolate-curcuma", "name": "Chocolate Cúrcuma & Pimienta", "price": 2200, "image": "https://i.ibb.co/rfytXMMD/chocolate-curcuma.jpg" },
-                { "id": "chocolate-flor-de-jamaica", "name": "Chocolate Flor de Jamaica", "price": 2200, "image": "https://i.ibb.co/qFJ7jHyr/chocolate-flor-de-jamaica.jpg" },
-                { "id": "chocolate-melena", "name": "Chocolate Melena de León", "price": 2600, "image": "https://i.ibb.co/X1CX7TF/chocolate-melena.jpg" },
-                { "id": "chocolate-naranja", "name": "Chocolate Naranja Silvestre", "price": 2200, "image": "https://i.ibb.co/q3dQ1rSs/chocolate-naranja.jpg" },
-                { "id": "chocolate-oscuro", "name": "Chocolate Oscuro 85%", "price": 2300, "image": "https://i.ibb.co/fztsHWv0/chocolate-oscuro.jpg" },
-                { "id": "chocolate-reishi", "name": "Chocolate Reishi Medicinal", "price": 2600, "image": "https://i.ibb.co/spgr0bLX/chocolate-reishi.jpg" },
-                { "id": "chocolate-rosada", "name": "Chocolate Sal Rosada", "price": 2200, "image": "https://i.ibb.co/kVncBHw5/chocolate-rosada.jpg" },
-                { "id": "chocolate-shiitake", "name": "Chocolate Shiitake Adaptógeno", "price": 2600, "image": "https://i.ibb.co/TMwW1hsL/chocolate-shiitake.jpg" },
-                { "id": "granos-de-cafe-choc", "name": "Granos de Café cubiertos Choc", "price": 2500, "image": "https://i.ibb.co/pBMjqDv4/granos-de-cafe.jpg" }
+                { "id": "ajo-romero", "name": "Bocaditos de Queso - Ajo Romero 42g (Cheese Bites - Rosemary Garlic)", "price": 1850, "image": "https://i.ibb.co/XZqPJQmb/Ajo-Romero.jpg" },
+                { "id": "clasico", "name": "Bocaditos de Queso - Clásico 42g (Cheese Bites - Classic)", "price": 1850, "image": "https://i.ibb.co/qYWvjDdc/Clasico.jpg" },
+                { "id": "doble-chocolate", "name": "Galletas de Quinoa - Doble Chocolate 200g (Double Chocolate Quinoa Cookies)", "price": 3000, "image": "https://i.ibb.co/qLLn1ynG/doble-chocolate.jpg" },
+                { "id": "jengibre-limon", "name": "Galletas de Quinoa - Jengibre Limón 200g (Ginger Lemon Quinoa Cookies)", "price": 3000, "image": "https://i.ibb.co/Q7hkfq3f/jenjibre-Limon.jpg" }
               ]
             },
             {
-              "name": "Cuidado Personal y Cosmética",
+              "name": "Chocolate Orgánico Artesanal (Premium Craft Chocolate)",
               "items": [
-                { "id": "acondicionador", "name": "Acondicionador Natural Sólido", "price": 3800, "image": "https://i.ibb.co/MyRLwb8w/acondicionador.jpg" },
-                { "id": "champu-limoncillo", "name": "Champú Limoncillo & Romero", "price": 3800, "image": "https://i.ibb.co/DPWsWQc0/champu-limoncillo.jpg" },
-                { "id": "champu", "name": "Champú Orgánico Sólido", "price": 3600, "image": "https://i.ibb.co/21DM4YWv/champu.jpg" },
-                { "id": "desodorante-natural", "name": "Desodorante Natural Barra", "price": 3200, "image": "https://i.ibb.co/1Jzbpq2w/desodoran-te-natural.jpg" },
-                { "id": "jabon-artesanal-carbon", "name": "Jabón Carbón Activado", "price": 2200, "image": "https://i.ibb.co/1YRYRpCP/jabon-artesanal-carbon.jpg" },
-                { "id": "jabon-artesanal-lavanda", "name": "Jabón Artesanal Lavanda", "price": 2200, "image": "https://i.ibb.co/j9fC8JLg/jabon-artesanal-lavanda.jpg" },
-                { "id": "jabon-artesanal-menta", "name": "Jabón Artesanal Menta", "price": 2200, "image": "https://i.ibb.co/Zs4G7wm/jabon-artesanal-menta.jpg" },
-                { "id": "jabon-artesanal-rosa", "name": "Jabón Artesanal Rosa", "price": 2200, "image": "https://i.ibb.co/4gRSymtV/jabon-artesanal-rosa.jpg" },
-                { "id": "jabon-menta", "name": "Jabón Herbal Menta", "price": 2000, "image": "https://i.ibb.co/B5gwSVg8/jabon-menta.jpg" },
-                { "id": "jabon-toronja", "name": "Jabón Exfoliante Toronja", "price": 2200, "image": "https://i.ibb.co/nMg3kntt/jabon-toronja.jpg" },
-                { "id": "jabon-liquido", "name": "Jabón Líquido Manos/Cuerpo", "price": 2800, "image": "https://i.ibb.co/Hp19y8zb/jsbon-liquido.jpg" },
-                { "id": "limpiador-intimo", "name": "Limpiador Íntimo Suave", "price": 4200, "image": "https://i.ibb.co/WpY1pHww/limpiador-intimo.jpg" },
-                { "id": "limpiador-facial", "name": "Limpiador Facial Botánico", "price": 4500, "image": "https://i.ibb.co/Ld0PS44X/limpiardor-facial.jpg" },
-                { "id": "serum-facial", "name": "Sérum Facial Hidratante", "price": 6800, "image": "https://i.ibb.co/PZkFvmjj/serum-facial.jpg" }
+                { "id": "1kg-cacao-ceremonial", "name": "1KG Cacao Ceremonial", "price": 22000, "image": "https://i.ibb.co/HTLdsjW9/1-KG-cacao-ceremonial.jpg" },
+                { "id": "almendra-cubierta-con-chocolate", "name": "Almendra Cubierta con Chocolate de Leche (Milk Chocolate Covered Almonds)", "price": 2200, "image": "https://i.ibb.co/5XCH13FL/almendra-cubierta-con-chocolate.jpg" },
+                { "id": "cacao-en-polvo-500g", "name": "Cacao en Polvo 500g (Cacao Powder)", "price": 6700, "image": "https://i.ibb.co/s9p0kksT/cacao-en-polvo-500g.jpg" },
+                { "id": "cacao-en-polvo", "name": "Cacao en Polvo 200g (Cacao Powder)", "price": 2800, "image": "https://i.ibb.co/67ZwF4Pm/cacao-en-polvo.jpg" },
+                { "id": "cacao-nibs", "name": "Cacao Nibs 200g", "price": 3400, "image": "https://i.ibb.co/C3zwLXMq/cacao-nibs.jpg" },
+                { "id": "cacao-tostado", "name": "Semillas de Cacao Tostadas 200g (Toasted Cacao Seeds)", "price": 2900, "image": "https://i.ibb.co/S7ZCVqFz/cacao-tostado.jpg" },
+                { "id": "chocolate-70-original", "name": "Chocolate 70% Original", "price": 2800, "image": "https://i.ibb.co/KpJxTsMY/chocolate-70-original.jpg" },
+                { "id": "chocolate-72-de-45g", "name": "Chocolate Oscuro 72%", "price": 2000, "image": "https://i.ibb.co/cKFqjGvk/chocolate-72-de-45g.jpg" },
+                { "id": "chocolate-almendra", "name": "Chocolate 70% Almendra (Almond)", "price": 2800, "image": "https://i.ibb.co/CcXTCpg/chocolate-almendra.jpg" },
+                { "id": "chocolate-curcuma", "name": "Chocolate Oscuro 72% Cúrcuma & Sal Rosada (Turmeric & Pink Salt)", "price": 1800, "image": "https://i.ibb.co/rfytXMMD/chocolate-curcuma.jpg" },
+                { "id": "chocolate-flor-de-jamaica", "name": "Chocolate 70% Flor de Jamaica y Sal (Hibiscus Flower & Salt)", "price": 2800, "image": "https://i.ibb.co/qFJ7jHyr/chocolate-flor-de-jamaica.jpg" },
+                { "id": "chocolate-melena", "name": "Chocolate Oscuro 80% - Melena de León (Lion's Mane Mushroom Chocolate)", "price": 2500, "image": "https://i.ibb.co/X1CX7TF/chocolate-melena.jpg" },
+                { "id": "chocolate-naranja", "name": "Chocolate Naranja Marañon 72% (Orange & Cashew)", "price": 2000, "image": "https://i.ibb.co/q3dQ1rSs/chocolate-naranja.jpg" },
+                { "id": "chocolate-oscuro", "name": "Chocolate Oscuro 72% Café", "price": 2000, "image": "https://i.ibb.co/fztsHWv0/chocolate-oscuro.jpg" },
+                { "id": "chocolate-reishi", "name": "Chocolate Oscuro 80% - Reishi (Reishi Mushroom Chocolate)", "price": 2500, "image": "https://i.ibb.co/spgr0bLX/chocolate-reishi.jpg" },
+                { "id": "chocolate-rosada", "name": "Chocolate 70% Sal Rosada (Pink Salt)", "price": 2800, "image": "https://i.ibb.co/kVncBHw5/chocolate-rosada.jpg" },
+                { "id": "chocolate-shiitake", "name": "Chocolate Oscuro 80% Shiitake (Shiitake Mushroom Chocolate)", "price": 2500, "image": "https://i.ibb.co/TMwW1hsL/chocolate-shiitake.jpg" },
+                { "id": "granos-de-cafe-choc", "name": "Granos de Café cubiertos con Chocolate (Chocolate Covered Coffee Beans)", "price": 2200, "image": "https://i.ibb.co/pBMjqDv4/granos-de-cafe.jpg" }
+              ]
+            },
+            {
+              "name": "Productos para el Cuidado Personal (Self-Care Products)",
+              "items": [
+                { "id": "acondicionador", "name": "Acondicionador Terapia Capilar 250ml (Hair Therapy Conditioner)", "price": 11000, "image": "https://i.ibb.co/MyRLwb8w/acondicionador.jpg" },
+                { "id": "champu-limoncillo", "name": "Champú - Limoncillo, Romero, Árbol de Té, Salvia y Menta 240ml (Shampoo)", "price": 7200, "image": "https://i.ibb.co/DPWsWQc0/champu-limoncillo.jpg" },
+                { "id": "champu", "name": "Champú para el Crecimiento del Cabello 250ml (Hair Growth Shampoo)", "price": 11000, "image": "https://i.ibb.co/21DM4YWv/champu.jpg" },
+                { "id": "desodorante-natural", "name": "Desodorante Natural - Palmarosa, Lemon grass, Lavanda & Téa Tree (Deodorant)", "price": 5150, "image": "https://i.ibb.co/1Jzbpq2w/desodoran-te-natural.jpg" },
+                { "id": "jabon-artesanal-carbon", "name": "Jabón en Barra Artesanal 140g ÁRBOL DE TÉ + Carbón Activado (Téa Tree Activated Charcool Soap)", "price": 5200, "image": "https://i.ibb.co/1YRYRpCP/jabon-artesanal-carbon.jpg" },
+                { "id": "jabon-artesanal-lavanda", "name": "Jabón en Barra Artesanal 140g Lavanda (Lavender Soap)", "price": 5200, "image": "https://i.ibb.co/j9fC8JLg/jabon-artesanal-lavanda.jpg" },
+                { "id": "jabon-artesanal-menta", "name": "Jabón en Barra Artesanal 140g Menta (Mint Soap)", "price": 5200, "image": "https://i.ibb.co/Zs4G7wm/jabon-artesanal-menta.jpg" },
+                { "id": "jabon-artesanal-rosa", "name": "Jabón en Barra Artesanal 140g Rosa (Rose Soap)", "price": 5200, "image": "https://i.ibb.co/4gRSymtV/jabon-artesanal-rosa.jpg" },
+                { "id": "jabon-menta", "name": "Jabón en Barra - Menta & Lavanda 150g (Mint & Lavander Soap)", "price": 5400, "image": "https://i.ibb.co/B5gwSVg8/jabon-menta.jpg" },
+                { "id": "jabon-toronja", "name": "Jabón en Barra - Toronja & Limón 150g (Grapefruit & Lemon Soap)", "price": 5400, "image": "https://i.ibb.co/nMg3kntt/jabon-toronja.jpg" },
+                { "id": "jabon-liquido", "name": "Jabón Líquido Antibacterial Biodegradable - Naranja y Vainilla (Hand Soap Orange & Vanilla)", "price": 5150, "image": "https://i.ibb.co/Hp19y8zb/jsbon-liquido.jpg" },
+                { "id": "limpiador-intimo", "name": "Limpiador Íntimo Gel Healthy Yoni 250ml (Healthy Yoni Intimate Wash)", "price": 12300, "image": "https://i.ibb.co/WpY1pHww/limpiador-intimo.jpg" },
+                { "id": "limpiador-facial", "name": "Limpiador Facial Ethereal Bloom 100ml (Ethereal Bloom Facial Cleanser)", "price": 6800, "image": "https://i.ibb.co/Ld0PS44X/limpiardor-facial.jpg" },
+                { "id": "serum-facial", "name": "Sérum Facial Sacred Cacao 30ml (Sacred Cacao Facial Serum)", "price": 13600, "image": "https://i.ibb.co/PZkFvmjj/serum-facial.jpg" }
               ]
             }
           ]
@@ -986,54 +1094,59 @@
         let categoriaSeleccionada = 'todos';
         let carrito = [];
 
-        function cambiarVista(vista) {
+       function cambiarVista(vista) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             if (vista === 'home') {
                 document.getElementById('view-home').classList.add('active');
             } else if (vista === 'catalog') {
                 document.getElementById('view-catalog').classList.add('active');
                 renderizarCatalogoInterno();
+            } else if (vista === 'adminTable') {
+                document.getElementById('view-admin-table').classList.add('active');
+                renderizarTablaAdmin();
             }
         }
 
-        function toggleAdmin() {
+       function toggleAdmin() {
             if (!isAdmin) {
                 const pass = prompt("🔑 Ingrese la contraseña de Administrador:");
                 if (pass === "1234") {
                     isAdmin = true;
                     alert("¡Acceso concedido como Administrador!");
+                    cambiarVista('adminTable');
                 } else if (pass !== null) {
                     alert("❌ Contraseña incorrecta.");
                     return;
                 }
             } else {
                 isAdmin = false;
+                cambiarVista('home');
             }
             actualizarNavbar();
         }
 
-        function actualizarNavbar() {
+      function actualizarNavbar() {
             const navMenu = document.getElementById('nav-menu-container');
             const totalCant = carrito.reduce((sum, item) => sum + item.qty, 0);
 
             if (!isAdmin) {
                 navMenu.innerHTML = `
-                    <button class="nav-btn" onclick="cambiarVista('home')">🏠 Inicio / Home</button>
-                    <button class="nav-btn" onclick="cambiarVista('catalog')">📦 Catálogo / Catalog</button>
+                    <button class="nav-btn" onclick="cambiarVista('home')">🏠 Inicio</button>
+                    <button class="nav-btn" onclick="cambiarVista('catalog')">📦 Catálogo</button>
                     <button class="nav-btn admin-mode" onclick="toggleAdmin()">🔒 Admin</button>
                     <button class="nav-btn" onclick="toggleCarrito()">🛒 Carrito (${totalCant})</button>
                 `;
             } else {
                 navMenu.innerHTML = `
-                    <button class="nav-btn" onclick="cambiarVista('home')">🏠 Inicio / Home</button>
-                    <button class="nav-btn" onclick="cambiarVista('catalog')">📦 Catálogo / Catalog</button>
-                    <button class="nav-btn" onclick="modalNuevoProducto()">➕ Agregar Producto</button>
-                    <button class="nav-btn" onclick="alert('Exportando respaldo...')">📥 Respaldo</button>
+                    <button class="nav-btn" onclick="cambiarVista('home')">🏠 Inicio</button>
+                    <button class="nav-btn" onclick="cambiarVista('catalog')">📦 Catálogo</button>
+                    <button class="nav-btn" onclick="cambiarVista('adminTable')">📊 Tabla Admin</button>
+                    <button class="nav-btn" onclick="descargarRespaldo()">📥 Respaldo</button>
                     <button class="nav-btn danger" onclick="toggleAdmin()">🚪 Salir Admin</button>
                     <button class="nav-btn" onclick="toggleCarrito()">🛒 Carrito (${totalCant})</button>
                 `;
             }
-        }
+        }    
 
         function renderizarCatalogoInterno() {
             const listaCat = document.getElementById('lista-categorias');
@@ -1258,6 +1371,96 @@
         document.addEventListener('DOMContentLoaded', () => {
             actualizarNavbar();
         });
-    </script>
+  function guardarNuevoProducto() {
+            const name = document.getElementById('new-prod-name').value;
+            const catIndex = document.getElementById('new-prod-cat').value;
+            const price = parseInt(document.getElementById('new-prod-price').value);
+            const image = document.getElementById('new-prod-img').value || 'https://i.ibb.co/3mrbcVVV/Ajo-Criollo.jpg';
+
+            if (!name || isNaN(price)) {
+                alert("Por favor ingrese un nombre y precio válido");
+                return;
+            }
+
+            const newId = name.toLowerCase().replace(/ /g, '-');
+            CATALOGO_PRODUCTOS.categories[catIndex].items.push({ id: newId, name, price, image });
+
+            alert("¡Producto agregado exitosamente!");
+            cerrarModalNuevoProducto();
+            renderizarCatalogoInterno();
+        }
+
+        // ==========================================
+        // PEGA LA FUNCIÓN DE RESPALDO AQUÍ ABAJO:
+        // ==========================================
+       function descargarRespaldo() {
+            const datosRespaldo = {
+                fechaRespaldo: new Date().toISOString(),
+                catalogo: CATALOGO_PRODUCTOS
+            };
+            const jsonString = JSON.stringify(datosRespaldo, null, 2);
+            const blob = new Blob([jsonString], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const fechaHoy = new Date().toISOString().slice(0, 10);
+            a.download = `respaldo-la-semilla-${fechaHoy}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            alert("¡Respaldo descargado exitosamente!");
+        }
+
+        // ==========================================================
+        // 2. PEGA LAS NUEVAS FUNCIONES DE LA TABLA AQUÍ ABAJO:
+        // ==========================================================
+        function renderizarTablaAdmin() {
+            const tbody = document.getElementById('tabla-admin-cuerpo');
+            tbody.innerHTML = '';
+
+            CATALOGO_PRODUCTOS.categories.forEach((cat, cIdx) => {
+                cat.items.forEach((item) => {
+                    const estadoBtn = item.agotado 
+                        ? `<button class="btn-status-agot" onclick="cambiarEstadoAgotado('${item.id}', ${cIdx})">🔴 Agotado</button>`
+                        : `<button class="btn-status-disp" onclick="cambiarEstadoAgotado('${item.id}', ${cIdx})">🟢 Disponible</button>`;
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><strong>${item.name}</strong><br><small style="color:#718096">${item.descEs || ''}</small></td>
+                            <td>${cat.name}</td>
+                            <td>₡${item.price.toLocaleString()}</td>
+                            <td>${estadoBtn}</td>
+                            <td>
+                                <button class="btn-action-edit" onclick="abrirModalEditar('${item.id}', ${cIdx})">✏️ Editar</button>
+                                <button class="btn-action-del" onclick="eliminarProducto('${item.id}', ${cIdx})">🗑️ Eliminar</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            });
+        }
+
+        function cambiarEstadoAgotado(prodId, catIndex) {
+            const producto = CATALOGO_PRODUCTOS.categories[catIndex].items.find(i => i.id === prodId);
+            if (producto) {
+                producto.agotado = !producto.agotado;
+                guardarEnLocalStorage();
+                renderizarTablaAdmin();
+            }
+        }
+
+        function eliminarProducto(prodId, catIndex) {
+            if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
+                CATALOGO_PRODUCTOS.categories[catIndex].items = CATALOGO_PRODUCTOS.categories[catIndex].items.filter(i => i.id !== prodId);
+                guardarEnLocalStorage();
+                renderizarTablaAdmin();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            actualizarNavbar();
+        });
+    </script> 
 </body>
 </html>
