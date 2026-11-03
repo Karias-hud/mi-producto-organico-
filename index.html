@@ -1410,7 +1410,7 @@
             renderizarCatalogoInterno();
         }
 
-        function renderizarProductosGrid(itemsFiltrados = null) {
+       function renderizarProductosGrid(itemsFiltrados = null) {
             const grid = document.getElementById('grid-productos');
             const tituloCat = document.getElementById('titulo-categoria-activa');
             if (!grid || !tituloCat) return;
@@ -1441,6 +1441,7 @@
                             <img src="${item.image}" alt="${item.name}" loading="lazy" class="product-img">
                         </div>
                         <h3 class="product-name">${item.name}</h3>
+                        <p class="product-desc" style="color: #718096; font-size: 0.9rem; margin: 5px 0;">${item.descEs || ''}</p>
                         <div class="product-price">₡${item.price.toLocaleString()}</div>
                         <div class="product-actions">
                             <input type="number" class="qty-input" value="1" min="1" id="qty-${item.id}">
