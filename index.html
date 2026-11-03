@@ -709,25 +709,19 @@
     
     </style>
 
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
-
 <body>
 
-
-
     <nav class="navbar">
-
         <div class="nav-brand" onclick="cambiarVista('catalog')">
-
             🌱 Pedidos La Semilla
-
         </div>
-
         <div class="nav-links" id="nav-menu-container"></div>
-
     </nav>
 
-   <section id="view-home" class="view-section">
+    <section id="view-home" class="view-section">
     <!-- Banner Principal Estilizado -->
     <div class="hero-banner-modern">
         <div class="hero-content">
@@ -792,239 +786,124 @@
 </section>
 
     <section id="view-catalog" class="view-section active">
-
         <input type="text" class="search-bar" id="search-input" placeholder="🔍 Buscar producto por nombre..." oninput="filtrarPorNombre()">
-
-       
-
         <div class="catalog-layout">
-
             <aside class="sidebar">
-
                 <h2>Categorías / Category</h2>
-
                 <ul class="category-list" id="lista-categorias"></ul>
-
             </aside>
-
             <main class="catalog-content">
-
                 <h2 class="cat-title" id="titulo-categoria-activa">Todos los Productos</h2>
-
                 <div class="products-grid" id="grid-productos"></div>
-
             </main>
-
         </div>
-
     </section>
-
-
 
     <section id="view-admin-table" class="view-section">
-
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-
             <h2 style="color:var(--primary-color);">📊 Tabla de Gestión de Productos</h2>
-
             <button class="add-btn" style="max-width:200px;" onclick="abrirModalCrear()">➕ Nuevo Producto</button>
-
         </div>
-
         <div class="admin-table-container">
-
             <table class="admin-table">
-
                 <thead>
-
                     <tr>
-
                         <th>Producto</th>
-
                         <th>Categoría</th>
-
                         <th>Precio</th>
-
                         <th>Estado</th>
-
                         <th>Acciones</th>
-
                     </tr>
-
                 </thead>
-
                 <tbody id="tabla-admin-cuerpo"></tbody>
-
             </table>
-
         </div>
-
     </section>
 
-
-
     <div class="cart-overlay" id="cart-drawer">
-
         <div class="cart-header">
-
             <h3>🛒 Tu Pedido / your order</h3>
-
             <button onclick="toggleCarrito()" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">❌</button>
-
         </div>
-
-
 
         <button class="cart-quick-btn" onclick="cargarUltimaCompra()">🔄 Cargar Mi Última Compra Frecuente</button>
 
-
-
         <div class="cart-items" id="cart-items-container"></div>
 
-
-
         <div class="cart-footer">
-
             <p style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:3px;"><span>Subtotal:</span> <strong id="cart-subtotal">₡0</strong></p>
-
             <p style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:3px;"><span>Envío:</span> <strong id="cart-shipping">₡2.000</strong></p>
-
             <p style="display:flex; justify-content:space-between; font-size:1rem; color:var(--primary-color);"><span>Total:</span> <strong id="cart-total">₡0</strong></p>
-
-           
-
+            
             <div class="form-user-cart">
-
                 <input type="text" id="client-name" placeholder="Tu Nombre Completo *">
-
                 <input type="text" id="client-phone" placeholder="Teléfono de Contacto *">
-
                 <input type="text" id="client-address" placeholder="Dirección de Entrega *">
-
                 <select id="client-payment">
-
                     <option value="SINPE Movil">Pago: SINPE Móvil</option>
-
                     <option value="Efectivo contra entrega">Pago: Efectivo al recibir</option>
-
                 </select>
-
             </div>
-
-
 
             <button class="btn-whatsapp" onclick="enviarWhatsapp()">📲 Enviar Pedido por WhatsApp</button>
-
         </div>
-
     </div>
-
-
 
     <div class="modal-bg" id="modal-agregar-prod">
-
-        <div class="modal-box">
-
-            <h3>➕ Agregar Nuevo Producto</h3>
-
-            <div class="form-group">
-
-                <label>Nombre del Producto</label>
-
-                <input type="text" id="new-prod-name">
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Categoría</label>
-
-                <select id="new-prod-cat"></select>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Precio (₡)</label>
-
-                <input type="number" id="new-prod-price" value="1000">
-
-            </div>
-
-            <div class="form-group">
-
-                <label>URL Imagen (ImgBB)</label>
-
-                <input type="text" id="new-prod-img" placeholder="https://i.ibb.co/...">
-
-            </div>
-
-            <div style="display:flex; gap:10px; margin-top:15px;">
-
-               <button class="add-btn" style="max-width:200px;" onclick="abrirModalCrear()">➕ Nuevo Producto</button>
-
-                <button class="add-btn" style="background:#64748b;" onclick="cerrarModalNuevoProducto()">Cancelar</button>
-
-            </div>
-
+    <div class="modal-box">
+        <h3>➕ Agregar Nuevo Producto</h3>
+        <div class="form-group">
+            <label>Nombre del Producto</label>
+            <input type="text" id="new-prod-name">
         </div>
-
+        <div class="form-group">
+            <label>Categoría</label>
+            <select id="new-prod-cat"></select>
+        </div>
+        <div class="form-group">
+            <label>Precio (₡)</label>
+            <input type="number" id="new-prod-price" value="1000">
+        </div>
+        <div class="form-group">
+            <label>URL Imagen (ImgBB)</label>
+            <input type="text" id="new-prod-img" placeholder="https://i.ibb.co/...">
+        </div>
+        <div style="display:flex; gap:10px; margin-top:15px;">
+            <button class="add-btn" style="max-width:200px;" onclick="guardarNuevoProducto()">💾 Guardar Producto</button>
+            <button class="add-btn" style="background:#64748b;" onclick="cerrarModalNuevoProducto()">Cancelar</button>
+        </div>
     </div>
-
-
-
-    <!-- Modal de Editar Producto -->
-
-    <div class="modal-bg" id="modal-editar">
-
-        <div class="modal-box">
-
-            <h3>✏️ Editar Producto</h3>
-
-           
-
-            <input type="hidden" id="edit-prod-id">
-
-            <input type="hidden" id="edit-cat-index">
-
-
-
-            <div class="form-group">
-
-                <label>Nombre del Producto</label>
-
-                <input type="text" id="edit-prod-name">
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Precio (₡)</label>
-
-                <input type="number" id="edit-prod-price">
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Descripción</label>
-
-                <textarea id="edit-prod-desc" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #cbd5e1;"></textarea>
-
-            </div>
-
-            <div style="display:flex; gap:10px; margin-top:15px;">
-
-    <button type="button" class="add-btn" onclick="guardarCambiosEdicion()">Guardar Cambios</button>
-
-    <button type="button" class="add-btn" style="background:#64748b;" onclick="document.getElementById('modal-editar').style.display='none'">Cancelar</button>
-
 </div>
 
-        </div>
+    <!-- Modal de Editar Producto -->
+    <div class="modal-bg" id="modal-editar">
+        <div class="modal-box">
+            <h3>✏️ Editar Producto</h3>
+           
+            <input type="hidden" id="edit-prod-id">
+            <input type="hidden" id="edit-cat-index">
 
+            <div class="form-group">
+                <label>Nombre del Producto</label>
+                <input type="text" id="edit-prod-name">
+            </div>
+            <div class="form-group">
+                <label>Precio (₡)</label>
+                <input type="number" id="edit-prod-price">
+            </div>
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea id="edit-prod-desc" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #cbd5e1;"></textarea>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:15px;">
+                <button type="button" class="add-btn" onclick="guardarCambiosEdicion()">Guardar Cambios</button>
+                <button type="button" class="add-btn" style="background:#64748b;" onclick="document.getElementById('modal-editar').style.display='none'">Cancelar</button>
+            </div>
+        </div>
     </div>
 
+</body>
+</html>
 <script>
 
    const CATALOGO_PRODUCTOS = {
@@ -1346,7 +1225,7 @@
               "items": [
                 { "id": "barriguita-feliz", "name": "40g Té Barriguita Feliz (Happy Belly)", "price": 4500, "image": "https://i.postimg.cc/hPVrgZZk/Gemini-Generated-Image-qmc563qmc563qmc5.jpg" },
                 { "id": "detox", "name": "40g Golden Detox", "price": 4500, "image": "https://i.postimg.cc/kMK8t6NV/Gemini-Generated-Image-hg32b8hg32b8hg32.jpg" },
-                { "id": "tranquilidad", "name": "40g Té Tranquilidad Nocturna (Evening Tranquility)", "price": 4500, "image": "https://i.postimg.cc/Z6742KbP/tranquilidad.jpg" }
+                { "id": "tranquilidad", "name": "40g Té Tranquilidad Nocturna (Evening Tranquility)", "price": 4500, "image": "https://i.postimg.cc/vH8CcRnw/tranuilidad.jpg" }
               ]
             },
             {
@@ -1420,7 +1299,27 @@
           ]
         };
 
- let isAdmin = false;
+       // ==========================================
+        // CONFIGURACIÓN DE FIREBASE
+        // ==========================================
+        const firebaseConfig = {
+            databaseURL: "https://mi-producto-org-default-rtdb.firebaseio.com/"
+        };
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const database = firebase.database();
+
+        // Función unificada para guardar en LocalStorage y en la Nube de Firebase automáticamente
+        function guardarEnLocalStorage() {
+            localStorage.setItem('catalogo_productos', JSON.stringify(CATALOGO_PRODUCTOS));
+            database.ref('catalogo').set(CATALOGO_PRODUCTOS)
+                .then(() => console.log("✅ Datos guardados en la nube con éxito."))
+                .catch((error) => console.error("❌ Error al guardar en la nube:", error));
+        }
+
+        let isAdmin = false;
         let categoriaSeleccionada = 'todos';
         let carrito = [];
 
@@ -1684,13 +1583,8 @@
         }
 
         function modalNuevoProducto() {
-            const select = document.getElementById('new-prod-cat');
-            if (!select) return;
-            select.innerHTML = '';
-            CATALOGO_PRODUCTOS.categories.forEach((cat, i) => {
-                select.innerHTML += `<option value="${i}">${cat.name}</option>`;
-            });
-            document.getElementById('modal-agregar-prod').classList.add('active');
+            // Mantenemos esta por compatibilidad, pero llamará a abrirModalCrear
+            abrirModalCrear();
         }
 
         function cerrarModalNuevoProducto() {
@@ -1698,12 +1592,27 @@
             if (modal) modal.classList.remove('active');
         }
 
-        function abrirModalCrear() {
+   function abrirModalCrear() {
+            // 1. Limpiamos los campos del formulario
             document.getElementById('new-prod-name').value = '';
             document.getElementById('new-prod-price').value = '1000';
             document.getElementById('new-prod-img').value = '';
-            document.getElementById('modal-agregar-prod').classList.add('active');
-        } 
+
+            // 2. Llenamos dinámicamente el selector de categorías AQUÍ MISMO para que nunca falte
+            const select = document.getElementById('new-prod-cat');
+            if (select) {
+                select.innerHTML = '';
+                if (CATALOGO_PRODUCTOS && CATALOGO_PRODUCTOS.categories) {
+                    CATALOGO_PRODUCTOS.categories.forEach((cat, i) => {
+                        select.innerHTML += `<option value="${i}">${cat.name}</option>`;
+                    });
+                }
+            }
+
+            // 3. Mostramos el modal
+            const modal = document.getElementById('modal-agregar-prod');
+            if (modal) modal.classList.add('active');
+        }
 
         function guardarNuevoProducto() {
             const name = document.getElementById('new-prod-name').value;
@@ -1718,18 +1627,19 @@
 
             const newId = name.toLowerCase().replace(/ /g, '-');
             
-            CATALOGO_PRODUCTOS.categories[catIndex].items.push({ id: newId, name, price, image });
-
-            if (typeof guardarEnLocalStorage === 'function') {
-                guardarEnLocalStorage();
-            } else {
-                localStorage.setItem('catalogo_productos', JSON.stringify(CATALOGO_PRODUCTOS));
+            // Aseguramos que la categoría exista antes de agregar
+            if (CATALOGO_PRODUCTOS.categories[catIndex]) {
+                CATALOGO_PRODUCTOS.categories[catIndex].items.push({ id: newId, name, price, image });
             }
+
+            guardarEnLocalStorage();
 
             alert("¡Producto agregado exitosamente!");
             cerrarModalNuevoProducto();
-            renderizarTablaAdmin();
-            renderizarCatalogoInterno();
+            
+            // Verificamos si existen las funciones de renderizado antes de llamarlas para evitar errores
+            if (typeof renderizarTablaAdmin === 'function') renderizarTablaAdmin();
+            if (typeof renderizarCatalogoInterno === 'function') renderizarCatalogoInterno();
         }
 
         function descargarRespaldo() {
@@ -1782,7 +1692,7 @@
             const producto = CATALOGO_PRODUCTOS.categories[catIndex].items.find(i => String(i.id) === String(prodId));
             if (producto) {
                 producto.agotado = !producto.agotado;
-                if (typeof guardarEnLocalStorage === 'function') guardarEnLocalStorage();
+                guardarEnLocalStorage();
                 renderizarTablaAdmin();
             }
         }
@@ -1790,7 +1700,7 @@
         function eliminarProducto(prodId, catIndex) {
             if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
                 CATALOGO_PRODUCTOS.categories[catIndex].items = CATALOGO_PRODUCTOS.categories[catIndex].items.filter(i => String(i.id) !== String(prodId));
-                if (typeof guardarEnLocalStorage === 'function') guardarEnLocalStorage();
+                guardarEnLocalStorage();
                 renderizarTablaAdmin();
                 renderizarCatalogoInterno();
             }
@@ -1832,11 +1742,7 @@
                 producto.price = nuevoPrecio;
                 producto.descEs = nuevaDesc; 
 
-                if (typeof guardarEnLocalStorage === 'function') {
-                    guardarEnLocalStorage();
-                } else {
-                    localStorage.setItem('catalogo_productos', JSON.stringify(CATALOGO_PRODUCTOS));
-                }
+                guardarEnLocalStorage();
 
                 renderizarTablaAdmin();
                 renderizarCatalogoInterno();
@@ -1865,11 +1771,50 @@
             actualizarNavbar();
         });
 
-        window.addEventListener('load', () => {
-            if (typeof renderizarCatalogoInterno === 'function') {
-                renderizarCatalogoInterno();
+      // Carga automática segura y blindada contra datos vacíos en la nube
+window.addEventListener('load', () => {
+    // 1. Cargamos de inmediato lo que hay en el navegador
+    const datosLocales = localStorage.getItem('catalogo_productos');
+    if (datosLocales) {
+        try {
+            const parsed = JSON.parse(datosLocales);
+            if (parsed && parsed.categories && parsed.categories.length > 0) {
+                CATALOGO_PRODUCTOS = parsed;
             }
-        });
+        } catch (e) {
+            console.error("Error leyendo LocalStorage", e);
+        }
+    }
+
+    // Renderizamos de inmediato para que veas tus productos en pantalla sin esperar
+    if (typeof renderizarCatalogoInterno === 'function') {
+        renderizarCatalogoInterno();
+    }
+
+    // 2. Intentamos sincronizar con Firebase de forma segura
+    try {
+        database.ref('catalogo').once('value')
+            .then((snapshot) => {
+                const datosNube = snapshot.val();
+                // Solo actualizamos si la nube TIENE productos reales
+                if (datosNube && datosNube.categories && datosNube.categories.length > 0) {
+                    CATALOGO_PRODUCTOS = datosNube;
+                    localStorage.setItem('catalogo_productos', JSON.stringify(CATALOGO_PRODUCTOS));
+                    if (typeof renderizarCatalogoInterno === 'function') {
+                        renderizarCatalogoInterno();
+                    }
+                } else {
+                    // Si la nube está vacía, subimos lo que tenemos localmente para poblarla por primera vez
+                    database.ref('catalogo').set(CATALOGO_PRODUCTOS);
+                }
+            })
+            .catch((error) => {
+                console.log("⚠️ Trabajando en modo local (sin conexión a Firebase).");
+            });
+    } catch (e) {
+        console.log("Firebase pendiente.");
+    }
+});
         </script>
 </body>
 </html>
