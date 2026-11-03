@@ -714,6 +714,11 @@
 </head>
 <body>
 
+   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+
     <nav class="navbar">
         <div class="nav-brand" onclick="cambiarVista('catalog')">
             🌱 Pedidos La Semilla
@@ -838,7 +843,34 @@
             <div class="form-user-cart">
                 <input type="text" id="client-name" placeholder="Tu Nombre Completo *">
                 <input type="text" id="client-phone" placeholder="Teléfono de Contacto *">
-                <input type="text" id="client-address" placeholder="Dirección de Entrega *">
+                
+                <!-- NUEVO: Selector de Tipo de Entrega (Envío vs Retirar) -->
+                <div style="margin: 8px 0;">
+                    <label style="font-size:0.85rem; color:#475569; display:block; margin-bottom:3px;">Tipo de entrega:</label>
+                    <select id="tipo-entrega" onchange="actualizarCarritoUI()" style="width:100%; padding:8px; border-radius:4px; border:1px solid #cbd5e1;">
+                        <option value="envio">Envío a domicilio (₡2.000)</option>
+                        <option value="retirar">Pasar a recoger / Retirar (Gratis)</option>
+                    </select>
+                </div>
+
+                <!-- NUEVO: Selector de Zonas Exactas -->
+                <div style="margin: 8px 0;">
+                    <label style="font-size:0.85rem; color:#475569; display:block; margin-bottom:3px;">Zona de entrega:</label>
+                    <select id="client-zone" style="width:100%; padding:8px; border-radius:4px; border:1px solid #cbd5e1;">
+                        <option value="Ciudad Quesada">Ciudad Quesada</option>
+                        <option value="Florencia">Florencia</option>
+                        <option value="Valle Azul">Valle Azul</option>
+                        <option value="La Tigra">La Tigra</option>
+                        <option value="Chachagua">Chachagua</option>
+                        <option value="Sonafluca">Sonafluca</option>
+                        <option value="El Tanque">El Tanque</option>
+                        <option value="Los Ángeles">Los Ángeles</option>
+                        <option value="La Fortuna">La Fortuna</option>
+                    </select>
+                </div>
+
+                <input type="text" id="client-address" placeholder="Dirección Exacta *">
+                
                 <select id="client-payment">
                     <option value="SINPE Movil">Pago: SINPE Móvil</option>
                     <option value="Efectivo contra entrega">Pago: Efectivo al recibir</option>
@@ -1299,7 +1331,7 @@
           ]
         };
 
-       // ==========================================
+     // ==========================================
         // CONFIGURACIÓN DE FIREBASE
         // ==========================================
         const firebaseConfig = {
@@ -1410,7 +1442,7 @@
             renderizarCatalogoInterno();
         }
 
-       function renderizarProductosGrid(itemsFiltrados = null) {
+        function renderizarProductosGrid(itemsFiltrados = null) {
             const grid = document.getElementById('grid-productos');
             const tituloCat = document.getElementById('titulo-categoria-activa');
             if (!grid || !tituloCat) return;
@@ -1452,12 +1484,13 @@
             });
         }
 
+        // Buscador en tiempo real optimizado
         function filtrarPorNombre() {
             const query = document.getElementById('search-input').value.toLowerCase();
             let coincidencia = [];
             CATALOGO_PRODUCTOS.categories.forEach(cat => {
                 cat.items.forEach(item => {
-                    if (item.name.toLowerCase().includes(query)) {
+                    if (item.name.toLowerCase().includes(query) || (item.descEs && item.descEs.toLowerCase().includes(query))) {
                         coincidencia.push(item);
                     }
                 });
@@ -1523,11 +1556,14 @@
                 `;
             });
 
-            const envio = subtotal >= 25000 || subtotal === 0 ? 0 : 2000;
+            // Verificar si seleccionó tipo de entrega (Envío vs Retirar)
+            const tipoEntregaSelect = document.getElementById('tipo-entrega');
+            const esEnvio = tipoEntregaSelect ? tipoEntregaSelect.value === 'envio' : true;
+            const envio = esEnvio ? 2000 : 0;
             const total = subtotal + envio;
 
             document.getElementById('cart-subtotal').innerText = `₡${subtotal.toLocaleString()}`;
-            document.getElementById('cart-shipping').innerText = envio === 0 ? "¡GRATIS!" : `₡${envio.toLocaleString()}`;
+            document.getElementById('cart-shipping').innerText = esEnvio ? `₡2,000` : "₡0 (Retira en local)";
             document.getElementById('cart-total').innerText = `₡${total.toLocaleString()}`;
         }
 
@@ -1543,6 +1579,7 @@
             alert("¡Se ha cargado tu última lista de compra frecuente en el carrito!");
         }
 
+        // Función de WhatsApp adaptada con zonas exactas y tipo de entrega
         function enviarWhatsapp() {
             if (carrito.length === 0) {
                 alert("El carrito está vacío");
@@ -1553,6 +1590,12 @@
             const telefono = document.getElementById('client-phone').value;
             const direccion = document.getElementById('client-address').value;
             const pago = document.getElementById('client-payment').value;
+            
+            const selectZona = document.getElementById('client-zone');
+            const nombreZona = selectZona && selectZona.value ? selectZona.value : "No especificada";
+
+            const tipoEntregaSelect = document.getElementById('tipo-entrega');
+            const esEnvio = tipoEntregaSelect ? tipoEntregaSelect.value === 'envio' : true;
 
             if (!nombre || !telefono || !direccion) {
                 alert("Por favor completa tus datos (Nombre, Teléfono y Dirección) para procesar el pedido.");
@@ -1564,7 +1607,11 @@
             let mensaje = "🌱 *NUEVO PEDIDO - LA SEMILLA*\n\n";
             mensaje += `👤 *Cliente:* ${nombre}\n`;
             mensaje += `📞 *Teléfono:* ${telefono}\n`;
-            mensaje += `📍 *Dirección:* ${direccion}\n`;
+            mensaje += `🚚 *Tipo de entrega:* ${esEnvio ? 'Envío a domicilio (₡2,000)' : 'Pasa a recoger (₡0)'}\n`;
+            if (esEnvio) {
+                mensaje += `📍 *Zona:* ${nombreZona}\n`;
+            }
+            mensaje += `🏠 *Dirección:* ${direccion}\n`;
             mensaje += `💳 *Método de Pago:* ${pago}\n\n`;
             mensaje += "*DETALLE DE PRODUCTOS:*\n";
 
@@ -1573,18 +1620,18 @@
             });
 
             const subtotal = carrito.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            const envio = subtotal >= 25000 ? 0 : 2000;
+            const envio = esEnvio ? 2000 : 0;
+            const totalFinal = subtotal + envio;
             
             mensaje += `\n*Subtotal:* ₡${subtotal.toLocaleString()}`;
-            mensaje += `\n*Envío:* ${envio === 0 ? 'Gratis' : '₡' + envio.toLocaleString()}`;
-            mensaje += `\n*Total a pagar:* ₡${(subtotal + envio).toLocaleString()}\n\n¡Muchas gracias!`;
+            mensaje += `\n*Envío:* ${esEnvio ? '₡2,000' : 'Gratis (Retira)'}`;
+            mensaje += `\n*Total a pagar:* ₡${totalFinal.toLocaleString()}\n\n¡Muchas gracias!`;
 
             const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
             window.open(url, '_blank');
         }
 
         function modalNuevoProducto() {
-            // Mantenemos esta por compatibilidad, pero llamará a abrirModalCrear
             abrirModalCrear();
         }
 
@@ -1593,13 +1640,11 @@
             if (modal) modal.classList.remove('active');
         }
 
-   function abrirModalCrear() {
-            // 1. Limpiamos los campos del formulario
+        function abrirModalCrear() {
             document.getElementById('new-prod-name').value = '';
             document.getElementById('new-prod-price').value = '1000';
             document.getElementById('new-prod-img').value = '';
 
-            // 2. Llenamos dinámicamente el selector de categorías AQUÍ MISMO para que nunca falte
             const select = document.getElementById('new-prod-cat');
             if (select) {
                 select.innerHTML = '';
@@ -1610,7 +1655,6 @@
                 }
             }
 
-            // 3. Mostramos el modal
             const modal = document.getElementById('modal-agregar-prod');
             if (modal) modal.classList.add('active');
         }
@@ -1628,7 +1672,6 @@
 
             const newId = name.toLowerCase().replace(/ /g, '-');
             
-            // Aseguramos que la categoría exista antes de agregar
             if (CATALOGO_PRODUCTOS.categories[catIndex]) {
                 CATALOGO_PRODUCTOS.categories[catIndex].items.push({ id: newId, name, price, image });
             }
@@ -1638,7 +1681,6 @@
             alert("¡Producto agregado exitosamente!");
             cerrarModalNuevoProducto();
             
-            // Verificamos si existen las funciones de renderizado antes de llamarlas para evitar errores
             if (typeof renderizarTablaAdmin === 'function') renderizarTablaAdmin();
             if (typeof renderizarCatalogoInterno === 'function') renderizarCatalogoInterno();
         }
@@ -1774,7 +1816,6 @@
 
       // Carga automática segura y blindada contra datos vacíos en la nube
 window.addEventListener('load', () => {
-    // 1. Cargamos de inmediato lo que hay en el navegador
     const datosLocales = localStorage.getItem('catalogo_productos');
     if (datosLocales) {
         try {
@@ -1787,17 +1828,14 @@ window.addEventListener('load', () => {
         }
     }
 
-    // Renderizamos de inmediato para que veas tus productos en pantalla sin esperar
     if (typeof renderizarCatalogoInterno === 'function') {
         renderizarCatalogoInterno();
     }
 
-    // 2. Intentamos sincronizar con Firebase de forma segura
     try {
         database.ref('catalogo').once('value')
             .then((snapshot) => {
                 const datosNube = snapshot.val();
-                // Solo actualizamos si la nube TIENE productos reales
                 if (datosNube && datosNube.categories && datosNube.categories.length > 0) {
                     CATALOGO_PRODUCTOS = datosNube;
                     localStorage.setItem('catalogo_productos', JSON.stringify(CATALOGO_PRODUCTOS));
@@ -1805,7 +1843,6 @@ window.addEventListener('load', () => {
                         renderizarCatalogoInterno();
                     }
                 } else {
-                    // Si la nube está vacía, subimos lo que tenemos localmente para poblarla por primera vez
                     database.ref('catalogo').set(CATALOGO_PRODUCTOS);
                 }
             })
