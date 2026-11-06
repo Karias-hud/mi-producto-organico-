@@ -1814,8 +1814,24 @@
             actualizarNavbar();
         });
 
-      // Carga automática segura y blindada contra datos vacíos en la nube
+// Carga automática blindada con respaldo por defecto
 window.addEventListener('load', () => {
+    // 1. Verificamos si ya tenemos productos base definidos en tu código
+    if (typeof CATALOGO_PRODUCTOS === 'undefined' || !CATALOGO_PRODUCTOS.categories) {
+        // Catálogo de respaldo por si acaso no lo tienes arriba del todo
+        CATALOGO_PRODUCTOS = {
+            categories: [
+                {
+                    name: "Verduras y Frutas",
+                    items: [
+                        { id: "ajo-criollo", name: "Ajo Criollo", price: 1500, image: "https://i.ibb.co/3mrbcVVV/Ajo-Criollo.jpg", descEs: "Ajo fresco cultivado localmente." }
+                    ]
+                }
+            ]
+        };
+    }
+
+    // 2. Intentamos cargar de inmediato lo que hay guardado localmente
     const datosLocales = localStorage.getItem('catalogo_productos');
     if (datosLocales) {
         try {
@@ -1828,10 +1844,12 @@ window.addEventListener('load', () => {
         }
     }
 
+    // Renderizamos de inmediato para que los productos aparezcan en pantalla sin esperar
     if (typeof renderizarCatalogoInterno === 'function') {
         renderizarCatalogoInterno();
     }
 
+    // 3. Sincronizamos con Firebase de forma segura
     try {
         database.ref('catalogo').once('value')
             .then((snapshot) => {
@@ -1839,11 +1857,12 @@ window.addEventListener('load', () => {
                 if (datosNube && datosNube.categories && datosNube.categories.length > 0) {
                     CATALOGO_PRODUCTOS = datosNube;
                     localStorage.setItem('catalogo_productos', JSON.stringify(CATALOGO_PRODUCTOS));
-                    if (typeof renderizarCatalogoInterno === 'function') {
-                        renderizarCatalogoInterno();
-                    }
                 } else {
+                    // Si la nube está vacía, subimos lo que tenemos localmente
                     database.ref('catalogo').set(CATALOGO_PRODUCTOS);
+                }
+                if (typeof renderizarCatalogoInterno === 'function') {
+                    renderizarCatalogoInterno();
                 }
             })
             .catch((error) => {
